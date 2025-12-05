@@ -3,230 +3,317 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelime Kartları ve Word Quiz</title>
+    <title>Kelime Kartları ve Quiz</title>
     <style>
-        /* GENEL STİL */
-        body { 
-            font-family: Arial, sans-serif; 
-            padding: 0; 
-            margin: 0; 
-            color: #333; 
-            background-color: white; 
-            overflow-x: hidden; 
+        /* --- ORİJİNAL KART STİLLERİ --- */
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            justify-content: flex-start;
+            user-select: none;
+        }
+
+        .card {
+            background-color: white;
+            width: 350px;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        box-shadow 0.2s ease, 
+                        opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(15px) scale(0.95);
+        }
+
+        .card.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
         
-        /* ÜST BUTONLAR */
-        .top-buttons { 
+        .card:active {
+            transform: scale(0.97);
+        } 
+
+        .word-image-display {
+            width: 100%;
+            height: 180px;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background-color: #E3F2FD; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+            transition: background 0.3s ease;
+            overflow: hidden; 
+        }
+        
+        .word-image-display img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; 
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover .word-image-display { background-color: #BBDEFB; }
+        .card:hover .word-image-display img { transform: scale(1.05); }
+
+        .header { margin-bottom: 15px; }
+        .word-row { display: flex; align-items: center; gap: 15px; }
+        
+        .speaker-icon-card { 
+            color: #1976D2;
+            font-size: 28px; 
+            cursor: pointer; 
+            padding: 10px;
+            border-radius: 50%;
+            transition: background 0.2s; 
+        }
+        .speaker-icon-card:hover { background: #E3F2FD; }
+        
+        h1 { color: #2D3748; margin: 0; font-size: 36px; font-weight: 800; text-transform: capitalize; }
+        .meaning { color: #718096; margin-top: 5px; margin-left: 58px; font-size: 18px; font-weight: 500;} 
+        
+        .box { 
+            border: 1px solid #E2E8F0; 
+            border-radius: 15px; 
+            padding: 15px; 
+            margin-bottom: 12px; 
+            background: #F7FAFC;
+        }
+        .row { display: flex; gap: 10px; }
+        .tag { font-weight: bold; color: #1976D2; font-size: 14px; min-width: 35px; }
+        .content { flex: 1; }
+        .en-sentence { color: #2D3748; font-size: 16px; margin: 0 0 8px 0; line-height: 1.5; }
+        .highlight { color: #E53E3E; font-weight: bold; background: #fff5f5; padding: 0 4px; border-radius: 4px; }
+        .divider { border-top: 1px dotted #CBD5E0; margin: 5px 0; }
+        .tr-sentence { color: #718096; font-size: 15px; margin: 5px 0 0 0; }
+        .synonyms-text { color: #2D3748; margin: 0; font-size: 15px; }
+        .box.small { padding: 12px 15px; border-radius: 30px; margin-bottom: 0;}
+
+        .info-bar {
+            color: #718096;
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-hint { font-size: 12px; opacity: 0.6; margin-top: 5px; text-align: center;}
+
+        /* --- QUIZ VE POPUP STİLLERİ --- */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 999; 
+            display: none;
+            backdrop-filter: blur(3px); /* Arka planı hafif flu yapar */
+        }
+        
+        .quiz-container { 
+            display: none; 
+            padding: 25px; 
+            width: 90%;
+            max-width: 400px; 
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             position: fixed; 
-            top: 0; 
-            right: 0; 
-            left: 0; 
-            z-index: 30; 
+            top: 50%;         
+            left: 50%;        
+            transform: translate(-50%, -50%); 
+            z-index: 1000;    
+            /* Küçük ekranlarda taşmayı önlemek için eklemeler: */
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #718096;
+        }
+        
+        .top-buttons { 
+            position: relative; 
+            z-index: 10; 
             display: flex; 
             justify-content: center; 
-            padding: 10px 10px 5px 10px; 
-            background-color: white; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+            width: 100%;
+            margin-top: 20px;
         }
         .top-buttons button { 
-            background-color: #5bc0de; 
+            background-color: #1976D2; 
             color: white; 
             border: none; 
-            padding: 8px 15px; 
-            font-size: 16px; 
+            padding: 12px 25px; 
+            font-size: 18px; 
             cursor: pointer; 
-            border-radius: 20px; 
-            margin-left: 10px; 
+            border-radius: 50px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: background-color 0.2s;
         }
-
-        /* --- KELİME KARTLARI (SIDEBAR) STİLİ --- */
-        #wordsSidebar { 
-            height: 100%; 
-            width: 300px; 
-            position: fixed; 
-            z-index: 20; 
-            top: 0; 
-            right: 0; 
-            background-color: white; 
-            overflow-y: auto; 
-            padding-top: 60px; /* Üst butonlar için boşluk */
-            transform: translateX(300px); /* Varsayılan olarak gizli */
-            transition: transform 0.5s; 
-            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-        }
-        #wordsSidebar.open {
-            transform: translateX(0); /* Açıkken görünür */
-        }
-        .sidebar-content { 
-            padding: 0 20px 20px 20px; 
-        }
-        .close-btn { 
-            position: absolute; 
-            top: 15px; 
-            left: 20px; 
+        .top-buttons button:hover { background-color: #1565C0; }
+        
+        .quiz-word-box { 
             font-size: 30px; 
-            color: #aaa; 
-            cursor: pointer; 
-            display: none; /* Yan menü butonu yerine üstteki buton kullanılacak */
+            font-weight: 800; 
+            margin-bottom: 10px; 
+            color: #2D3748; 
+            text-transform: capitalize;
         }
-        
-        /* KELİME LİSTESİ STİLİ */
-        .word-item { 
-            margin-bottom: 15px; 
-            padding-bottom: 5px; 
-            border-bottom: 1px solid #eee; 
-        }
-        .english-word { 
-            font-weight: bold; 
-            color: #333; 
-            line-height: 1.2; 
-            display: inline-block; 
-            margin-right: 5px; 
-        }
-        .word-type { 
-            font-style: italic; 
-            color: #79a109; 
-            font-size: 13px; 
-            margin-right: 5px; 
-            display: inline-block; 
-        }
-        .turkish-translation { 
-            color: #666; 
-            font-size: 14px; 
-            display: block; /* Yeni satıra insin */
-            margin-left: 0; 
-            padding-left: 0;
-        }
+        .speaker-icon { 
+            font-size: 35px; 
+            color: #f7b731; 
+            margin-bottom: 20px; 
+            display: inline-block;
+            cursor: pointer;
+            transition: transform 0.1s;
+        } 
+        .speaker-icon:hover { transform: scale(1.1); }
 
-        /* ANA İÇERİK KONTROLÜ */
-        .content-area {
-            max-width: 600px; 
-            margin: 0 auto; 
-            padding: 20px; 
-            padding-top: 70px;
-        }
-
-        /* --- QUIZ STİLLERİ --- */
-        /* Quiz başlangıçta ana içerik yerine görünecek veya gizlenecek */
-        .quiz-container { 
-            display: none; /* Başlangıçta gizli */
-            padding: 20px; 
-            max-width: 600px; 
-            margin: 0 auto; 
-            text-align: center; 
-            padding-top: 70px; 
-        }
-        .quiz-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 30px; 
-            color: #666; 
-        }
-        
-        /* Soru Ekranı Stilleri */
-        .quiz-word-box { font-size: 36px; font-weight: bold; margin-bottom: 5px; color: #333; }
-        .quiz-word-type { display: none; } 
-        .speaker-icon { font-size: 40px; color: #f7b731; margin-bottom: 30px; display: inline-block; } 
-
-        /* Seçenek Butonları Stilleri */
         .option-button { 
-            width: 100%; padding: 15px 20px; margin-bottom: 15px; 
-            border: 1px solid #ccc; 
-            border-radius: 30px; 
-            background-color: white; 
-            text-align: center; cursor: pointer; font-size: 18px; font-weight: 500; 
+            width: 100%; padding: 15px 20px; margin-bottom: 10px; 
+            border: 1px solid #E2E8F0; 
+            border-radius: 15px; 
+            background-color: #F7FAFC; 
+            text-align: center; cursor: pointer; font-size: 17px; font-weight: 500; 
             transition: all 0.2s; position: relative; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
         }
+        .option-button:hover:not(.correct):not(.wrong) { background-color: #EBF8FF; }
 
-        .correct { background-color: #79a109; color: white; border-color: #79a109; }
-        .wrong { background-color: #ff4d4d; color: white; border-color: #ff4d4d; }
-        .check-mark { font-size: 60px; color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; z-index: 10; background-color: rgba(121, 161, 9, 0.95); border-radius: 50%; width: 80px; height: 80px; line-height: 80px; box-shadow: 0 0 15px rgba(0,0,0,0.3); font-weight: bold; }
-        .correct.selected .check-mark { display: block; }
+        .correct { background-color: #48BB78; color: white; border-color: #48BB78; } 
+        .wrong { background-color: #F56565; color: white; border-color: #F56565; } 
         
-        .progress-bar-container { height: 8px; background-color: #eee; border-radius: 4px; margin-bottom: 20px; overflow: hidden; }
-        .progress-bar { height: 100%; width: 0%; background-color: #79a109; transition: width 0.3s; }
-        .quiz-results { display: none; text-align: center; }
-        .quiz-results h2 { color: #79a109; font-size: 30px; margin-bottom: 10px; }
+        .check-mark { 
+            font-size: 24px; 
+            color: white; 
+            position: absolute; 
+            top: 50%; 
+            right: 15px; 
+            transform: translateY(-50%); 
+            display: none; 
+            font-weight: bold; 
+        }
+        /* JS ile eklendiğinde görünsün */
+        .option-button .check-mark { display: none; }
+        .option-button.selected .check-mark, .option-button.correct .check-mark { display: block; }
+        
+        .progress-bar-container { height: 10px; background-color: #E2E8F0; border-radius: 5px; margin-bottom: 20px; overflow: hidden; }
+        .progress-bar { height: 100%; width: 0%; background-color: #48BB78; transition: width 0.3s; }
+        
+        .quiz-results { display: none; text-align: center; padding: 20px 0; }
+        .quiz-results h2 { color: #48BB78; font-size: 26px; margin-bottom: 10px; }
+        .quiz-results p { font-size: 16px; margin: 5px 0;}
+        .quiz-results b { font-size: 20px; color: #1976D2;}
+        
+        #restartQuizButton {
+            background-color: #1976D2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #restartQuizButton:hover { background-color: #1565C0; }
     </style>
 </head>
 <body>
 
-<div class="top-buttons">
-    <button id="toggleWordsButton">Kelime Kartları</button>
-    <button id="toggleQuizButton">Kelime Testine Başla</button>
-</div>
+    <div id="quizOverlay" class="overlay"></div>
 
-<div id="wordsSidebar">
-    <div class="sidebar-content">
-        <h1>Kelimeler (20 Kelime)</h1>
+    <div id="card-container"></div>
+    
+    <div class="info-bar">
+        <span id="info-text">Yükleniyor...</span>
+    </div>
+    <div class="nav-hint">İpucu: Kartları değiştirmek için **Kartın üzerine tıklayın** veya **Yön tuşlarını** kullanın (← / →). Kelimeyi dinlemek için **↑** (Yukarı Ok) tuşuna basın.</div>
+    
+    <div class="top-buttons">
+        <button id="toggleQuizButton">Kelime Testine Başla 🧠</button>
+    </div>
+
+    <div id="quizContainer" class="quiz-container">
+        <div class="quiz-header">
+            <span id="quizBackButton" style="cursor: pointer; font-size: 24px;" title="Kapat">&times;</span>
+            <span id="quizProgress">1/20</span>
+        </div>
+        <div class="progress-bar-container">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+        <div id="questionArea">
+            <span class="speaker-icon" onclick="speakQuizWord(document.getElementById('currentWord').textContent)">🔊</span>
+            <div class="quiz-word-box" id="currentWord"></div>
+            <div id="optionsContainer"></div>
+        </div>
+        <div id="resultsScreen" class="quiz-results">
+            <h2>Test Bitti! 🚀</h2>
+            <p>Toplam Soru: <b><span id="totalQuestionsCount">0</span></b></p>
+            <p>Doğru Cevap: <b><span id="correctCount">0</span></b></p>
+            <p>Yanlış Cevap: <b><span id="wrongCount">0</span></b></p>
+            <button id="restartQuizButton">Tekrar Başlat</button>
+        </div>
+    </div>
+
+    <script>
+        // --- DEĞİŞKEN TANIMLAMALARI (En Üste Taşındı) ---
+        const wordList = [
+            { word: "can", meaning: "yapabilmek, kutu", example_en: "I [can] speak three languages fluently.", example_tr: "Üç dili akıcı bir şekilde konuşabiliyorum.", synonyms: "be able to, tin, container", image_url: "https://st4.depositphotos.com/10639414/23683/v/450/depositphotos_236838362-stock-illustration-vector-set-stickers-speech-bubbles.jpg" },
+            { word: "cannot", meaning: "yapamamak (can not)", example_en: "I [cannot] find my keys anywhere.", example_tr: "Anahtarlarımı hiçbir yerde bulamıyorum.", synonyms: "can't, be unable to", image_url: "https://static7.depositphotos.com/1000563/674/v/450/depositphotos_6748924-stock-illustration-car-key-with-remote-control.jpg" },
+            { word: "capital", meaning: "başkent, büyük harf, sermaye", example_en: "Ankara is the [capital] city of Turkey.", example_tr: "Ankara, Türkiye'nin başkentidir.", synonyms: "chief city, funds, assets", image_url: "https://st4.depositphotos.com/5430974/28283/v/450/depositphotos_282832262-stock-illustration-ankara-abstract-color-drawing-ankara.jpg" },
+            { word: "car", meaning: "araba, otomobil", example_en: "He bought a brand new red [car].", example_tr: "Yepyeni, kırmızı bir araba satın aldı.", synonyms: "automobile, vehicle", image_url: "https://img.freepik.com/premium-vektor/sevimli-cizgi-film-araba-illustrasyon-tasarimi_1277164-25213.jpg?w=360" },
+            { word: "card", meaning: "kart (kredi, oyun, kimlik)", example_en: "Did you bring your student [card]?", example_tr: "Öğrenci kartını getirdin mi?", synonyms: "ticket, plastic money", image_url: "https://png.pngtree.com/template/20231221/ourmid/pngtree-staff-and-student-card-design-template-clean-modern-id-vector-image_2001276.jpg" },
+            { word: "career", meaning: "kariyer, meslek", example_en: "She decided to pursue a [career] in medicine.", example_tr: "Tıpta bir kariyer yapmaya karar verdi.", synonyms: "profession, occupation", image_url: "https://st2.depositphotos.com/1907633/6917/i/450/depositphotos_69170339-stock-photo-smart-medical-doctor-hand-showing.jpg" },
+            { word: "carrot", meaning: "havuç", example_en: "Rabbits love to eat [carrots].", example_tr: "Tavşanlar havuç yemeyi sever.", synonyms: "vegetable, root", image_url: "https://media.istockphoto.com/id/1188658344/tr/vekt%C3%B6r/sebze-karakterler-koleksiyonu-karikat%C3%BCr-tarz%C4%B1nda-komik-ve-g%C3%BCl%C3%BCmseyen-havu%C3%A7-vekt%C3%B6r.jpg?s=612x612&w=0&k=20&c=QWsCKyXf14Wrb2aaEO9GEdLfSE3LojyLMAmva7RU4jw=" },
+            { word: "carry", meaning: "taşımak, götürmek", example_en: "Help me [carry] these heavy boxes.", example_tr: "Bu ağır kutuları taşımama yardım et.", synonyms: "transport, bear, move", image_url: "https://media.istockphoto.com/id/1592235315/tr/vekt%C3%B6r/cardboard-box-or-package-icon-vector-design-on-white-background.jpg?s=612x612&w=0&k=20&c=UpWInfbVFeVNDrMFT84LPjYA55-ilV0u3yH6MvSXK8U=" },
+            { word: "cat", meaning: "kedi", example_en: "The neighbor's [cat] is very friendly.", example_tr: "Komşunun kedisi çok cana yakın.", synonyms: "feline, kitten", image_url: "https://st5.depositphotos.com/1007566/66341/v/450/depositphotos_663419010-stock-illustration-cute-kitten-sitting-vector-design.jpg" },
+            { word: "CD", meaning: "CD (Compact Disc)", example_en: "I found an old music [CD] in the drawer.", example_tr: "Çekmecede eski bir müzik CD'si buldum.", synonyms: "compact disc, album", image_url: "https://media.istockphoto.com/id/1798961286/tr/vekt%C3%B6r/cd-rom-disc-design-element.jpg?s=612x612&w=0&k=20&c=FMOg8OYMytzGw63-sx6d25x38fukxLzWl6_PteAMLEQ=" },
+            { word: "cent", meaning: "sent (para birimi)", example_en: "I only have fifty [cent]s left.", example_tr: "Sadece elli sentim kaldı.", synonyms: "penny, coin", image_url: "https://static5.depositphotos.com/1000244/438/v/450/depositphotos_4383782-stock-illustration-50-euro-cent.jpg" },
+            { word: "centre", meaning: "merkez, orta (center-ABD)", example_en: "The market is right in the [centre] of the town.", example_tr: "Pazar, kasabanın tam ortasında.", synonyms: "middle, hub, core", image_url: "https://media.istockphoto.com/id/700491580/tr/vekt%C3%B6r/arka-plan-ill%C3%BCstrasyon-%C3%A7ift%C3%A7iler-pazar.jpg?s=612x612&w=0&k=20&c=-fiMI1n5agbN30xB2r1MzQ2Jzo5NkcM-iofJaFTGMJg=" },
+            { word: "century", meaning: "yüzyıl", example_en: "The museum is home to art from the 17th [century].", example_tr: "Müze, 17. yüzyıldan kalma sanat eserlerine ev sahipliği yapıyor.", synonyms: "100 years, era", image_url: "https://thumbs.dreamstime.com/b/museum-building-illustration-historical-exhibitions-every-week-exhibitions-ice-age-antiquity-relics-middle-museum-193719167.jpg" },
+            { word: "chair", meaning: "sandalye, başkan", example_en: "Please take a [chair] and sit down.", example_tr: "Lütfen bir sandalye alıp oturun.", synonyms: "seat, bench, leader", image_url: "https://png.pngtree.com/png-clipart/20231129/original/pngtree-man-sitting-in-chair-office-photo-png-image_13739517.png" },
+            { word: "change", meaning: "değiştirmek, bozuk para", example_en: "We need to [change] our meeting time.", example_tr: "Toplantı saatimizi değiştirmemiz gerekiyor.", synonyms: "alter, money, difference", image_url: "https://thumbs.dreamstime.com/b/group-professionals-engaged-meeting-around-round-table-discussing-important-business-matters-strategies-373675896.jpg" },
+            { word: "chart", meaning: "grafik, çizelge", example_en: "The sales [chart] shows a clear increase.", example_tr: "Satış grafiği net bir artış gösteriyor.", synonyms: "diagram, graph, table", image_url: "https://png.pngtree.com/thumb_back/fh260/background/20230703/pngtree-d-render-of-infographics-paper-elements-featuring-colorful-column-flat-graph-image_3788355.jpg" },
+            { word: "cheap", meaning: "ucuz", example_en: "You can find [cheap] clothes at the market.", example_tr: "Pazarda ucuz kıyafetler bulabilirsiniz.", synonyms: "inexpensive, affordable", image_url: "https://st4.depositphotos.com/30046358/40672/v/450/depositphotos_406720092-stock-illustration-clothes-emporium-flat-color-vector.jpg" },
+            { word: "check", meaning: "kontrol etmek, çek (banka)", example_en: "Did you [check] the oven temperature?", example_tr: "Fırının sıcaklığını kontrol ettin mi?", synonyms: "verify, examine, test", image_url: "https://us.123rf.com/450wm/whitecity/whitecity2411/whitecity241101689/237731388-kitchen-furniture-and-equipment-in-flat-style-vector-illustration-of-household-appliances.jpg?ver=6" },
+            { word: "cheese", meaning: "peynir", example_en: "I love pasta with extra [cheese].", example_tr: "Fazla peynirli makarnayı severim.", synonyms: "dairy product", image_url: "https://media.istockphoto.com/id/1028521356/tr/foto%C4%9Fraf/%C3%A7ift-borulu-makarna-ve-peynir-beyaz-bir-arka-plan-%C3%BCzerinde.jpg?s=612x612&w=0&k=20&c=AnX597N80lb8NFRBAVyAXz6nzMbirQvjxGC1XJxpQr4=" },
+            { word: "chicken", meaning: "tavuk", example_en: "We ordered grilled [chicken] for dinner.", example_tr: "Akşam yemeği için ızgara tavuk sipariş ettik.", synonyms: "poultry, hen", image_url: "https://media.istockphoto.com/id/1337864243/tr/vekt%C3%B6r/fried-chicken-spicy-in-bucket-red-color-isolated-and-flat-design-on-yellow-background.jpg?s=612x612&w=0&k=20&c=Z0lLnVJSCdLkt47rsBnE8fRtWnG1s1eSGnhnp9dgMRM=" }
+        ];
+
+        // Global DOM Element Seçimleri
+        const container = document.getElementById('card-container');
+        const infoText = document.getElementById('info-text');
         
-        <div class="word-item"><span class="english-word">can</span><span class="word-type">modal verb.</span><span class="turkish-translation">yapabilmek, -ebilmek</span></div>
-        <div class="word-item"><span class="english-word">cannot</span><span class="word-type">modal verb.</span><span class="turkish-translation">yapamamak, -ememek</span></div>
-        <div class="word-item"><span class="english-word">capital</span><span class="word-type">noun.</span><span class="turkish-translation">başkent, büyük harf, sermaye</span></div>
-        <div class="word-item"><span class="english-word">car</span><span class="word-type">noun.</span><span class="turkish-translation">araba, otomobil</span></div>
-        <div class="word-item"><span class="english-word">card</span><span class="word-type">noun.</span><span class="turkish-translation">kart</span></div>
-        <div class="word-item"><span class="english-word">career</span><span class="word-type">noun.</span><span class="turkish-translation">kariyer, meslek</span></div>
-        <div class="word-item"><span class="english-word">carrot</span><span class="word-type">noun.</span><span class="turkish-translation">havuç</span></div>
-        <div class="word-item"><span class="english-word">carry</span><span class="word-type">verb.</span><span class="turkish-translation">taşımak, götürmek</span></div>
-        <div class="word-item"><span class="english-word">cat</span><span class="word-type">noun.</span><span class="turkish-translation">kedi</span></div>
-        <div class="word-item"><span class="english-word">CD</span><span class="word-type">noun.</span><span class="turkish-translation">CD, kompakt disk</span></div>
-        <div class="word-item"><span class="english-word">cent</span><span class="word-type">noun.</span><span class="turkish-translation">sent (para birimi)</span></div>
-        <div class="word-item"><span class="english-word">centre</span><span class="word-type">noun.</span><span class="turkish-translation">merkez, orta</span></div>
-        <div class="word-item"><span class="english-word">century</span><span class="word-type">noun.</span><span class="turkish-translation">yüzyıl, asır</span></div>
-        <div class="word-item"><span class="english-word">chair</span><span class="word-type">noun.</span><span class="turkish-translation">sandalye</span></div>
-        <div class="word-item"><span class="english-word">change</span><span class="word-type">verb/noun.</span><span class="turkish-translation">değiştirmek, değişim</span></div>
-        <div class="word-item"><span class="english-word">chart</span><span class="word-type">noun.</span><span class="turkish-translation">çizelge, grafik</span></div>
-        <div class="word-item"><span class="english-word">cheap</span><span class="word-type">adj.</span><span class="turkish-translation">ucuz</span></div>
-        <div class="word-item"><span class="english-word">check</span><span class="word-type">verb/noun.</span><span class="turkish-translation">kontrol etmek, çek (banka)</span></div>
-        <div class="word-item"><span class="english-word">cheese</span><span class="word-type">noun.</span><span class="turkish-translation">peynir</span></div>
-        <div class="word-item"><span class="english-word">chicken</span><span class="word-type">noun.</span><span class="turkish-translation">tavuk</span></div>
-    </div>
-</div>
-
-<div id="mainContent" class="content-area">
-    <h1>Kelime Öğrenme ve Test Uygulaması</h1>
-    <p>Lütfen yukarıdaki butonlardan **Kelime Kartları**'nı veya **Kelime Testine Başla**'yı seçin.</p>
-</div>
-
-
-<div id="quizContainer" class="quiz-container">
-    <div class="quiz-header">
-        <span id="quizBackButton" style="cursor: pointer; font-size: 24px;">&times;</span>
-        <span id="quizProgress">1/20</span>
-    </div>
-    <div class="progress-bar-container">
-        <div id="progressBar" class="progress-bar"></div>
-    </div>
-    <div id="questionArea">
-        <div class="speaker-icon">🔊</div>
-        <span class="quiz-word-type" id="currentWordType"></span>
-        <div class="quiz-word-box" id="currentWord"></div>
-        <div id="optionsContainer"></div>
-    </div>
-    <div id="resultsScreen" class="quiz-results">
-        <h2>Word Quiz Results!</h2>
-        <p>Total Questions: <span id="totalQuestionsCount">0</span></p>
-        <p>Correct Answers: <span id="correctCount">0</span></p>
-        <p>Wrong Answers: <span id="wrongCount">0</span></p>
-        <button id="restartQuizButton">Tekrar Başlat</button>
-    </div>
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const wordsSidebar = document.getElementById("wordsSidebar");
-        const mainContent = document.getElementById("mainContent");
+        // Quiz DOM Element Seçimleri
         const quizContainer = document.getElementById("quizContainer");
-        const toggleWordsButton = document.getElementById("toggleWordsButton");
         const toggleQuizButton = document.getElementById("toggleQuizButton");
-        
-        // Word Quiz Elements
         const quizBackButton = document.getElementById('quizBackButton');
         const quizProgress = document.getElementById('quizProgress');
         const progressBar = document.getElementById('progressBar');
-        const currentWord = document.getElementById('currentWord');
+        const currentWordDiv = document.getElementById('currentWord');
         const optionsContainer = document.getElementById('optionsContainer');
         const questionArea = document.getElementById('questionArea');
         const resultsScreen = document.getElementById('resultsScreen');
@@ -234,34 +321,177 @@
         const totalQuestionsCountSpan = document.getElementById('totalQuestionsCount');
         const wrongCountSpan = document.getElementById('wrongCount');
         const restartQuizButton = document.getElementById('restartQuizButton');
+        const quizOverlay = document.getElementById('quizOverlay');
 
-        // Word Quiz Data
-        const quizData = [
-            { word: "can", type: "modal verb.", correct: "yapabilmek, -ebilmek" },
-            { word: "cannot", type: "modal verb.", correct: "yapamamak, -ememek" },
-            { word: "capital", type: "noun.", correct: "başkent, büyük harf, sermaye" },
-            { word: "car", type: "noun.", correct: "araba, otomobil" },
-            { word: "card", type: "noun.", correct: "kart" },
-            { word: "career", type: "noun.", correct: "kariyer, meslek" },
-            { word: "carrot", type: "noun.", correct: "havuç" },
-            { word: "carry", type: "verb.", correct: "taşımak, götürmek" },
-            { word: "cat", type: "noun.", correct: "kedi" },
-            { word: "CD", type: "noun.", correct: "CD, kompakt disk" },
-            { word: "cent", type: "noun.", correct: "sent (para birimi)" },
-            { word: "centre", type: "noun.", correct: "merkez, orta" },
-            { word: "century", type: "noun.", correct: "yüzyıl, asır" },
-            { word: "chair", type: "noun.", correct: "sandalye" },
-            { word: "change", type: "verb/noun.", correct: "değiştirmek, değişim" },
-            { word: "chart", type: "noun.", correct: "çizelge, grafik" },
-            { word: "cheap", type: "adj.", correct: "ucuz" },
-            { word: "check", type: "verb/noun.", correct: "kontrol etmek, çek (banka)" },
-            { word: "cheese", type: "noun.", correct: "peynir" },
-            { word: "chicken", type: "noun.", correct: "tavuk" }
-        ];
-        let currentQuestionIndex = 0;
-        let score = 0;
-        const allTranslations = quizData.map(q => q.correct);
+        // Durum Değişkenleri
+        let currentIndex = 0;
+        let quizDataShuffled = [];
+        let currentQuestionIndexQuiz = 0;
+        let scoreQuiz = 0;
+        const allTranslations = wordList.map(q => q.meaning); // Quiz için tüm anlamlar
 
+        // --- FONKSİYONLAR ---
+
+        // Seslendirme
+        function speakWord(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Varsa önceki sesi durdur
+                const msg = new SpeechSynthesisUtterance();
+                msg.text = text;
+                msg.lang = 'en-US'; 
+                msg.rate = 0.9; 
+                window.speechSynthesis.speak(msg);
+            } else {
+                console.warn("Tarayıcı metin okuma özelliğini desteklemiyor.");
+            }
+        }
+
+        // Quiz Seslendirme
+        function speakQuizWord(text) {
+             speakWord(text);
+        }
+
+        // Bilgi Çubuğu Güncelleme
+        function updateInfoBar() {
+            infoText.textContent = `Kart ${currentIndex + 1} / ${wordList.length}`;
+        }
+
+        // Kart Oluşturma
+        function createCard(data) {
+            const { word, meaning, example_en, example_tr, synonyms, image_url } = data;
+            
+            const highlightedExample = example_en.replace(/\[(.*?)\]/g, (match, p1) => `<span class="highlight">${p1}</span>`);
+            const synonymsText = synonyms || '-';
+            const safeImageUrl = image_url || 'https://via.placeholder.com/350x180?text=G%C3%B6rsel+Yok'; 
+            
+            // Not: speakWord içinde ' işareti hatası olmasın diye replace ile kaçış karakteri ekliyoruz.
+            const safeWordForAudio = word.replace(/'/g, "\\'");
+
+            const cardHTML = `
+                <div class="card" id="active-card" onclick="nextCard(event)"> 
+                    
+                    <div class="word-image-display">
+                        <img src="${safeImageUrl}" 
+                             alt="${word} görseli"
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/350x180?text=G%C3%B6rsel+Y%C3%BCklenemedi';">
+                    </div>
+
+                    <div class="header">
+                        <div class="word-row">
+                            <span class="speaker-icon-card" title="Dinle" onclick="event.stopPropagation(); speakWord('${safeWordForAudio}')">🔊</span>
+                            <h1>${word}</h1>
+                        </div>
+                        <p class="meaning">${meaning}</p>
+                    </div>
+
+                    <div class="box">
+                        <div class="row">
+                            <span class="tag">Ör.</span>
+                            <div class="content">
+                                <p class="en-sentence">${highlightedExample}</p>
+                                <div class="divider"></div>
+                                <p class="tr-sentence">${example_tr}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box small">
+                        <div class="row">
+                            <span class="tag">Eş A.</span>
+                            <div class="content">
+                                <p class="synonyms-text">${synonymsText}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = cardHTML;
+            
+            // Animasyon için class ekle
+            setTimeout(() => {
+                const card = document.getElementById('active-card');
+                if(card) card.classList.add('active');
+            }, 50);
+
+            updateInfoBar();
+        }
+        
+        // Sonraki Kart
+        const nextCard = (event) => {
+            // Speaker ikonuna tıklandıysa kartı çevirme
+            if (event && event.target.closest('.speaker-icon-card')) {
+                return;
+            }
+            // Quiz açıkken kartları değiştirmeyi engelle
+            if (quizContainer && (quizContainer.style.display !== 'none' && quizContainer.style.display !== '')) {
+                return;
+            }
+
+            const activeCard = document.getElementById('active-card');
+            if (activeCard) {
+                activeCard.classList.remove('active');
+                activeCard.style.transform = 'translateX(100%) scale(0.9) rotate(5deg)'; 
+                activeCard.style.opacity = '0';
+            }
+            
+            window.speechSynthesis.cancel();
+
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % wordList.length;
+                createCard(wordList[currentIndex]);
+            }, 300); 
+        };
+        
+        // Önceki Kart
+        const prevCard = () => {
+             // Quiz açıkken kartları değiştirmeyi engelle
+            if (quizContainer && (quizContainer.style.display !== 'none' && quizContainer.style.display !== '')) {
+                return;
+            }
+
+            const activeCard = document.getElementById('active-card');
+            if (activeCard) {
+                activeCard.classList.remove('active');
+                activeCard.style.transform = 'translateX(-100%) scale(0.9) rotate(-5deg)';
+                activeCard.style.opacity = '0';
+            }
+
+            window.speechSynthesis.cancel();
+
+            setTimeout(() => {
+                currentIndex = (currentIndex - 1 + wordList.length) % wordList.length;
+                createCard(wordList[currentIndex]);
+            }, 300); 
+        };
+
+        // Klavye Kontrolleri
+        document.addEventListener('keydown', (e) => {
+            // Quiz kapalıysa çalıştır
+            const isQuizOpen = quizContainer.style.display === 'block';
+            
+            if (!isQuizOpen) {
+                 if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault(); 
+                    nextCard();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    prevCard();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    speakWord(wordList[currentIndex].word);
+                }
+            }
+        });
+
+        // Global fonksiyon olarak ata (HTML onclick için gerekli olabilir)
+        window.nextCard = nextCard; 
+        window.speakWord = speakWord;
+        window.speakQuizWord = speakQuizWord;
+
+        // --- QUIZ MANTIK FONKSİYONLARI ---
+
+        // Karıştırma
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -270,72 +500,67 @@
             return array;
         }
 
-        // --- GÖRÜNÜM KONTROL FONKSİYONU ---
-        function setView(view) {
-            wordsSidebar.classList.remove('open');
-            mainContent.style.display = 'none';
-            quizContainer.style.display = 'none';
-
-            if (view === 'words') {
-                mainContent.style.display = 'block';
-                wordsSidebar.classList.add('open');
-            } else if (view === 'quiz') {
-                quizContainer.style.display = 'block';
-                // Quiz'i yeniden başlatmadan önce her şeyi sıfırlamalıyız
-                restartWordQuiz(); 
-            } else { // 'main'
-                mainContent.style.display = 'block';
-            }
-        }
-
-        // --- WORD QUIZ FUNCTIONS ---
-        function generateWordOptions(correctAnswer) {
-            const incorrectOptions = allTranslations.filter(t => t !== correctAnswer);
+        // Seçenekleri Üretme
+        function generateWordOptions(correctWord, correctMeaning) {
+            // Doğru cevap dışındaki tüm anlamları al
+            const incorrectOptions = allTranslations.filter(t => t !== correctMeaning);
+            // Rastgele 3 yanlış seç
             let chosenIncorrect = shuffleArray(incorrectOptions).slice(0, 3);
-            let options = [...chosenIncorrect, correctAnswer];
+            // Doğru cevabı ekle
+            let options = [...chosenIncorrect, correctMeaning];
+            // Hepsini karıştır
             return shuffleArray(options); 
         }
 
+        // Soruyu Ekrana Basma
         function displayWordQuestion() {
             questionArea.style.display = 'block';
             resultsScreen.style.display = 'none';
 
-            if (currentQuestionIndex >= quizData.length) {
+            if (currentQuestionIndexQuiz >= quizDataShuffled.length) {
                 showWordQuizResults();
                 return;
             }
 
-            const currentQ = quizData[currentQuestionIndex];
-            currentWord.textContent = currentQ.word;
-            quizProgress.textContent = `${currentQuestionIndex + 1}/${quizData.length}`;
-            const progressPercentage = (currentQuestionIndex / quizData.length) * 100;
+            const currentQ = quizDataShuffled[currentQuestionIndexQuiz];
+            currentWordDiv.textContent = currentQ.word; // Soru: İngilizce Kelime
+            quizProgress.textContent = `${currentQuestionIndexQuiz + 1}/${quizDataShuffled.length}`;
+            const progressPercentage = (currentQuestionIndexQuiz / quizDataShuffled.length) * 100;
             progressBar.style.width = `${progressPercentage}%`;
-
+            
             optionsContainer.innerHTML = '';
-            const options = generateWordOptions(currentQ.correct);
+            
+            const options = generateWordOptions(currentQ.word, currentQ.meaning); 
 
             options.forEach(option => {
                 const button = document.createElement('button');
                 button.classList.add('option-button');
                 button.textContent = option;
                 button.setAttribute('data-answer', option);
-                button.onclick = () => checkWordAnswer(button, option, currentQ.correct);
+                button.onclick = () => checkWordAnswer(button, option, currentQ.meaning); 
+                
+                // Seçenek içine gizli check işareti ekle
+                const checkMark = document.createElement('span');
+                checkMark.classList.add('check-mark');
+                checkMark.textContent = '✓';
+                button.appendChild(checkMark);
+
                 optionsContainer.appendChild(button);
             });
+            window.speechSynthesis.cancel(); 
         }
 
+        // Cevap Kontrolü
         function checkWordAnswer(selectedButton, selectedAnswer, correctAnswer) {
+            // Tüm butonları devre dışı bırak
             Array.from(optionsContainer.children).forEach(btn => btn.disabled = true);
             
             if (selectedAnswer === correctAnswer) {
                 selectedButton.classList.add('correct', 'selected');
-                score++;
-                const checkMark = document.createElement('span');
-                checkMark.classList.add('check-mark');
-                checkMark.textContent = '✓';
-                selectedButton.appendChild(checkMark);
+                scoreQuiz++;
             } else {
                 selectedButton.classList.add('wrong');
+                // Doğru olanı yeşil yap
                 const correctButton = Array.from(optionsContainer.children).find(btn => btn.getAttribute('data-answer') === correctAnswer);
                 if (correctButton) {
                     correctButton.classList.add('correct');
@@ -343,58 +568,65 @@
             }
 
             setTimeout(() => {
-                currentQuestionIndex++;
+                currentQuestionIndexQuiz++;
                 displayWordQuestion();
-            }, 1000);
+            }, 1200); // Kullanıcının doğru cevabı görmesi için biraz bekle
         }
         
+        // Sonuç Ekranı
         function showWordQuizResults() {
             questionArea.style.display = 'none';
             resultsScreen.style.display = 'block';
             
-            const totalQuestions = quizData.length;
-            const wrongCount = totalQuestions - score;
+            const totalQuestions = quizDataShuffled.length;
+            const wrongCount = totalQuestions - scoreQuiz;
 
-            correctCountSpan.textContent = score;
+            correctCountSpan.textContent = scoreQuiz;
             totalQuestionsCountSpan.textContent = totalQuestions;
             wrongCountSpan.textContent = wrongCount;
 
             progressBar.style.width = '100%';
         }
 
+        // Quiz Yeniden Başlatma
         function restartWordQuiz() {
-            currentQuestionIndex = 0;
-            score = 0;
-            shuffleArray(quizData);
+            currentQuestionIndexQuiz = 0;
+            scoreQuiz = 0;
+            quizDataShuffled = shuffleArray([...wordList]); // Listenin kopyasını al ve karıştır
             displayWordQuestion();
         }
         
-        // --- Event Listeners ---
-        // Kelime Kartları Butonu: Kenar çubuğunu açar/kapatır ve ana içeriği gösterir.
-        toggleWordsButton.addEventListener('click', () => {
-            if (wordsSidebar.classList.contains('open')) {
-                wordsSidebar.classList.remove('open');
-            } else {
-                setView('words');
-            }
+        // --- EVENT LISTENERS ---
+        toggleQuizButton.addEventListener('click', () => {
+            quizContainer.style.display = 'block'; 
+            quizOverlay.style.display = 'block'; 
+            toggleQuizButton.style.display = 'none';
+            restartWordQuiz();
         });
         
-        // Quiz Butonu: Quiz görünümüne geçer.
-        toggleQuizButton.addEventListener('click', () => setView('quiz'));
-        
-        // Quiz Kapatma/Geri Butonu
         quizBackButton.addEventListener('click', () => {
-            // Quiz'den çıkıp ana ekrana döner
-            setView('main');
+            quizContainer.style.display = 'none';
+            quizOverlay.style.display = 'none'; 
+            toggleQuizButton.style.display = 'block';
+            window.speechSynthesis.cancel();
         });
 
-        // Sonuç Ekranı Tekrar Başlat Butonu
         restartQuizButton.addEventListener('click', restartWordQuiz);
 
-        // Başlangıç: Ana içeriği göster
-        setView('main');
-    });
-</script>
+        // Sayfa Yüklendiğinde Başlatma
+        document.addEventListener('DOMContentLoaded', function() {
+            if (wordList.length > 0) {
+                createCard(wordList[currentIndex]);
+            } else {
+                container.innerHTML = '<h2>Liste boş.</h2>';
+                infoText.textContent = 'Liste boş.';
+            }
+            // Başlangıçta quiz kapalı
+            quizContainer.style.display = 'none'; 
+            quizOverlay.style.display = 'none';
+        });
 
+    </script>
 </body>
 </html>
+
