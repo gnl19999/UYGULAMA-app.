@@ -136,10 +136,10 @@
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             position: fixed; 
-            top: 50%;         
-            left: 50%;        
+            top: 50%; 
+            left: 50%; 
             transform: translate(-50%, -50%); 
-            z-index: 1000;    
+            z-index: 1000; 
             /* Küçük ekranlarda taşmayı önlemek için eklemeler: */
             max-height: 90vh;
             overflow-y: auto;
@@ -281,26 +281,26 @@
     <script>
         // --- DEĞİŞKEN TANIMLAMALARI (En Üste Taşındı) ---
         const wordList = [
-            { word: "can", meaning: "yapabilmek, kutu", example_en: "I [can] speak three languages fluently.", example_tr: "Üç dili akıcı bir şekilde konuşabiliyorum.", synonyms: "be able to, tin, container", image_url: "https://st4.depositphotos.com/10639414/23683/v/450/depositphotos_236838362-stock-illustration-vector-set-stickers-speech-bubbles.jpg" },
-            { word: "cannot", meaning: "yapamamak (can not)", example_en: "I [cannot] find my keys anywhere.", example_tr: "Anahtarlarımı hiçbir yerde bulamıyorum.", synonyms: "can't, be unable to", image_url: "https://static7.depositphotos.com/1000563/674/v/450/depositphotos_6748924-stock-illustration-car-key-with-remote-control.jpg" },
-            { word: "capital", meaning: "başkent, büyük harf, sermaye", example_en: "Ankara is the [capital] city of Turkey.", example_tr: "Ankara, Türkiye'nin başkentidir.", synonyms: "chief city, funds, assets", image_url: "https://st4.depositphotos.com/5430974/28283/v/450/depositphotos_282832262-stock-illustration-ankara-abstract-color-drawing-ankara.jpg" },
-            { word: "car", meaning: "araba, otomobil", example_en: "He bought a brand new red [car].", example_tr: "Yepyeni, kırmızı bir araba satın aldı.", synonyms: "automobile, vehicle", image_url: "https://img.freepik.com/premium-vektor/sevimli-cizgi-film-araba-illustrasyon-tasarimi_1277164-25213.jpg?w=360" },
-            { word: "card", meaning: "kart (kredi, oyun, kimlik)", example_en: "Did you bring your student [card]?", example_tr: "Öğrenci kartını getirdin mi?", synonyms: "ticket, plastic money", image_url: "https://png.pngtree.com/template/20231221/ourmid/pngtree-staff-and-student-card-design-template-clean-modern-id-vector-image_2001276.jpg" },
-            { word: "career", meaning: "kariyer, meslek", example_en: "She decided to pursue a [career] in medicine.", example_tr: "Tıpta bir kariyer yapmaya karar verdi.", synonyms: "profession, occupation", image_url: "https://st2.depositphotos.com/1907633/6917/i/450/depositphotos_69170339-stock-photo-smart-medical-doctor-hand-showing.jpg" },
-            { word: "carrot", meaning: "havuç", example_en: "Rabbits love to eat [carrots].", example_tr: "Tavşanlar havuç yemeyi sever.", synonyms: "vegetable, root", image_url: "https://media.istockphoto.com/id/1188658344/tr/vekt%C3%B6r/sebze-karakterler-koleksiyonu-karikat%C3%BCr-tarz%C4%B1nda-komik-ve-g%C3%BCl%C3%BCmseyen-havu%C3%A7-vekt%C3%B6r.jpg?s=612x612&w=0&k=20&c=QWsCKyXf14Wrb2aaEO9GEdLfSE3LojyLMAmva7RU4jw=" },
-            { word: "carry", meaning: "taşımak, götürmek", example_en: "Help me [carry] these heavy boxes.", example_tr: "Bu ağır kutuları taşımama yardım et.", synonyms: "transport, bear, move", image_url: "https://media.istockphoto.com/id/1592235315/tr/vekt%C3%B6r/cardboard-box-or-package-icon-vector-design-on-white-background.jpg?s=612x612&w=0&k=20&c=UpWInfbVFeVNDrMFT84LPjYA55-ilV0u3yH6MvSXK8U=" },
-            { word: "cat", meaning: "kedi", example_en: "The neighbor's [cat] is very friendly.", example_tr: "Komşunun kedisi çok cana yakın.", synonyms: "feline, kitten", image_url: "https://st5.depositphotos.com/1007566/66341/v/450/depositphotos_663419010-stock-illustration-cute-kitten-sitting-vector-design.jpg" },
-            { word: "CD", meaning: "CD (Compact Disc)", example_en: "I found an old music [CD] in the drawer.", example_tr: "Çekmecede eski bir müzik CD'si buldum.", synonyms: "compact disc, album", image_url: "https://media.istockphoto.com/id/1798961286/tr/vekt%C3%B6r/cd-rom-disc-design-element.jpg?s=612x612&w=0&k=20&c=FMOg8OYMytzGw63-sx6d25x38fukxLzWl6_PteAMLEQ=" },
-            { word: "cent", meaning: "sent (para birimi)", example_en: "I only have fifty [cent]s left.", example_tr: "Sadece elli sentim kaldı.", synonyms: "penny, coin", image_url: "https://static5.depositphotos.com/1000244/438/v/450/depositphotos_4383782-stock-illustration-50-euro-cent.jpg" },
-            { word: "centre", meaning: "merkez, orta (center-ABD)", example_en: "The market is right in the [centre] of the town.", example_tr: "Pazar, kasabanın tam ortasında.", synonyms: "middle, hub, core", image_url: "https://media.istockphoto.com/id/700491580/tr/vekt%C3%B6r/arka-plan-ill%C3%BCstrasyon-%C3%A7ift%C3%A7iler-pazar.jpg?s=612x612&w=0&k=20&c=-fiMI1n5agbN30xB2r1MzQ2Jzo5NkcM-iofJaFTGMJg=" },
-            { word: "century", meaning: "yüzyıl", example_en: "The museum is home to art from the 17th [century].", example_tr: "Müze, 17. yüzyıldan kalma sanat eserlerine ev sahipliği yapıyor.", synonyms: "100 years, era", image_url: "https://thumbs.dreamstime.com/b/museum-building-illustration-historical-exhibitions-every-week-exhibitions-ice-age-antiquity-relics-middle-museum-193719167.jpg" },
-            { word: "chair", meaning: "sandalye, başkan", example_en: "Please take a [chair] and sit down.", example_tr: "Lütfen bir sandalye alıp oturun.", synonyms: "seat, bench, leader", image_url: "https://png.pngtree.com/png-clipart/20231129/original/pngtree-man-sitting-in-chair-office-photo-png-image_13739517.png" },
-            { word: "change", meaning: "değiştirmek, bozuk para", example_en: "We need to [change] our meeting time.", example_tr: "Toplantı saatimizi değiştirmemiz gerekiyor.", synonyms: "alter, money, difference", image_url: "https://thumbs.dreamstime.com/b/group-professionals-engaged-meeting-around-round-table-discussing-important-business-matters-strategies-373675896.jpg" },
-            { word: "chart", meaning: "grafik, çizelge", example_en: "The sales [chart] shows a clear increase.", example_tr: "Satış grafiği net bir artış gösteriyor.", synonyms: "diagram, graph, table", image_url: "https://png.pngtree.com/thumb_back/fh260/background/20230703/pngtree-d-render-of-infographics-paper-elements-featuring-colorful-column-flat-graph-image_3788355.jpg" },
-            { word: "cheap", meaning: "ucuz", example_en: "You can find [cheap] clothes at the market.", example_tr: "Pazarda ucuz kıyafetler bulabilirsiniz.", synonyms: "inexpensive, affordable", image_url: "https://st4.depositphotos.com/30046358/40672/v/450/depositphotos_406720092-stock-illustration-clothes-emporium-flat-color-vector.jpg" },
-            { word: "check", meaning: "kontrol etmek, çek (banka)", example_en: "Did you [check] the oven temperature?", example_tr: "Fırının sıcaklığını kontrol ettin mi?", synonyms: "verify, examine, test", image_url: "https://us.123rf.com/450wm/whitecity/whitecity2411/whitecity241101689/237731388-kitchen-furniture-and-equipment-in-flat-style-vector-illustration-of-household-appliances.jpg?ver=6" },
-            { word: "cheese", meaning: "peynir", example_en: "I love pasta with extra [cheese].", example_tr: "Fazla peynirli makarnayı severim.", synonyms: "dairy product", image_url: "https://media.istockphoto.com/id/1028521356/tr/foto%C4%9Fraf/%C3%A7ift-borulu-makarna-ve-peynir-beyaz-bir-arka-plan-%C3%BCzerinde.jpg?s=612x612&w=0&k=20&c=AnX597N80lb8NFRBAVyAXz6nzMbirQvjxGC1XJxpQr4=" },
-            { word: "chicken", meaning: "tavuk", example_en: "We ordered grilled [chicken] for dinner.", example_tr: "Akşam yemeği için ızgara tavuk sipariş ettik.", synonyms: "poultry, hen", image_url: "https://media.istockphoto.com/id/1337864243/tr/vekt%C3%B6r/fried-chicken-spicy-in-bucket-red-color-isolated-and-flat-design-on-yellow-background.jpg?s=612x612&w=0&k=20&c=Z0lLnVJSCdLkt47rsBnE8fRtWnG1s1eSGnhnp9dgMRM=" }
+             { word: "child", meaning: "çocuk", example_en: "Every [child] deserves a good education.", example_tr: "Her çocuk iyi bir eğitimi hak eder.", synonyms: "kid, youngster, offspring", image_url: "https://st4.depositphotos.com/3929427/26359/v/450/depositphotos_263592884-stock-illustration-cartoon-illustration-of-happy-young.jpg" },
+             { word: "chocolate", meaning: "çikolata", example_en: "She loves eating milk [chocolate] after dinner.", example_tr: "Akşam yemeğinden sonra sütlü çikolata yemeyi sever.", synonyms: "cocoa, candy, sweet", image_url: "https://st.depositphotos.com/1001302/3382/v/450/depositphotos_33824985-stock-illustration-chocolate-bar.jpg" },
+             { word: "choose", meaning: "seçmek", example_en: "You have to [choose] the best answer.", example_tr: "En iyi cevabı seçmek zorundasın.", synonyms: "select, pick, decide", image_url: "https://st2.depositphotos.com/1000423/11693/v/450/depositphotos_116930268-stock-illustration-question-mark-in-front-of.jpg" },
+             { word: "cinema", meaning: "sinema", example_en: "We went to the [cinema] to see the new movie.", example_tr: "Yeni filmi izlemek için sinemaya gittik.", synonyms: "movie theater, flicks", image_url: "https://st.depositphotos.com/1005118/4845/v/450/depositphotos_48450147-stock-illustration-movie-theater.jpg" },
+             { word: "city", meaning: "şehir, kent", example_en: "New York is a very busy [city].", example_tr: "New York çok yoğun bir şehirdir.", synonyms: "town, metropolis, urban area", image_url: "https://st2.depositphotos.com/3929427/12316/v/450/depositphotos_123160408-stock-illustration-cartoon-vector-seamless-landscape.jpg" },
+             { word: "class", meaning: "sınıf, ders", example_en: "Our math [class] is at 10 AM.", example_tr: "Matematik dersimiz sabah 10'da.", synonyms: "lesson, course, group", image_url: "https://st3.depositphotos.com/20090888/35811/v/450/depositphotos_358113404-stock-illustration-group-of-students-in-the.jpg" },
+             { word: "classroom", meaning: "sınıf (oda)", example_en: "The students are waiting in the [classroom].", example_tr: "Öğrenciler sınıfta bekliyorlar.", synonyms: "schoolroom", image_url: "https://st3.depositphotos.com/1020618/14873/v/450/depositphotos_148739199-stock-illustration-classroom-interior-with-desks-and.jpg" },
+             { word: "clean", meaning: "temizlemek, temiz", example_en: "Can you help me [clean] the kitchen?", example_tr: "Mutfağı temizlememe yardım eder misin?", synonyms: "wash, tidy, hygienic", image_url: "https://st3.depositphotos.com/1441511/17099/v/450/depositphotos_170992388-stock-illustration-housewife-with-vacuum-cleaner-cleaning.jpg" },
+             { word: "climb", meaning: "tırmanmak", example_en: "We watched him [climb] the steep mountain.", example_tr: "Sarp dağa tırmanmasını izledik.", synonyms: "ascend, scale, go up", image_url: "https://st2.depositphotos.com/27036452/45001/v/450/depositphotos_450012290-stock-illustration-mountain-climbing-concept-vector-illustration.jpg" },
+             { word: "clock", meaning: "saat (duvar/masa)", example_en: "The [clock] on the wall is fast.", example_tr: "Duvardaki saat ileri.", synonyms: "timepiece, chronometer", image_url: "https://st4.depositphotos.com/1381313/20993/v/450/depositphotos_209939106-stock-illustration-wall-clock-vector-icon.jpg" },
+             { word: "close", meaning: "kapatmak, yakın", example_en: "Please [close] the door when you leave.", example_tr: "Ayrılırken lütfen kapıyı kapat.", synonyms: "shut, near, adjacent", image_url: "https://st.depositphotos.com/1000508/1360/v/450/depositphotos_13603410-stock-illustration-close-and-open-sign.jpg" },
+             { word: "clothes", meaning: "giysi, kıyafet", example_en: "I need to wash all my dirty [clothes].", example_tr: "Tüm kirli kıyafetlerimi yıkamam gerekiyor.", synonyms: "garments, apparel, attire", image_url: "https://st3.depositphotos.com/1441511/14170/v/450/depositphotos_141703684-stock-illustration-clothing-store.jpg" },
+             { word: "club", meaning: "kulüp, sopa", example_en: "She joined the chess [club] last year.", example_tr: "Geçen yıl satranç kulübüne katıldı.", synonyms: "association, society, bat", image_url: "https://st4.depositphotos.com/1012589/22026/v/450/depositphotos_220268582-stock-illustration-chess-club-concept-banner.jpg" },
+             { word: "coat", meaning: "palto, ceket", example_en: "Don't forget to wear your warm [coat].", example_tr: "Sıcak paltunu giymeyi unutma.", synonyms: "jacket, overcoat, outer garment", image_url: "https://st4.depositphotos.com/1000672/28859/v/450/depositphotos_288597140-stock-illustration-warm-coat-with-fur-collar.jpg" },
+             { word: "coffee", meaning: "kahve", example_en: "I drink two cups of [coffee] every morning.", example_tr: "Her sabah iki fincan kahve içerim.", synonyms: "brew, caffeine drink", image_url: "https://st3.depositphotos.com/1010683/18414/v/450/depositphotos_184149864-stock-illustration-cup-of-coffee-with.jpg" },
+             { word: "cold", meaning: "soğuk, nezle", example_en: "It is very [cold] outside today.", example_tr: "Bugün dışarısı çok soğuk.", synonyms: "chilly, frigid, flu", image_url: "https://st3.depositphotos.com/1011175/13310/v/450/depositphotos_133107086-stock-illustration-cartoon-snowman-with-scarf.jpg" },
+             { word: "college", meaning: "yüksekokul, kolej", example_en: "She plans to go to [college] after graduation.", example_tr: "Mezuniyetten sonra yüksekokula gitmeyi planlıyor.", synonyms: "university, academy", image_url: "https://st3.depositphotos.com/1036125/13768/v/450/depositphotos_137689912-stock-illustration-college-or-university-building-icon.jpg" },
+             { word: "colour", meaning: "renk (color-ABD)", example_en: "Blue is my favorite [colour].", example_tr: "Mavi, en sevdiğim renktir.", synonyms: "shade, hue, tint", image_url: "https://st4.depositphotos.com/15220308/21035/v/450/depositphotos_210350314-stock-illustration-abstract-rainbow-background.jpg" },
+             { word: "come", meaning: "gelmek", example_en: "Please [come] to my party next week.", example_tr: "Gelecek hafta partime gel lütfen.", synonyms: "arrive, approach, reach", image_url: "https://st3.depositphotos.com/1010683/18414/v/450/depositphotos_184149864-stock-illustration-cup-of-coffee-with.jpg" },
+             { word: "common", meaning: "yaygın, ortak", example_en: "It's a [common] mistake among beginners.", example_tr: "Bu, yeni başlayanlar arasında yaygın bir hatadır.", synonyms: "usual, ordinary, shared", image_url: "https://st.depositphotos.com/1001099/2361/v/450/depositphotos_23616687-stock-illustration-lightbulb-idea.jpg" }
         ];
 
         // Global DOM Element Seçimleri
@@ -348,7 +348,7 @@
 
         // Quiz Seslendirme
         function speakQuizWord(text) {
-             speakWord(text);
+              speakWord(text);
         }
 
         // Bilgi Çubuğu Güncelleme
@@ -629,4 +629,3 @@
     </script>
 </body>
 </html>
-
