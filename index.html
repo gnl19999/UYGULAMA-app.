@@ -124,7 +124,7 @@
             background-color: rgba(0, 0, 0, 0.5); 
             z-index: 999; 
             display: none;
-            backdrop-filter: blur(3px); /* Arka planı hafif flu yapar */
+            backdrop-filter: blur(3px);
         }
         
         .quiz-container { 
@@ -140,7 +140,6 @@
             left: 50%; 
             transform: translate(-50%, -50%); 
             z-index: 1000; 
-            /* Küçük ekranlarda taşmayı önlemek için eklemeler: */
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -279,28 +278,29 @@
     </div>
 
     <script>
-        // --- DEĞİŞKEN TANIMLAMALARI (En Üste Taşındı) ---
+        // --- DEĞİŞKEN TANIMLAMALARI ---
         const wordList = [
-             { word: "child", meaning: "çocuk", example_en: "Every [child] deserves a good education.", example_tr: "Her çocuk iyi bir eğitimi hak eder.", synonyms: "kid, youngster, offspring", image_url: "https://st4.depositphotos.com/3929427/26359/v/450/depositphotos_263592884-stock-illustration-cartoon-illustration-of-happy-young.jpg" },
-             { word: "chocolate", meaning: "çikolata", example_en: "She loves eating milk [chocolate] after dinner.", example_tr: "Akşam yemeğinden sonra sütlü çikolata yemeyi sever.", synonyms: "cocoa, candy, sweet", image_url: "https://st.depositphotos.com/1001302/3382/v/450/depositphotos_33824985-stock-illustration-chocolate-bar.jpg" },
-             { word: "choose", meaning: "seçmek", example_en: "You have to [choose] the best answer.", example_tr: "En iyi cevabı seçmek zorundasın.", synonyms: "select, pick, decide", image_url: "https://st2.depositphotos.com/1000423/11693/v/450/depositphotos_116930268-stock-illustration-question-mark-in-front-of.jpg" },
-             { word: "cinema", meaning: "sinema", example_en: "We went to the [cinema] to see the new movie.", example_tr: "Yeni filmi izlemek için sinemaya gittik.", synonyms: "movie theater, flicks", image_url: "https://st.depositphotos.com/1005118/4845/v/450/depositphotos_48450147-stock-illustration-movie-theater.jpg" },
-             { word: "city", meaning: "şehir, kent", example_en: "New York is a very busy [city].", example_tr: "New York çok yoğun bir şehirdir.", synonyms: "town, metropolis, urban area", image_url: "https://st2.depositphotos.com/3929427/12316/v/450/depositphotos_123160408-stock-illustration-cartoon-vector-seamless-landscape.jpg" },
-             { word: "class", meaning: "sınıf, ders", example_en: "Our math [class] is at 10 AM.", example_tr: "Matematik dersimiz sabah 10'da.", synonyms: "lesson, course, group", image_url: "https://st3.depositphotos.com/20090888/35811/v/450/depositphotos_358113404-stock-illustration-group-of-students-in-the.jpg" },
-             { word: "classroom", meaning: "sınıf (oda)", example_en: "The students are waiting in the [classroom].", example_tr: "Öğrenciler sınıfta bekliyorlar.", synonyms: "schoolroom", image_url: "https://st3.depositphotos.com/1020618/14873/v/450/depositphotos_148739199-stock-illustration-classroom-interior-with-desks-and.jpg" },
-             { word: "clean", meaning: "temizlemek, temiz", example_en: "Can you help me [clean] the kitchen?", example_tr: "Mutfağı temizlememe yardım eder misin?", synonyms: "wash, tidy, hygienic", image_url: "https://st3.depositphotos.com/1441511/17099/v/450/depositphotos_170992388-stock-illustration-housewife-with-vacuum-cleaner-cleaning.jpg" },
-             { word: "climb", meaning: "tırmanmak", example_en: "We watched him [climb] the steep mountain.", example_tr: "Sarp dağa tırmanmasını izledik.", synonyms: "ascend, scale, go up", image_url: "https://st2.depositphotos.com/27036452/45001/v/450/depositphotos_450012290-stock-illustration-mountain-climbing-concept-vector-illustration.jpg" },
-             { word: "clock", meaning: "saat (duvar/masa)", example_en: "The [clock] on the wall is fast.", example_tr: "Duvardaki saat ileri.", synonyms: "timepiece, chronometer", image_url: "https://st4.depositphotos.com/1381313/20993/v/450/depositphotos_209939106-stock-illustration-wall-clock-vector-icon.jpg" },
-             { word: "close", meaning: "kapatmak, yakın", example_en: "Please [close] the door when you leave.", example_tr: "Ayrılırken lütfen kapıyı kapat.", synonyms: "shut, near, adjacent", image_url: "https://st.depositphotos.com/1000508/1360/v/450/depositphotos_13603410-stock-illustration-close-and-open-sign.jpg" },
-             { word: "clothes", meaning: "giysi, kıyafet", example_en: "I need to wash all my dirty [clothes].", example_tr: "Tüm kirli kıyafetlerimi yıkamam gerekiyor.", synonyms: "garments, apparel, attire", image_url: "https://st3.depositphotos.com/1441511/14170/v/450/depositphotos_141703684-stock-illustration-clothing-store.jpg" },
-             { word: "club", meaning: "kulüp, sopa", example_en: "She joined the chess [club] last year.", example_tr: "Geçen yıl satranç kulübüne katıldı.", synonyms: "association, society, bat", image_url: "https://st4.depositphotos.com/1012589/22026/v/450/depositphotos_220268582-stock-illustration-chess-club-concept-banner.jpg" },
-             { word: "coat", meaning: "palto, ceket", example_en: "Don't forget to wear your warm [coat].", example_tr: "Sıcak paltunu giymeyi unutma.", synonyms: "jacket, overcoat, outer garment", image_url: "https://st4.depositphotos.com/1000672/28859/v/450/depositphotos_288597140-stock-illustration-warm-coat-with-fur-collar.jpg" },
-             { word: "coffee", meaning: "kahve", example_en: "I drink two cups of [coffee] every morning.", example_tr: "Her sabah iki fincan kahve içerim.", synonyms: "brew, caffeine drink", image_url: "https://st3.depositphotos.com/1010683/18414/v/450/depositphotos_184149864-stock-illustration-cup-of-coffee-with.jpg" },
-             { word: "cold", meaning: "soğuk, nezle", example_en: "It is very [cold] outside today.", example_tr: "Bugün dışarısı çok soğuk.", synonyms: "chilly, frigid, flu", image_url: "https://st3.depositphotos.com/1011175/13310/v/450/depositphotos_133107086-stock-illustration-cartoon-snowman-with-scarf.jpg" },
-             { word: "college", meaning: "yüksekokul, kolej", example_en: "She plans to go to [college] after graduation.", example_tr: "Mezuniyetten sonra yüksekokula gitmeyi planlıyor.", synonyms: "university, academy", image_url: "https://st3.depositphotos.com/1036125/13768/v/450/depositphotos_137689912-stock-illustration-college-or-university-building-icon.jpg" },
-             { word: "colour", meaning: "renk (color-ABD)", example_en: "Blue is my favorite [colour].", example_tr: "Mavi, en sevdiğim renktir.", synonyms: "shade, hue, tint", image_url: "https://st4.depositphotos.com/15220308/21035/v/450/depositphotos_210350314-stock-illustration-abstract-rainbow-background.jpg" },
-             { word: "come", meaning: "gelmek", example_en: "Please [come] to my party next week.", example_tr: "Gelecek hafta partime gel lütfen.", synonyms: "arrive, approach, reach", image_url: "https://st3.depositphotos.com/1010683/18414/v/450/depositphotos_184149864-stock-illustration-cup-of-coffee-with.jpg" },
-             { word: "common", meaning: "yaygın, ortak", example_en: "It's a [common] mistake among beginners.", example_tr: "Bu, yeni başlayanlar arasında yaygın bir hatadır.", synonyms: "usual, ordinary, shared", image_url: "https://st.depositphotos.com/1001099/2361/v/450/depositphotos_23616687-stock-illustration-lightbulb-idea.jpg" }
+            // GÖRSEL URL'leri güncellendi
+            { word: "child", meaning: "çocuk", example_en: "Every [child] deserves a good education.", example_tr: "Her çocuk iyi bir eğitimi hak eder.", synonyms: "kid, youngster, offspring", image_url: "https://png.pngtree.com/png-vector/20250725/ourlarge/pngtree-3d-cute-cartoon-student-girl-studying-in-classroom-png-image_16868964.webp" },
+            { word: "chocolate", meaning: "çikolata", example_en: "She loves eating milk [chocolate] after dinner.", example_tr: "Akşam yemeğinden sonra sütlü çikolata yemeyi sever.", synonyms: "cocoa, candy, sweet", image_url: "https://png.pngtree.com/png-vector/20251108/ourmid/pngtree-realistic-milk-chocolate-bar-with-splash-and-chunks-png-image_17932739.webp" },
+            { word: "choose", meaning: "seçmek", example_en: "You have to [choose] the best answer.", example_tr: "En iyi cevabı seçmek zorundasın.", synonyms: "select, pick, decide", image_url: "https://png.pngtree.com/png-vector/20250528/ourlarge/pngtree-inquiry-concept-featuring-a-3d-man-and-question-icon-png-image_16395046.png" },
+            { word: "cinema", meaning: "sinema", example_en: "We went to the [cinema] to see the new movie.", example_tr: "Yeni filmi izlemek için sinemaya gittik.", synonyms: "movie theater, flicks", image_url: "https://png.pngtree.com/png-vector/20250701/ourmid/pngtree-colorful-3d-movie-cinema-icons-representing-entertainment-and-film-industry-elements-png-image_16592001.webp" },
+            { word: "city", meaning: "şehir, kent", example_en: "New York is a very busy [city].", example_tr: "New York çok yoğun bir şehirdir.", synonyms: "town, metropolis, urban area", image_url: "https://png.pngtree.com/png-vector/20230808/ourmid/pngtree-new-york-city-skyline-vector-png-image_6945222.png" },
+            { word: "class", meaning: "sınıf, ders", example_en: "Our math [class] is at 10 AM.", example_tr: "Matematik dersimiz sabah 10'da.", synonyms: "lesson, course, group", image_url: "https://png.pngtree.com/png-vector/20250415/ourmid/pngtree-premium-3d-student-character-with-calculator-and-math-books-png-image_15965049.png" },
+            { word: "classroom", meaning: "sınıf (oda)", example_en: "The students are waiting in the [classroom].", example_tr: "Öğrenciler sınıfta bekliyorlar.", synonyms: "schoolroom", image_url: "https://png.pngtree.com/thumb_back/fh260/background/20240414/pngtree-students-in-the-classroom-image_15715108.jpg" },
+            { word: "clean", meaning: "temizlemek, temiz", example_en: "Can you help me [clean] the kitchen?", example_tr: "Mutfağı temizlememe yardım eder misin?", synonyms: "wash, tidy, hygienic", image_url: "https://png.pngtree.com/png-clipart/20250124/original/pngtree-vibrant-cleaning-products-with-tools-for-every-task-png-image_19837879.png" },
+            { word: "climb", meaning: "tırmanmak", example_en: "We watched him [climb] the steep mountain.", example_tr: "Sarp dağa tırmanmasını izledik.", synonyms: "ascend, scale, go up", image_url: "https://www.shutterstock.com/image-illustration/man-climbing-mountain-3d-character-600nw-2223636853.jpg" },
+            { word: "clock", meaning: "saat (duvar/masa)", example_en: "The [clock] on the wall is fast.", example_tr: "Duvardaki saat ileri.", synonyms: "timepiece, chronometer", image_url: "https://png.pngtree.com/png-clipart/20240919/original/pngtree-old-wall-clock-png-image_16044805.png" },
+            { word: "close", meaning: "kapatmak, yakın", example_en: "Please [close] the door when you leave.", example_tr: "Ayrılırken lütfen kapıyı kapat.", synonyms: "shut, near, adjacent", image_url: "https://png.pngtree.com/png-vector/20240611/ourmid/pngtree-student-closing-the-door-cartoon-png-image_12692653.png" },
+            { word: "clothes", meaning: "giysi, kıyafet", example_en: "I need to wash all my dirty [clothes].", example_tr: "Tüm kirli kıyafetlerimi yıkamam gerekiyor.", synonyms: "garments, apparel, attire", image_url: "https://png.pngtree.com/png-vector/20240613/ourmid/pngtree-laundry-day-chaos-full-basket-of-dirty-clothes-png-image_12715941.png" },
+            { word: "club", meaning: "kulüp, sopa", example_en: "She joined the chess [club] last year.", example_tr: "Geçen yıl satranç kulübüne katıldı.", synonyms: "association, society, bat", image_url: "https://png.pngtree.com/png-vector/20240715/ourmid/pngtree-3d-white-rook-chess-piece-on-a-transparent-backdrop-vector-png-image_13067950.png" },
+            { word: "coat", meaning: "palto, ceket", example_en: "Don't forget to wear your warm [coat].", example_tr: "Sıcak paltunu giymeyi unutma.", synonyms: "jacket, overcoat, outer garment", image_url: "https://png.pngtree.com/png-vector/20250710/ourmid/pngtree-a-3d-realistic-overcoat-icon-png-image_16622619.webp" },
+            { word: "coffee", meaning: "kahve", example_en: "I drink two cups of [coffee] every morning.", example_tr: "Her sabah iki fincan kahve içerim.", synonyms: "brew, caffeine drink", image_url: "https://png.pngtree.com/png-vector/20241030/ourlarge/pngtree-a-hot-coffee-in-premium-cup-png-image_14206971.png" },
+            { word: "cold", meaning: "soğuk, nezle", example_en: "It is very [cold] outside today.", example_tr: "Bugün dışarısı çok soğuk.", synonyms: "chilly, frigid, flu", image_url: "https://png.pngtree.com/recommend-works/png-clipart/20250209/ourlarge/pngtree-a-runny-nose-for-a-child-png-image_15368760.png" },
+            { word: "college", meaning: "yüksekokul, kolej", example_en: "She plans to go to [college] after graduation.", example_tr: "Mezuniyetten sonra yüksekokula gitmeyi planlıyor.", synonyms: "university, academy", image_url: "https://png.pngtree.com/png-vector/20240429/ourlarge/pngtree-3d-graduate-female-student-with-hat-cartoon-character-png-image_12344061.png" },
+            { word: "colour", meaning: "renk (color-ABD)", example_en: "Blue is my favorite [colour].", example_tr: "Mavi, en sevdiğim renktir.", synonyms: "shade, hue, tint", image_url: "https://png.pngtree.com/png-vector/20241105/ourmid/pngtree-blue-paint-brush-stroke-png-image_14293870.png" },
+            { word: "come", meaning: "gelmek", example_en: "Please [come] to my party next week.", example_tr: "Gelecek hafta partime gel lütfen.", synonyms: "arrive, approach, reach", image_url: "https://png.pngtree.com/png-vector/20231208/ourmid/pngtree-three-girl-christmas-party-at-home-png-image_11075768.png" },
+            { word: "common", meaning: "yaygın, ortak", example_en: "It's a [common] mistake among beginners.", example_tr: "Bu, yeni başlayanlar arasında yaygın bir hatadır.", synonyms: "usual, ordinary, shared", image_url: "https://png.pngtree.com/png-vector/20250125/ourlarge/pngtree-cross-deny-error-icon-3d-illustration-red-x-png-image_15332281.png" }
         ];
 
         // Global DOM Element Seçimleri
@@ -348,7 +348,7 @@
 
         // Quiz Seslendirme
         function speakQuizWord(text) {
-              speakWord(text);
+             speakWord(text);
         }
 
         // Bilgi Çubuğu Güncelleme
@@ -372,8 +372,8 @@
                     
                     <div class="word-image-display">
                         <img src="${safeImageUrl}" 
-                             alt="${word} görseli"
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/350x180?text=G%C3%B6rsel+Y%C3%BCklenemedi';">
+                            alt="${word} görseli"
+                            onerror="this.onerror=null; this.src='https://via.placeholder.com/350x180?text=G%C3%B6rsel+Y%C3%BCklenemedi';">
                     </div>
 
                     <div class="header">
@@ -597,6 +597,13 @@
         }
         
         // --- EVENT LISTENERS ---
+        const closeQuiz = () => {
+            quizContainer.style.display = 'none';
+            quizOverlay.style.display = 'none'; 
+            toggleQuizButton.style.display = 'block';
+            window.speechSynthesis.cancel();
+        };
+
         toggleQuizButton.addEventListener('click', () => {
             quizContainer.style.display = 'block'; 
             quizOverlay.style.display = 'block'; 
@@ -604,12 +611,10 @@
             restartWordQuiz();
         });
         
-        quizBackButton.addEventListener('click', () => {
-            quizContainer.style.display = 'none';
-            quizOverlay.style.display = 'none'; 
-            toggleQuizButton.style.display = 'block';
-            window.speechSynthesis.cancel();
-        });
+        // Kapatma butonu ve overlay tıklaması
+        quizBackButton.addEventListener('click', closeQuiz);
+        quizOverlay.addEventListener('click', closeQuiz);
+
 
         restartQuizButton.addEventListener('click', restartWordQuiz);
 
