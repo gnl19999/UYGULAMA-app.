@@ -1,7 +1,7 @@
 import SwiftUI
 
 // MARK: - Hex Renk Desteği için Eklenti (Hatanın düzeltildiği yer burasıdır)
-// Bu extension, Color nesnelerinin kullanıldığı yerlerden önce tanımlanmalıdır.
+// Bu uzantı, Color nesnelerinin kullanıldığı her yerden önce tanımlanmalıdır.
 extension Color {
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
@@ -69,11 +69,11 @@ struct PaywallView: View {
             VStack(spacing: 20) {
                 // --- Üst Kısım ---
                 Spacer().frame(height: 20)
-                Image(systemName: "crown.fill") // Kendi ikonunuzu buraya koyun
+                Image(systemName: "crown.fill")
                     .resizable()
                     .scaledToFit()
                     .frame(height: 50)
-                    .foregroundColor(brightYellow) // Sarı rengi kullan
+                    .foregroundColor(brightYellow)
                     .shadow(radius: 2)
                 
                 Text("İngilizce kelime öğrenmenin\nen etkili yolu")
@@ -84,7 +84,7 @@ struct PaywallView: View {
                 
                 // --- Özellik Listesi (Beyaz Kutu) ---
                 VStack(alignment: .leading, spacing: 15) {
-                    FeatureRow(icon: "crown.fill", text: "Premium'a özel paketleri çalışmaya başlayın", iconColor: brightYellow) // Sarı ikon
+                    FeatureRow(icon: "crown.fill", text: "Premium'a özel paketleri çalışmaya başlayın", iconColor: brightYellow)
                     FeatureRow(icon: "plus.app.fill", text: "Kendi kelime paketlerinizi oluşturun", iconColor: lightBlue)
                     FeatureRow(icon: "equal.square.fill", text: "Eş anlamlı çalışması ile daha fazla kelime öğrenin", iconColor: lightBlue)
                     FeatureRow(icon: "lightbulb.fill", text: "2500'den fazla kelimeyi görsellerle kolayca öğrenin", iconColor: lightBlue)
@@ -96,7 +96,7 @@ struct PaywallView: View {
                 
                 // --- Planlar ---
                 Text("PLANLAR")
-                    .font(.caption) // Daha küçük ve sade bir font
+                    .font(.caption)
                     .fontWeight(.bold)
                     .foregroundColor(.gray)
                     .padding(.top, 10)
@@ -105,7 +105,7 @@ struct PaywallView: View {
                     ForEach(plans) { plan in
                         PlanCard(plan: plan, isSelected: selectedPlanId == plan.id, accentColor: lightBlue, bestValueColor: brightYellow)
                             .onTapGesture {
-                                withAnimation(.spring()) { // Animasyon ekledim
+                                withAnimation(.spring()) {
                                     selectedPlanId = plan.id
                                 }
                             }
@@ -118,15 +118,14 @@ struct PaywallView: View {
                 // --- Satın Alma Butonu ---
                 Button(action: {
                     print("Satın alma işlemi başlatıldı: \(String(describing: selectedPlanId))")
-                    // Buraya StoreKit veya RevenueCat kodları gelecek
                 }) {
                     Text("Premium'a Yükselt")
-                        .font(.title3) // Daha belirgin font
+                        .font(.title3)
                         .fontWeight(.heavy)
                         .foregroundColor(.black) 
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(brightYellow) // Sarı renk
+                        .background(brightYellow)
                         .cornerRadius(30)
                 }
                 .padding(.horizontal)
@@ -140,7 +139,7 @@ struct PaywallView: View {
 struct FeatureRow: View {
     let icon: String
     let text: String
-    let iconColor: Color // Renk dışarıdan alınsın
+    let iconColor: Color
     
     var body: some View {
         HStack(alignment: .top) {
@@ -159,8 +158,8 @@ struct FeatureRow: View {
 struct PlanCard: View {
     let plan: SubscriptionPlan
     let isSelected: Bool
-    let accentColor: Color // Mavi renk
-    let bestValueColor: Color // Sarı renk
+    let accentColor: Color
+    let bestValueColor: Color
     
     var body: some View {
         HStack {
@@ -168,7 +167,7 @@ struct PlanCard: View {
             Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                 .resizable()
                 .frame(width: 24, height: 24)
-                .foregroundColor(isSelected ? bestValueColor : .gray.opacity(0.5)) // Seçiliyse sarı
+                .foregroundColor(isSelected ? bestValueColor : .gray.opacity(0.5))
                 .padding(.leading, 10)
             
             VStack(alignment: .leading, spacing: 4) {
@@ -183,7 +182,7 @@ struct PlanCard: View {
                             .fontWeight(.bold)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
-                            .background(bestValueColor) // Sarı renk
+                            .background(bestValueColor)
                             .foregroundColor(.black)
                             .cornerRadius(10)
                     }
@@ -191,14 +190,14 @@ struct PlanCard: View {
                 
                 Text(plan.perMonth)
                     .font(.subheadline)
-                    .foregroundColor(isSelected ? bestValueColor : .gray) // Seçiliyse sarı
+                    .foregroundColor(isSelected ? bestValueColor : .gray)
             }
             
             Spacer()
             
             Text(plan.price)
                 .font(.headline)
-                .foregroundColor(accentColor) // Mavi fiyat
+                .foregroundColor(accentColor)
                 .padding(.trailing, 10)
         }
         .padding()
@@ -207,9 +206,9 @@ struct PlanCard: View {
         // Seçili ise kenarlık ekle
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(isSelected ? accentColor : Color.clear, lineWidth: 2) // Seçiliyse mavi kenarlık
+                .stroke(isSelected ? accentColor : Color.clear, lineWidth: 2)
         )
-        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2) // Daha belirgin gölge
+        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
     }
 }
 
