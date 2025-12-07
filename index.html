@@ -29,8 +29,9 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
             position: relative;
             overflow: hidden;
-            min-height: 800px;
-            padding-bottom: 70px; /* Navigasyon için boşluk */
+            /* Navigasyon barı kaldırıldığı için padding-bottom azaltıldı veya kaldırıldı */
+            min-height: 800px; 
+            padding-bottom: 20px; 
         }
 
         /* HEADER */
@@ -212,47 +213,18 @@
         /* Ünite Renkleri */
         .u1 { background-color: #e91e63; } /* Pembe */
         .u2 { background-color: #3498db; } /* Mavi */
-        .u3 { background-color: #000; }    /* Siyah */
+        .u3 { background-color: #000; }   /* Siyah */
         .u4 { background-color: #8bc34a; } /* Yeşil */
         .u5 { background-color: #e67e22; } /* Turuncu */
 
-        /* NAVIGATION BAR */
+        /* NAVIGATION BAR - KALDIRILDI */
         .bottom-nav {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 60px;
-            background: #fff;
-            border-top: 1px solid #ddd;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
+            display: none; /* Navigasyon barı gizlendi */
         }
-        .nav-item {
-            text-align: center;
-            color: #999;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .nav-item.active { color: #3498db; }
-        .nav-item i { font-size: 20px; margin-bottom: 4px; display: block; }
         
-        /* Floating Button (+) */
+        /* Floating Button (+) - KALDIRILDI */
         .fab {
-            position: absolute;
-            bottom: 80px;
-            right: 20px;
-            width: 55px;
-            height: 55px;
-            background-color: #f1c40f;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            font-size: 24px;
-            color: #333;
-            cursor: pointer;
+            display: none; /* Kayan eylem düğmesi gizlendi */
         }
 
         .back-button { /* back-btn class'ı back-button id'si ile birleştirildi */
@@ -398,9 +370,8 @@
                 </div>
                 <button class="btn-continue" onclick="openDetailPage()">DEVAM ET</button>
             </div>
-
-            <div class="fab"><i class="fas fa-plus"></i></div>
-        </div>
+            
+            </div>
 
         <div id="detail-page" class="page">
             
@@ -450,18 +421,6 @@
 
 
         <div class="bottom-nav">
-            <div class="nav-item active" onclick="goHome()">
-                <i class="fas fa-home"></i>
-                Home
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-user"></i>
-                Profil
-            </div>
-            <div class="nav-item">
-                <i class="fas fa-bolt"></i>
-                Kelimelerim
-            </div>
         </div>
 
     </div>
