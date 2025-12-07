@@ -16,7 +16,6 @@
             --color-yellow: #f1c40f;
             --color-red: #e74c3c;
             --color-green: #a3cb38;
-            --color-purple: #9b59b6;
         }
 
         * {
@@ -41,10 +40,10 @@
             background-color: #fff;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden; /* Yatay kaymayı önle */
             min-height: 800px;
-            /* Padding altta butona yer açmak için artırıldı */
-            padding-bottom: 70px; 
+            /* Footer için boşluk bırakıldı */
+            padding-bottom: 0;
         }
 
         /* HEADER */
@@ -57,7 +56,7 @@
             border-bottom: 1px solid var(--color-light-gray);
             position: sticky;
             top: 0;
-            z-index: 10;
+            z-index: 100; /* Z-index yükseltildi */
         }
         .header-content {
             display: flex;
@@ -72,7 +71,7 @@
             color: var(--color-yellow); 
             font-size: 20px; 
         }
-        /* İkonların stilini birleştirildi */
+        
         #menu-icon, .back-button { 
             color: var(--color-dark); 
             cursor: pointer; 
@@ -92,6 +91,8 @@
             opacity: 0;
             transition: opacity 0.3s ease;
             width: 100%;
+            /* Sayfaların içerik alanı footer'ı ezmesin diye */
+            padding-bottom: 70px; 
         }
         .page.active {
             display: block;
@@ -302,13 +303,13 @@
         .unit-detail-info {
             padding: 20px;
             text-align: center;
-            margin-bottom: 20px; /* Buton alanından önce boşluk bırakıldı */
         }
 
         .unit-progress-circle {
             width: 120px;
             height: 120px;
             border-radius: 50%;
+            background-color: var(--color-primary);
             color: #fff;
             font-size: 36px;
             font-weight: bold;
@@ -328,13 +329,14 @@
             margin-bottom: 20px;
         }
         
+        /* Kelime Listesi */
         .unit-word-list {
             padding: 0 15px;
         }
         .word-item {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
+            padding: 15px 0;
             border-bottom: 1px solid var(--color-light-gray);
             align-items: center;
         }
@@ -342,16 +344,43 @@
             border-bottom: none;
         }
         
-        .word-left-section {
+        .word-info-left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            flex-grow: 1;
+        }
+        .word-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: var(--color-light-gray);
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #999;
+            flex-shrink: 0;
+            border: 1px solid #ddd;
+        }
+        .word-image i {
+            font-size: 16px;
         }
 
+        .word-text-container {
+            flex-grow: 1;
+        }
         .word-english {
             font-weight: bold;
             color: var(--color-dark);
             font-size: 15px;
+            display: block;
+        }
+        .word-pronunciation {
+            font-size: 12px; 
+            color: #aaa;
+            display: block;
+            margin-top: 2px;
         }
         .word-turkish {
             color: #666;
@@ -359,56 +388,40 @@
             text-align: right;
         }
 
-        /* Yeni: Telaffuz İkonu */
-        .pronounce-icon {
-            color: var(--color-primary);
-            font-size: 14px;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 50%;
-            transition: background-color 0.1s;
-        }
-        .pronounce-icon:active {
-            background-color: #f2f2f7;
-        }
-
-        /* Yeni: Sabit Footer Alanı (Action Buttons) */
-        .fixed-footer-actions {
+        /* --- YENİ: SAYFA ALT SABİT MENÜ (FOOTER) --- */
+        .page-footer {
             position: fixed;
             bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
             width: 100%;
             max-width: 400px;
-            background: #fff;
+            background-color: #fff;
+            border-top: 1px solid var(--color-light-gray);
             padding: 10px 15px;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-            z-index: 20;
             display: none; /* Varsayılan olarak gizli */
+            justify-content: space-between;
+            z-index: 100;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
         }
-        
-        .fixed-footer-actions.active {
+        .page-footer.active {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
         }
-
-        .action-button {
-            display: block;
-            width: 100%;
-            padding: 15px;
+        .action-button-footer {
+            flex-basis: 48%; /* Butonlar arası boşluk için */
+            padding: 12px 10px;
             border: none;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             color: #fff;
             cursor: pointer;
             transition: background-color 0.2s;
+            text-align: center;
         }
         .btn-quiz { background-color: var(--color-green); }
-        .btn-quiz:active { background-color: #8db532; }
-        .btn-list { background-color: var(--color-purple); } /* Mor renk kullanıldı */
-        .btn-list:active { background-color: #7d4496; }
+        .btn-quiz:hover { background-color: #8db532; }
+        .btn-list { background-color: #e91e63; }
+        .btn-list:hover { background-color: #c71585; }
+
     </style>
 </head>
 <body>
@@ -480,7 +493,7 @@
                 <button class="btn-continue" data-card-key="academic_nouns">DEVAM ET</button>
             </div>
             
-        </div>
+            </div>
 
         <div id="detail-page" class="page">
             
@@ -518,26 +531,26 @@
             <div class="unit-detail-info">
                 <div class="unit-progress-circle" id="detail-unit-circle">1</div>
                 <h2 id="detail-unit-title">Ünite Başlığı</h2>
-                <p id="detail-unit-progress">20 kelimeden X tanesi öğrenildi.</p>
-            </div>
+                <p id="detail-unit-progress">25 kelimeden X tanesi öğrenildi.</p>
+                </div>
             
             <div class="unit-word-list" id="word-list-container">
                 </div>
         </div>
 
-    </div>
-    
-    <div class="fixed-footer-actions" id="footer-actions">
-        <button class="action-button btn-quiz" onclick="alert('Quiz başlatıldı!')">
-            <i class="fas fa-question-circle"></i> Quiz Çöz
-        </button>
-        <button class="action-button btn-list" onclick="alert('Kelime Listesi Açıldı!')">
-            <i class="fas fa-list"></i> Kelime Listesine Bak
-        </button>
+        <div id="page-footer" class="page-footer">
+            <button class="action-button-footer btn-quiz" onclick="alert('Quiz başlatıldı!')">
+                <i class="fas fa-question-circle"></i> Quiz Çöz
+            </button>
+            <button class="action-button-footer btn-list" id="word-list-button" onclick="alert('Kelime Listesi Açıldı!')">
+                <i class="fas fa-list"></i> Kelime Listesine Bak
+            </button>
+        </div>
+
     </div>
 
     <script>
-        // **1. KELİME VERİ MODELİ**
+        // **1. KELİME VERİSİ**
         
         const academicVerbs = [
             { "en": "Analyze", "pr": "enılayz", "tr": "Analiz Etmek" },
@@ -564,7 +577,7 @@
             { "en": "Propose", "pr": "propouz", "tr": "Teklif Etmek, Önermek" },
             { "en": "Observe", "pr": "obzörv", "tr": "Gözlemlemek" },
             { "en": "Examine", "pr": "egzemin", "tr": "İncelemek, Muayene Etmek" },
-            { "en": "Apply", "pr": "ıplay", "tr": "Uygulamak" },
+            { "en": "Apply", "pr": "ıplay", "tr": "Uygulamak" }, 
 
             { "en": "Implement", "pr": "implimınt", "tr": "Uygulamaya Koymak" },
             { "en": "Reflect", "pr": "riflekt", "tr": "Yansıtmak, Düşünmek" },
@@ -596,6 +609,7 @@
         const unit1Words = academicVerbs.slice(0, 25);
         const unit2Words = academicVerbs.slice(25, 50);
 
+
         const vocabularyData = {
             "advanced_verbs": {
                 title: "İleri Düzey Akademik Fiiller",
@@ -620,9 +634,9 @@
                         learned: 0, 
                         total: 25,
                         words: [
-                             { en: "Comprehend", tr: "Kavramak" },
-                             { en: "Incorporate", tr: "Dahil Etmek" },
-                             { en: "Presume", tr: "Varsaymak" },
+                             { en: "Comprehend", pr: "komprihend", tr: "Kavramak" },
+                             { en: "Incorporate", pr: "inkorpreyt", tr: "Dahil Etmek" },
+                             { en: "Presume", pr: "prizuum", tr: "Varsaymak" },
                         ]
                     }
                 ]
@@ -636,9 +650,9 @@
                         learned: 10, 
                         total: 20,
                         words: [
-                            { en: "Occur", tr: "Meydana Gelmek" },
-                            { en: "Require", tr: "Gerekmek" },
-                            { en: "Assume", tr: "Varsaymak" },
+                            { en: "Occur", pr: "okör", tr: "Meydana Gelmek" },
+                            { en: "Require", pr: "rıkwayır", tr: "Gerekmek" },
+                            { en: "Assume", pr: "ısuum", tr: "Varsaymak" },
                         ]
                     },
                     { 
@@ -647,9 +661,9 @@
                         learned: 5, 
                         total: 20,
                         words: [
-                            { en: "Create", tr: "Yaratmak" },
-                            { en: "Specify", tr: "Belirtmek" },
-                            { en: "Vary", tr: "Değişmek" },
+                            { en: "Create", pr: "kriyeyt", tr: "Yaratmak" },
+                            { en: "Specify", pr: "spesifay", tr: "Belirtmek" },
+                            { en: "Vary", pr: "veri", tr: "Değişmek" },
                         ]
                     },
                 ]
@@ -663,23 +677,12 @@
                         learned: 0, 
                         total: 15,
                         words: [
-                            { en: "Significant", tr: "Önemli, Manidar" },
-                            { en: "Crucial", tr: "Kritik, Çok Önemli" },
-                            { en: "Potential", tr: "Potansiyel, Olası" },
-                            { en: "Abstract", tr: "Soyut, Kuramsal" }
+                            { en: "Significant", pr: "signifikınt", tr: "Önemli, Manidar" },
+                            { en: "Crucial", pr: "kruşıl", tr: "Kritik, Çok Önemli" },
+                            { en: "Potential", pr: "potenşıl", tr: "Potansiyel, Olası" },
+                            { en: "Abstract", pr: "abstrak", tr: "Soyut, Kuramsal" }
                         ]
                     },
-                    { 
-                        number: 2, 
-                        title: "Ünite 2 (Miktar)", 
-                        learned: 0, 
-                        total: 15,
-                        words: [
-                            { en: "Substantial", tr: "Büyük, Önemli" },
-                            { en: "Minor", tr: "Küçük, Önemsiz" },
-                            { "en": "Diverse", tr: "Çeşitli, Farklı" }
-                        ]
-                    }
                 ]
             },
             "academic_nouns": {
@@ -691,17 +694,17 @@
                         learned: 0, 
                         total: 25,
                         words: [
-                            { "en": "Individual", tr: "Birey" },
-                            { "en": "Community", tr: "Topluluk" },
-                            { "en": "Generation", tr: "Nesil" }
+                            { en: "Individual", pr: "indiviçuıl", tr: "Birey" },
+                            { en: "Community", pr: "komyuniti", tr: "Topluluk" },
+                            { en: "Generation", pr: "cenıreyşın", tr: "Nesil" }
                         ]
                     }
                 ]
             }
         };
 
-        // Mevcut kelime grubunu ve ünite bilgisini tutmak için
         let currentCardKey = null;
+        let currentUnitData = null; // Yeni: Ünite verilerini tutmak için
 
         // Sayfa Elemanlarını Seç
         const homePage = document.getElementById('home-page');
@@ -713,44 +716,41 @@
         const cards = document.querySelectorAll('.card');
         const wordListContainer = document.getElementById('word-list-container');
         const unitsTimelineContainer = document.getElementById('units-timeline-container');
-        const footerActions = document.getElementById('footer-actions'); // Yeni eklenen footer
+        const pageFooter = document.getElementById('page-footer'); // Yeni Footer
 
-        // Detay Sayfası içeriğini tutmak için
         let currentPageTitle = "EnglishBox";
+        let previousPageTitle = "EnglishBox"; // Geri dönerken kullanılacak
 
         // Yardımcı Fonksiyon: Ünite Renk Sınıfını Belirler
         function getUnitColorClass(unitNumber) {
-            const index = (unitNumber - 1) % 5; 
+            const index = (unitNumber - 1) % 5;
             return `u${index + 1}`;
         }
-        
-        // Yardımcı Fonksiyon: Footer durumunu ayarlar
-        function setFooterState(pageId) {
-            // Sadece Level 3 sayfasında (unit-detail-page) aktif olmalı
-            if (pageId === 'unit-detail-page') {
-                footerActions.classList.add('active');
-            } else {
-                footerActions.classList.remove('active');
-            }
-        }
 
-        // **Yeni Fonksiyon:** Kelime Listesini Yükle ve Oluştur
+        // **Güncellendi:** Kelime Listesini Yükle ve Oluştur (Resim Eklendi)
         function loadUnitWords(words, unitSubtitle) {
-            wordListContainer.innerHTML = ''; 
+            wordListContainer.innerHTML = '';
             
             if (words && words.length > 0) {
                 words.forEach(word => {
                     const wordItem = document.createElement('div');
                     wordItem.className = 'word-item';
                     
-                    const pronunciationText = word.pr ? ` (${word.pr})` : '';
-                    
+                    const pronunciationText = word.pr ? `[${word.pr}]` : '';
+
+                    // Kelime resmi bölümü (Şimdilik örnek ikon)
+                    const imageHtml = `
+                        <div class="word-image">
+                            <i class="fas fa-image"></i>
+                        </div>
+                    `;
+
                     wordItem.innerHTML = `
-                        <div class="word-left-section">
-                            <i class="fas fa-volume-up pronounce-icon" onclick="alert('Telaffuz: ${word.en}${pronunciationText}')"></i>
-                            <div>
+                        <div class="word-info-left">
+                            ${imageHtml}
+                            <div class="word-text-container">
                                 <span class="word-english">${word.en}</span>
-                                <span style="font-size: 12px; color: #aaa;">${pronunciationText}</span>
+                                <span class="word-pronunciation">${pronunciationText}</span>
                             </div>
                         </div>
                         <span class="word-turkish">${word.tr}</span>
@@ -765,7 +765,7 @@
             detailProgress.textContent = unitSubtitle; 
         }
 
-        // **Yeni Fonksiyon:** Ünite Listesini Dinamik Oluştur
+        // Ünite Listesini Dinamik Oluştur
         function renderUnitsTimeline(cardKey) {
             unitsTimelineContainer.innerHTML = ''; 
             const category = vocabularyData[cardKey];
@@ -798,6 +798,7 @@
                     const selectedUnit = vocabularyData[cardKey].units.find(u => u.number === unitNumber);
                     
                     if (selectedUnit) {
+                        currentUnitData = selectedUnit; // Yeni: Tıklanan ünitenin verisini kaydet
                         const unitColorClass = getUnitColorClass(unitNumber);
                         const progressText = `${selectedUnit.learned}/${selectedUnit.total} kelime öğrenildi.`;
                         openUnitDetailPage(unitNumber, selectedUnit.title, progressText, unitColorClass, selectedUnit.words);
@@ -820,11 +821,13 @@
             backButton.style.display = 'block';
             menuIcon.style.display = 'none';
             backButton.setAttribute('data-page-level', '1');
+            
+            previousPageTitle = headerTitle.textContent; // "EnglishBox"
             headerTitle.textContent = title; 
             currentPageTitle = title;
             
+            pageFooter.classList.remove('active'); // Footer'ı gizle
             renderUnitsTimeline(cardKey);
-            setFooterState('detail-page'); // Footer'ı gizle
 
             document.getElementById('detail-correct-percentage').textContent = '% 10';
             document.getElementById('detail-learned-percentage').textContent = '% 5';
@@ -842,19 +845,24 @@
             menuIcon.style.display = 'block';
             headerTitle.textContent = "EnglishBox"; 
             currentPageTitle = "EnglishBox";
+            previousPageTitle = "EnglishBox";
             currentCardKey = null; 
-            setFooterState('home-page'); // Footer'ı gizle
+            
+            pageFooter.classList.remove('active'); // Footer'ı gizle
         }
         
-        // Ünite Detay Sayfasını Açan Fonksiyon (Level 2 -> Level 3)
+        // **Güncellendi:** Ünite Detay Sayfasını Açan Fonksiyon (Level 2 -> Level 3)
         function openUnitDetailPage(unitNumber, unitTitle, unitSubtitle, unitColorClass, unitWords) {
             detailPage.classList.remove('active');
             unitDetailPage.classList.add('active');
 
-            backButton.style.display = 'block';
+            // Geri tuşu artık Level 2'ye dönmeli (1. seviyeye değil)
             backButton.setAttribute('data-page-level', '2'); 
             menuIcon.style.display = 'none';
             
+            // currentPageTitle zaten kategori başlığı (Level 2)
+            // previousPageTitle = headerTitle.textContent; // Artık buna gerek yok
+
             headerTitle.textContent = unitTitle;
 
             const detailCircle = document.getElementById('detail-unit-circle');
@@ -868,25 +876,35 @@
             detailCircle.style.backgroundColor = backgroundColor;
 
             loadUnitWords(unitWords, unitSubtitle);
-            setFooterState('unit-detail-page'); // Footer'ı göster
+            
+            pageFooter.classList.add('active'); // Footer'ı göster
+            
+            // Footer butonlarının aksiyonlarını buraya ekleyebiliriz:
+            document.getElementById('word-list-button').onclick = () => {
+                alert(`"${unitTitle}" kelime listesi açıldı!`);
+            };
 
             window.scrollTo(0, 0);
         }
         
-        // Ünite Detay Sayfasından Geri Dönüş (Level 3 -> Level 2)
+        // **Güncellendi:** Ünite Detay Sayfasından Geri Dönüş (Level 3 -> Level 2)
         function goBackToDetailPage() {
             unitDetailPage.classList.remove('active');
             detailPage.classList.add('active');
 
+            // Geri tuşu Level 1'e dönecek şekilde ayarlanır
             backButton.setAttribute('data-page-level', '1'); 
             
+            // Header başlığını kategori başlığına geri döndür
             headerTitle.textContent = currentPageTitle; 
-            setFooterState('detail-page'); // Footer'ı gizle
+            
+            pageFooter.classList.remove('active'); // Footer'ı gizle
         }
 
 
         // **OLAY YÖNETİMİ**
 
+        // Kartlara tıklama olayı (Level 1 -> Level 2)
         cards.forEach(card => {
             const cardKey = card.getAttribute('data-card-key');
             const cardTitle = card.querySelector('h3').textContent;
@@ -901,24 +919,25 @@
             card.addEventListener('click', clickHandler);
             const continueButton = card.querySelector('.btn-continue');
             continueButton.addEventListener('click', (event) => {
-                event.stopPropagation(); 
+                event.stopPropagation();
                 openDetailPage(cardKey, cardTitle);
             });
         });
 
-        // Geri butonuna tıklama olayı
+        // Geri butonuna tıklama olayı (Tüm seviyeler için güncellendi)
         backButton.addEventListener('click', () => {
             const level = backButton.getAttribute('data-page-level');
             
             if (level === '2') {
-                goBackToDetailPage();
+                goBackToDetailPage(); // Level 3 -> Level 2
             } else if (level === '1') {
-                goHome();
+                goHome(); // Level 2 -> Level 1
             }
         });
         
+        // Menü ikonuna tıklama olayı
         menuIcon.addEventListener('click', () => {
-            alert('Menü Tıklandı.');
+            alert('Menü Tıklandı. Buraya menü açma işlevi eklenebilir.');
         });
         
     </script>
