@@ -1,7 +1,6 @@
 import SwiftUI
 
-// MARK: - Hex Renk Desteği için Eklenti (Hatanın düzeltildiği yer burasıdır)
-// Bu uzantı, Color nesnelerinin kullanıldığı her yerden önce tanımlanmalıdır.
+// MARK: - Hex Renk Desteği
 extension Color {
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
@@ -9,11 +8,11 @@ extension Color {
         Scanner(string: hex).scanHexInt64(&int)
         let a, r, g, b: UInt64
         switch hex.count {
-        case 3: // RGB (12-bit)
+        case 3: 
             (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RGB (24-bit)
+        case 6: 
             (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-        case 8: // ARGB (32-bit)
+        case 8: 
             (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
         default:
             (a, r, g, b) = (1, 1, 1, 0)
@@ -39,29 +38,30 @@ struct SubscriptionPlan: Identifiable {
 
 // MARK: - PaywallView
 struct PaywallView: View {
-    // Örnek Veriler
+    
+    // Custom Renk Tanımları
+    private let lightBlue = Color(hex: "4FC3F7") // Mavi Aksan Rengi
+    private let brightYellow = Color(hex: "FDD835") // Sarı Aksan Rengi
+    private let darkText = Color(hex: "424242") // Koyu Gri Metin Rengi (Görseldeki gibi)
+    private let backgroundEndColor = Color(hex: "E1F5FE") // Gradient için hafif mavi bitiş rengi
+
     let plans = [
         SubscriptionPlan(title: "1 aylık abonelik", price: "₺164,99", perMonth: "₺164.99 / ay", isBestValue: false),
         SubscriptionPlan(title: "6 aylık abonelik", price: "₺549,99", perMonth: "₺91.67 / ay", isBestValue: false),
         SubscriptionPlan(title: "Yıllık abonelik", price: "₺749,99", perMonth: "₺62.50 / ay", isBestValue: true)
     ]
     
-    // Seçili planı takip eden değişken
     @State private var selectedPlanId: UUID?
     
-    // Custom renkler
-    private let lightBlue = Color(hex: "4FC3F7")
-    private let brightYellow = Color(hex: "FDD835")
-    
     init() {
-        // En Avantajlı planı varsayılan olarak seç
-        _selectedPlanId = State(initialValue: plans.first(where: { $0.isBestValue })?.id ?? plans.last?.id)
+        // En avantajlıyı varsayılan olarak seç
+        _selectedPlanId = State(initialValue: plans.first(where: { $0.isBestValue })?.id)
     }
 
     var body: some View {
         ZStack {
-            // Arka Plan (Mavi Gradient)
-            LinearGradient(gradient: Gradient(colors: [lightBlue, Color.white]),
+            // Arka Plan (Görseldeki gibi yumuşak Gradient)
+            LinearGradient(gradient: Gradient(colors: [lightBlue, backgroundEndColor]), // Bitiş rengi hafif mavi
                            startPoint: .top,
                            endPoint: .bottom)
                 .edgesIgnoringSafeArea(.all)
@@ -84,10 +84,10 @@ struct PaywallView: View {
                 
                 // --- Özellik Listesi (Beyaz Kutu) ---
                 VStack(alignment: .leading, spacing: 15) {
-                    FeatureRow(icon: "crown.fill", text: "Premium'a özel paketleri çalışmaya başlayın", iconColor: brightYellow)
-                    FeatureRow(icon: "plus.app.fill", text: "Kendi kelime paketlerinizi oluşturun", iconColor: lightBlue)
-                    FeatureRow(icon: "equal.square.fill", text: "Eş anlamlı çalışması ile daha fazla kelime öğrenin", iconColor: lightBlue)
-                    FeatureRow(icon: "lightbulb.fill", text: "2500'den fazla kelimeyi görsellerle kolayca öğrenin", iconColor: lightBlue)
+                    FeatureRow(icon: "crown.fill", text: "Premium'a özel paketleri çalışmaya başlayın", iconColor: brightYellow, textColor: darkText)
+                    FeatureRow(icon: "plus.app.fill", text: "Kendi kelime paketlerinizi oluşturun", iconColor: lightBlue, textColor: darkText)
+                    FeatureRow(icon: "equal.square.fill", text: "Eş anlamlı çalışması ile daha fazla kelime öğrenin", iconColor: lightBlue, textColor: darkText)
+                    FeatureRow(icon: "lightbulb.fill", text: "2500'den fazla kelimeyi görsellerle kolayca öğrenin", iconColor: lightBlue, textColor: darkText)
                 }
                 .padding()
                 .background(Color.white)
@@ -103,9 +103,13 @@ struct PaywallView: View {
                 
                 VStack(spacing: 12) {
                     ForEach(plans) { plan in
-                        PlanCard(plan: plan, isSelected: selectedPlanId == plan.id, accentColor: lightBlue, bestValueColor: brightYellow)
+                        PlanCard(plan: plan, 
+                                 isSelected: selectedPlanId == plan.id, 
+                                 accentColor: lightBlue, 
+                                 bestValueColor: brightYellow,
+                                 darkText: darkText)
                             .onTapGesture {
-                                withAnimation(.spring()) {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) { // Daha iyi animasyon
                                     selectedPlanId = plan.id
                                 }
                             }
@@ -122,7 +126,7 @@ struct PaywallView: View {
                     Text("Premium'a Yükselt")
                         .font(.title3)
                         .fontWeight(.heavy)
-                        .foregroundColor(.black) 
+                        .foregroundColor(darkText) // Koyu metin rengi
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(brightYellow)
@@ -140,6 +144,7 @@ struct FeatureRow: View {
     let icon: String
     let text: String
     let iconColor: Color
+    let textColor: Color // Metin rengi eklendi
     
     var body: some View {
         HStack(alignment: .top) {
@@ -148,7 +153,7 @@ struct FeatureRow: View {
                 .frame(width: 24)
             Text(text)
                 .font(.subheadline)
-                .foregroundColor(.gray)
+                .foregroundColor(textColor) // Koyu gri metin
                 .fixedSize(horizontal: false, vertical: true)
         }
     }
@@ -158,8 +163,9 @@ struct FeatureRow: View {
 struct PlanCard: View {
     let plan: SubscriptionPlan
     let isSelected: Bool
-    let accentColor: Color
+    let accentColor: Color 
     let bestValueColor: Color
+    let darkText: Color
     
     var body: some View {
         HStack {
@@ -190,7 +196,7 @@ struct PlanCard: View {
                 
                 Text(plan.perMonth)
                     .font(.subheadline)
-                    .foregroundColor(isSelected ? bestValueColor : .gray)
+                    .foregroundColor(isSelected ? brightYellow : .gray)
             }
             
             Spacer()
@@ -203,7 +209,6 @@ struct PlanCard: View {
         .padding()
         .background(Color.white)
         .cornerRadius(12)
-        // Seçili ise kenarlık ekle
         .overlay(
             RoundedRectangle(cornerRadius: 12)
                 .stroke(isSelected ? accentColor : Color.clear, lineWidth: 2)
