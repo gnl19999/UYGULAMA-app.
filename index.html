@@ -1,636 +1,221 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelime Kartları ve Quiz</title>
-    <style>
-        /* --- ORİJİNAL KART STİLLERİ --- */
-        body {
-            background-color: #f0f2f5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 30px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            margin: 0;
-            justify-content: flex-start;
-            user-select: none;
-        }
+import SwiftUI
 
-        .card {
-            background-color: white;
-            width: 350px;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            position: relative;
-            margin-top: 20px;
-            cursor: pointer;
-            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                        box-shadow 0.2s ease, 
-                        opacity 0.3s ease;
-            opacity: 0;
-            transform: translateY(15px) scale(0.95);
+// MARK: - Hex Renk Desteği için Eklenti (Hatanın düzeltildiği yer burasıdır)
+// Bu extension, Color nesnelerinin kullanıldığı yerlerden önce tanımlanmalıdır.
+extension Color {
+    init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (1, 1, 1, 0)
         }
+        self.init(
+            .sRGB,
+            red: Double(r) / 255,
+            green: Double(g) / 255,
+            blue:  Double(b) / 255,
+            opacity: Double(a) / 255
+        )
+    }
+}
 
-        .card.active {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-        
-        .card:active {
-            transform: scale(0.97);
-        } 
+// MARK: - Veri Modeli
+struct SubscriptionPlan: Identifiable {
+    let id = UUID()
+    let title: String
+    let price: String
+    let perMonth: String
+    let isBestValue: Bool
+}
 
-        .word-image-display {
-            width: 100%;
-            height: 180px;
-            margin-bottom: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            background-color: #E3F2FD; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            pointer-events: none;
-            transition: background 0.3s ease;
-            overflow: hidden; 
-        }
-        
-        .word-image-display img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain; 
-            border-radius: 15px;
-            transition: transform 0.3s ease;
-        }
-        
-        .card:hover .word-image-display { background-color: #BBDEFB; }
-        .card:hover .word-image-display img { transform: scale(1.05); }
-
-        .header { margin-bottom: 15px; }
-        .word-row { display: flex; align-items: center; gap: 15px; }
-        
-        .speaker-icon-card { 
-            color: #1976D2;
-            font-size: 28px; 
-            cursor: pointer; 
-            padding: 10px;
-            border-radius: 50%;
-            transition: background 0.2s; 
-        }
-        .speaker-icon-card:hover { background: #E3F2FD; }
-        
-        h1 { color: #2D3748; margin: 0; font-size: 36px; font-weight: 800; text-transform: capitalize; }
-        .meaning { color: #718096; margin-top: 5px; margin-left: 58px; font-size: 18px; font-weight: 500;} 
-        
-        .box { 
-            border: 1px solid #E2E8F0; 
-            border-radius: 15px; 
-            padding: 15px; 
-            margin-bottom: 12px; 
-            background: #F7FAFC;
-        }
-        .row { display: flex; gap: 10px; }
-        .tag { font-weight: bold; color: #1976D2; font-size: 14px; min-width: 35px; }
-        .content { flex: 1; }
-        .en-sentence { color: #2D3748; font-size: 16px; margin: 0 0 8px 0; line-height: 1.5; }
-        .highlight { color: #E53E3E; font-weight: bold; background: #fff5f5; padding: 0 4px; border-radius: 4px; }
-        .divider { border-top: 1px dotted #CBD5E0; margin: 5px 0; }
-        .tr-sentence { color: #718096; font-size: 15px; margin: 5px 0 0 0; }
-        .synonyms-text { color: #2D3748; margin: 0; font-size: 15px; }
-        .box.small { padding: 12px 15px; border-radius: 30px; margin-bottom: 0;}
-
-        .info-bar {
-            color: #718096;
-            margin-top: 20px;
-            font-size: 14px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .nav-hint { font-size: 12px; opacity: 0.6; margin-top: 5px; text-align: center;}
-
-        /* --- QUIZ VE POPUP STİLLERİ --- */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); 
-            z-index: 999; 
-            display: none;
-            backdrop-filter: blur(3px);
-        }
-        
-        .quiz-container { 
-            display: none; 
-            padding: 25px; 
-            width: 90%;
-            max-width: 400px; 
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            position: fixed; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            z-index: 1000; 
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .quiz-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            font-weight: bold;
-            color: #718096;
-        }
-        
-        .top-buttons { 
-            position: relative; 
-            z-index: 10; 
-            display: flex; 
-            justify-content: center; 
-            width: 100%;
-            margin-top: 20px;
-        }
-        .top-buttons button { 
-            background-color: #1976D2; 
-            color: white; 
-            border: none; 
-            padding: 12px 25px; 
-            font-size: 18px; 
-            cursor: pointer; 
-            border-radius: 50px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: background-color 0.2s;
-        }
-        .top-buttons button:hover { background-color: #1565C0; }
-        
-        .quiz-word-box { 
-            font-size: 30px; 
-            font-weight: 800; 
-            margin-bottom: 10px; 
-            color: #2D3748; 
-            text-transform: capitalize;
-        }
-        .speaker-icon { 
-            font-size: 35px; 
-            color: #f7b731; 
-            margin-bottom: 20px; 
-            display: inline-block;
-            cursor: pointer;
-            transition: transform 0.1s;
-        } 
-        .speaker-icon:hover { transform: scale(1.1); }
-
-        .option-button { 
-            width: 100%; padding: 15px 20px; margin-bottom: 10px; 
-            border: 1px solid #E2E8F0; 
-            border-radius: 15px; 
-            background-color: #F7FAFC; 
-            text-align: center; cursor: pointer; font-size: 17px; font-weight: 500; 
-            transition: all 0.2s; position: relative; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
-        }
-        .option-button:hover:not(.correct):not(.wrong) { background-color: #EBF8FF; }
-
-        .correct { background-color: #48BB78; color: white; border-color: #48BB78; } 
-        .wrong { background-color: #F56565; color: white; border-color: #F56565; } 
-        
-        .check-mark { 
-            font-size: 24px; 
-            color: white; 
-            position: absolute; 
-            top: 50%; 
-            right: 15px; 
-            transform: translateY(-50%); 
-            display: none; 
-            font-weight: bold; 
-        }
-        /* JS ile eklendiğinde görünsün */
-        .option-button .check-mark { display: none; }
-        .option-button.selected .check-mark, .option-button.correct .check-mark { display: block; }
-        
-        .progress-bar-container { height: 10px; background-color: #E2E8F0; border-radius: 5px; margin-bottom: 20px; overflow: hidden; }
-        .progress-bar { height: 100%; width: 0%; background-color: #48BB78; transition: width 0.3s; }
-        
-        .quiz-results { display: none; text-align: center; padding: 20px 0; }
-        .quiz-results h2 { color: #48BB78; font-size: 26px; margin-bottom: 10px; }
-        .quiz-results p { font-size: 16px; margin: 5px 0;}
-        .quiz-results b { font-size: 20px; color: #1976D2;}
-        
-        #restartQuizButton {
-            background-color: #1976D2;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            margin-top: 15px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        #restartQuizButton:hover { background-color: #1565C0; }
-    </style>
-</head>
-<body>
-
-    <div id="quizOverlay" class="overlay"></div>
-
-    <div id="card-container"></div>
+// MARK: - PaywallView
+struct PaywallView: View {
+    // Örnek Veriler
+    let plans = [
+        SubscriptionPlan(title: "1 aylık abonelik", price: "₺164,99", perMonth: "₺164.99 / ay", isBestValue: false),
+        SubscriptionPlan(title: "6 aylık abonelik", price: "₺549,99", perMonth: "₺91.67 / ay", isBestValue: false),
+        SubscriptionPlan(title: "Yıllık abonelik", price: "₺749,99", perMonth: "₺62.50 / ay", isBestValue: true)
+    ]
     
-    <div class="info-bar">
-        <span id="info-text">Yükleniyor...</span>
-    </div>
-    <div class="nav-hint">İpucu: Kartları değiştirmek için **Kartın üzerine tıklayın** veya **Yön tuşlarını** kullanın (← / →). Kelimeyi dinlemek için **↑** (Yukarı Ok) tuşuna basın.</div>
+    // Seçili planı takip eden değişken
+    @State private var selectedPlanId: UUID?
     
-    <div class="top-buttons">
-        <button id="toggleQuizButton">Kelime Testine Başla 🧠</button>
-    </div>
+    // Custom renkler
+    private let lightBlue = Color(hex: "4FC3F7")
+    private let brightYellow = Color(hex: "FDD835")
+    
+    init() {
+        // En Avantajlı planı varsayılan olarak seç
+        _selectedPlanId = State(initialValue: plans.first(where: { $0.isBestValue })?.id ?? plans.last?.id)
+    }
 
-    <div id="quizContainer" class="quiz-container">
-        <div class="quiz-header">
-            <span id="quizBackButton" style="cursor: pointer; font-size: 24px;" title="Kapat">&times;</span>
-            <span id="quizProgress">1/20</span>
-        </div>
-        <div class="progress-bar-container">
-            <div id="progressBar" class="progress-bar"></div>
-        </div>
-        <div id="questionArea">
-            <span class="speaker-icon" onclick="speakQuizWord(document.getElementById('currentWord').textContent)">🔊</span>
-            <div class="quiz-word-box" id="currentWord"></div>
-            <div id="optionsContainer"></div>
-        </div>
-        <div id="resultsScreen" class="quiz-results">
-            <h2>Test Bitti! 🚀</h2>
-            <p>Toplam Soru: <b><span id="totalQuestionsCount">0</span></b></p>
-            <p>Doğru Cevap: <b><span id="correctCount">0</span></b></p>
-            <p>Yanlış Cevap: <b><span id="wrongCount">0</span></b></p>
-            <button id="restartQuizButton">Tekrar Başlat</button>
-        </div>
-    </div>
-
-    <script>
-        // --- DEĞİŞKEN TANIMLAMALARI ---
-        const wordList = [
-            // GÖRSEL URL'leri güncellendi
-            { word: "child", meaning: "çocuk", example_en: "Every [child] deserves a good education.", example_tr: "Her çocuk iyi bir eğitimi hak eder.", synonyms: "kid, youngster, offspring", image_url: "https://png.pngtree.com/png-vector/20250725/ourlarge/pngtree-3d-cute-cartoon-student-girl-studying-in-classroom-png-image_16868964.webp" },
-            { word: "chocolate", meaning: "çikolata", example_en: "She loves eating milk [chocolate] after dinner.", example_tr: "Akşam yemeğinden sonra sütlü çikolata yemeyi sever.", synonyms: "cocoa, candy, sweet", image_url: "https://png.pngtree.com/png-vector/20251108/ourmid/pngtree-realistic-milk-chocolate-bar-with-splash-and-chunks-png-image_17932739.webp" },
-            { word: "choose", meaning: "seçmek", example_en: "You have to [choose] the best answer.", example_tr: "En iyi cevabı seçmek zorundasın.", synonyms: "select, pick, decide", image_url: "https://png.pngtree.com/png-vector/20250620/ourlarge/pngtree-3d-thinking-man-with-big-question-mark-png-image_16553087.png" }, // GÜNCELLENDİ
-            { word: "cinema", meaning: "sinema", example_en: "We went to the [cinema] to see the new movie.", example_tr: "Yeni filmi izlemek için sinemaya gittik.", synonyms: "movie theater, flicks", image_url: "https://png.pngtree.com/png-vector/20250701/ourmid/pngtree-colorful-3d-movie-cinema-icons-representing-entertainment-and-film-industry-elements-png-image_16592001.webp" },
-            { word: "city", meaning: "şehir, kent", example_en: "New York is a very busy [city].", example_tr: "New York çok yoğun bir şehirdir.", synonyms: "town, metropolis, urban area", image_url: "https://png.pngtree.com/png-vector/20230808/ourmid/pngtree-new-york-city-skyline-vector-png-image_6945222.png" },
-            { word: "class", meaning: "sınıf, ders", example_en: "Our math [class] is at 10 AM.", example_tr: "Matematik dersimiz sabah 10'da.", synonyms: "lesson, course, group", image_url: "https://png.pngtree.com/png-vector/20250415/ourmid/pngtree-premium-3d-student-character-with-calculator-and-math-books-png-image_15965049.png" },
-            { word: "classroom", meaning: "sınıf (oda)", example_en: "The students are waiting in the [classroom].", example_tr: "Öğrenciler sınıfta bekliyorlar.", synonyms: "schoolroom", image_url: "https://png.pngtree.com/thumb_back/fh260/background/20240414/pngtree-students-in-the-classroom-image_15715108.jpg" },
-            { word: "clean", meaning: "temizlemek, temiz", example_en: "Can you help me [clean] the kitchen?", example_tr: "Mutfağı temizlememe yardım eder misin?", synonyms: "wash, tidy, hygienic", image_url: "https://png.pngtree.com/png-clipart/20250124/original/pngtree-vibrant-cleaning-products-with-tools-for-every-task-png-image_19837879.png" },
-            { word: "climb", meaning: "tırmanmak", example_en: "We watched him [climb] the steep mountain.", example_tr: "Sarp dağa tırmanmasını izledik.", synonyms: "ascend, scale, go up", image_url: "https://www.shutterstock.com/image-illustration/man-climbing-mountain-3d-character-600nw-2223636853.jpg" },
-            { word: "clock", meaning: "saat (duvar/masa)", example_en: "The [clock] on the wall is fast.", example_tr: "Duvardaki saat ileri.", synonyms: "timepiece, chronometer", image_url: "https://png.pngtree.com/png-clipart/20240919/original/pngtree-old-wall-clock-png-image_16044805.png" },
-            { word: "close", meaning: "kapatmak, yakın", example_en: "Please [close] the door when you leave.", example_tr: "Ayrılırken lütfen kapıyı kapat.", synonyms: "shut, near, adjacent", image_url: "https://png.pngtree.com/png-vector/20240611/ourmid/pngtree-student-closing-the-door-cartoon-png-image_12692653.png" },
-            { word: "clothes", meaning: "giysi, kıyafet", example_en: "I need to wash all my dirty [clothes].", example_tr: "Tüm kirli kıyafetlerimi yıkamam gerekiyor.", synonyms: "garments, apparel, attire", image_url: "https://png.pngtree.com/png-vector/20240613/ourmid/pngtree-laundry-day-chaos-full-basket-of-dirty-clothes-png-image_12715941.png" },
-            { word: "club", meaning: "kulüp, sopa", example_en: "She joined the chess [club] last year.", example_tr: "Geçen yıl satranç kulübüne katıldı.", synonyms: "association, society, bat", image_url: "https://png.pngtree.com/png-vector/20240715/ourmid/pngtree-3d-white-rook-chess-piece-on-a-transparent-backdrop-vector-png-image_13067950.png" },
-            { word: "coat", meaning: "palto, ceket", example_en: "Don't forget to wear your warm [coat].", example_tr: "Sıcak paltunu giymeyi unutma.", synonyms: "jacket, overcoat, outer garment", image_url: "https://png.pngtree.com/png-vector/20250710/ourmid/pngtree-a-3d-realistic-overcoat-icon-png-image_16622619.webp" },
-            { word: "coffee", meaning: "kahve", example_en: "I drink two cups of [coffee] every morning.", example_tr: "Her sabah iki fincan kahve içerim.", synonyms: "brew, caffeine drink", image_url: "https://png.pngtree.com/png-vector/20250423/ourmid/pngtree-d-isolated-render-of-a-cup-coffee-icon-featuring-steaming-hot-png-image_16082551.png" }, // GÜNCELLENDİ
-            { word: "cold", meaning: "soğuk, nezle", example_en: "It is very [cold] outside today.", example_tr: "Bugün dışarısı çok soğuk.", synonyms: "chilly, frigid, flu", image_url: "https://png.pngtree.com/png-vector/20241229/ourmid/pngtree-boy-sneezing-clipart-hd-png-image_14939030.png" }, // GÜNCELLENDİ
-            { word: "college", meaning: "yüksekokul, kolej", example_en: "She plans to go to [college] after graduation.", example_tr: "Mezuniyetten sonra yüksekokula gitmeyi planlıyor.", synonyms: "university, academy", image_url: "https://png.pngtree.com/png-vector/20250214/ourmid/pngtree-graduate-student-3d-icon-education-symbol-for-academic-success-and-higher-png-image_15473076.png" }, // GÜNCELLENDİ
-            { word: "colour", meaning: "renk (color-ABD)", example_en: "Blue is my favorite [colour].", example_tr: "Mavi, en sevdiğim renktir.", synonyms: "shade, hue, tint", image_url: "https://png.pngtree.com/png-vector/20241105/ourmid/pngtree-blue-paint-brush-stroke-png-image_14293870.png" },
-            { word: "come", meaning: "gelmek", example_en: "Please [come] to my party next week.", example_tr: "Gelecek hafta partime gel lütfen.", synonyms: "arrive, approach, reach", image_url: "https://png.pngtree.com/png-vector/20231208/ourmid/pngtree-three-girl-christmas-party-at-home-png-image_11075768.png" },
-            { word: "common", meaning: "yaygın, ortak", example_en: "It's a [common] mistake among beginners.", example_tr: "Bu, yeni başlayanlar arasında yaygın bir hatadır.", synonyms: "usual, ordinary, shared", image_url: "https://png.pngtree.com/png-vector/20250808/ourmid/pngtree-glossy-red-x-mark-symbol-isolated-on-transparent-background-png-image_16793590.webp" } // GÜNCELLENDİ
-        ];
-
-        // Global DOM Element Seçimleri
-        const container = document.getElementById('card-container');
-        const infoText = document.getElementById('info-text');
-        
-        // Quiz DOM Element Seçimleri
-        const quizContainer = document.getElementById("quizContainer");
-        const toggleQuizButton = document.getElementById("toggleQuizButton");
-        const quizBackButton = document.getElementById('quizBackButton');
-        const quizProgress = document.getElementById('quizProgress');
-        const progressBar = document.getElementById('progressBar');
-        const currentWordDiv = document.getElementById('currentWord');
-        const optionsContainer = document.getElementById('optionsContainer');
-        const questionArea = document.getElementById('questionArea');
-        const resultsScreen = document.getElementById('resultsScreen');
-        const correctCountSpan = document.getElementById('correctCount');
-        const totalQuestionsCountSpan = document.getElementById('totalQuestionsCount');
-        const wrongCountSpan = document.getElementById('wrongCount');
-        const restartQuizButton = document.getElementById('restartQuizButton');
-        const quizOverlay = document.getElementById('quizOverlay');
-
-        // Durum Değişkenleri
-        let currentIndex = 0;
-        let quizDataShuffled = [];
-        let currentQuestionIndexQuiz = 0;
-        let scoreQuiz = 0;
-        const allTranslations = wordList.map(q => q.meaning); // Quiz için tüm anlamlar
-
-        // --- FONKSİYONLAR ---
-
-        // Seslendirme
-        function speakWord(text) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // Varsa önceki sesi durdur
-                const msg = new SpeechSynthesisUtterance();
-                msg.text = text;
-                msg.lang = 'en-US'; 
-                msg.rate = 0.9; 
-                window.speechSynthesis.speak(msg);
-            } else {
-                console.warn("Tarayıcı metin okuma özelliğini desteklemiyor.");
-            }
-        }
-
-        // Quiz Seslendirme
-        function speakQuizWord(text) {
-             speakWord(text);
-        }
-
-        // Bilgi Çubuğu Güncelleme
-        function updateInfoBar() {
-            infoText.textContent = `Kart ${currentIndex + 1} / ${wordList.length}`;
-        }
-
-        // Kart Oluşturma
-        function createCard(data) {
-            const { word, meaning, example_en, example_tr, synonyms, image_url } = data;
+    var body: some View {
+        ZStack {
+            // Arka Plan (Mavi Gradient)
+            LinearGradient(gradient: Gradient(colors: [lightBlue, Color.white]),
+                           startPoint: .top,
+                           endPoint: .bottom)
+                .edgesIgnoringSafeArea(.all)
             
-            const highlightedExample = example_en.replace(/\[(.*?)\]/g, (match, p1) => `<span class="highlight">${p1}</span>`);
-            const synonymsText = synonyms || '-';
-            const safeImageUrl = image_url || 'https://via.placeholder.com/350x180?text=G%C3%B6rsel+Yok'; 
-            
-            // Not: speakWord içinde ' işareti hatası olmasın diye replace ile kaçış karakteri ekliyoruz.
-            const safeWordForAudio = word.replace(/'/g, "\\'");
-
-            const cardHTML = `
-                <div class="card" id="active-card" onclick="nextCard(event)"> 
-                    
-                    <div class="word-image-display">
-                        <img src="${safeImageUrl}" 
-                            alt="${word} görseli"
-                            onerror="this.onerror=null; this.src='https://via.placeholder.com/350x180?text=G%C3%B6rsel+Y%C3%BCklenemedi';">
-                    </div>
-
-                    <div class="header">
-                        <div class="word-row">
-                            <span class="speaker-icon-card" title="Dinle" onclick="event.stopPropagation(); speakWord('${safeWordForAudio}')">🔊</span>
-                            <h1>${word}</h1>
-                        </div>
-                        <p class="meaning">${meaning}</p>
-                    </div>
-
-                    <div class="box">
-                        <div class="row">
-                            <span class="tag">Ör.</span>
-                            <div class="content">
-                                <p class="en-sentence">${highlightedExample}</p>
-                                <div class="divider"></div>
-                                <p class="tr-sentence">${example_tr}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="box small">
-                        <div class="row">
-                            <span class="tag">Eş A.</span>
-                            <div class="content">
-                                <p class="synonyms-text">${synonymsText}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            container.innerHTML = cardHTML;
-            
-            // Animasyon için class ekle
-            setTimeout(() => {
-                const card = document.getElementById('active-card');
-                if(card) card.classList.add('active');
-            }, 50);
-
-            updateInfoBar();
-        }
-        
-        // Sonraki Kart
-        const nextCard = (event) => {
-            // Speaker ikonuna tıklandıysa kartı çevirme
-            if (event && event.target.closest('.speaker-icon-card')) {
-                return;
-            }
-            // Quiz açıkken kartları değiştirmeyi engelle
-            if (quizContainer && (quizContainer.style.display !== 'none' && quizContainer.style.display !== '')) {
-                return;
-            }
-
-            const activeCard = document.getElementById('active-card');
-            if (activeCard) {
-                activeCard.classList.remove('active');
-                activeCard.style.transform = 'translateX(100%) scale(0.9) rotate(5deg)'; 
-                activeCard.style.opacity = '0';
-            }
-            
-            window.speechSynthesis.cancel();
-
-            setTimeout(() => {
-                currentIndex = (currentIndex + 1) % wordList.length;
-                createCard(wordList[currentIndex]);
-            }, 300); 
-        };
-        
-        // Önceki Kart
-        const prevCard = () => {
-             // Quiz açıkken kartları değiştirmeyi engelle
-            if (quizContainer && (quizContainer.style.display !== 'none' && quizContainer.style.display !== '')) {
-                return;
-            }
-
-            const activeCard = document.getElementById('active-card');
-            if (activeCard) {
-                activeCard.classList.remove('active');
-                activeCard.style.transform = 'translateX(-100%) scale(0.9) rotate(-5deg)';
-                activeCard.style.opacity = '0';
-            }
-
-            window.speechSynthesis.cancel();
-
-            setTimeout(() => {
-                currentIndex = (currentIndex - 1 + wordList.length) % wordList.length;
-                createCard(wordList[currentIndex]);
-            }, 300); 
-        };
-
-        // Klavye Kontrolleri
-        document.addEventListener('keydown', (e) => {
-            // Quiz kapalıysa çalıştır
-            const isQuizOpen = quizContainer.style.display === 'block';
-            
-            if (!isQuizOpen) {
-                 if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
-                    e.preventDefault(); 
-                    nextCard();
-                } else if (e.key === 'ArrowLeft') {
-                    e.preventDefault();
-                    prevCard();
-                } else if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    speakWord(wordList[currentIndex].word);
-                }
-            }
-        });
-
-        // Global fonksiyon olarak ata (HTML onclick için gerekli olabilir)
-        window.nextCard = nextCard; 
-        window.speakWord = speakWord;
-        window.speakQuizWord = speakQuizWord;
-
-        // --- QUIZ MANTIK FONKSİYONLARI ---
-
-        // Karıştırma
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        // Seçenekleri Üretme
-        function generateWordOptions(correctWord, correctMeaning) {
-            // Doğru cevap dışındaki tüm anlamları al
-            const incorrectOptions = allTranslations.filter(t => t !== correctMeaning);
-            // Rastgele 3 yanlış seç
-            let chosenIncorrect = shuffleArray(incorrectOptions).slice(0, 3);
-            // Doğru cevabı ekle
-            let options = [...chosenIncorrect, correctMeaning];
-            // Hepsini karıştır
-            return shuffleArray(options); 
-        }
-
-        // Soruyu Ekrana Basma
-        function displayWordQuestion() {
-            questionArea.style.display = 'block';
-            resultsScreen.style.display = 'none';
-
-            if (currentQuestionIndexQuiz >= quizDataShuffled.length) {
-                showWordQuizResults();
-                return;
-            }
-
-            const currentQ = quizDataShuffled[currentQuestionIndexQuiz];
-            currentWordDiv.textContent = currentQ.word; // Soru: İngilizce Kelime
-            quizProgress.textContent = `${currentQuestionIndexQuiz + 1}/${quizDataShuffled.length}`;
-            const progressPercentage = (currentQuestionIndexQuiz / quizDataShuffled.length) * 100;
-            progressBar.style.width = `${progressPercentage}%`;
-            
-            optionsContainer.innerHTML = '';
-            
-            const options = generateWordOptions(currentQ.word, currentQ.meaning); 
-
-            options.forEach(option => {
-                const button = document.createElement('button');
-                button.classList.add('option-button');
-                button.textContent = option;
-                button.setAttribute('data-answer', option);
-                button.onclick = () => checkWordAnswer(button, option, currentQ.meaning); 
+            VStack(spacing: 20) {
+                // --- Üst Kısım ---
+                Spacer().frame(height: 20)
+                Image(systemName: "crown.fill") // Kendi ikonunuzu buraya koyun
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 50)
+                    .foregroundColor(brightYellow) // Sarı rengi kullan
+                    .shadow(radius: 2)
                 
-                // Seçenek içine gizli check işareti ekle
-                const checkMark = document.createElement('span');
-                checkMark.classList.add('check-mark');
-                checkMark.textContent = '✓';
-                button.appendChild(checkMark);
-
-                optionsContainer.appendChild(button);
-            });
-            window.speechSynthesis.cancel(); 
-        }
-
-        // Cevap Kontrolü
-        function checkWordAnswer(selectedButton, selectedAnswer, correctAnswer) {
-            // Tüm butonları devre dışı bırak
-            Array.from(optionsContainer.children).forEach(btn => btn.disabled = true);
-            
-            if (selectedAnswer === correctAnswer) {
-                selectedButton.classList.add('correct', 'selected');
-                scoreQuiz++;
-            } else {
-                selectedButton.classList.add('wrong');
-                // Doğru olanı yeşil yap
-                const correctButton = Array.from(optionsContainer.children).find(btn => btn.getAttribute('data-answer') === correctAnswer);
-                if (correctButton) {
-                    correctButton.classList.add('correct');
+                Text("İngilizce kelime öğrenmenin\nen etkili yolu")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.white)
+                
+                // --- Özellik Listesi (Beyaz Kutu) ---
+                VStack(alignment: .leading, spacing: 15) {
+                    FeatureRow(icon: "crown.fill", text: "Premium'a özel paketleri çalışmaya başlayın", iconColor: brightYellow) // Sarı ikon
+                    FeatureRow(icon: "plus.app.fill", text: "Kendi kelime paketlerinizi oluşturun", iconColor: lightBlue)
+                    FeatureRow(icon: "equal.square.fill", text: "Eş anlamlı çalışması ile daha fazla kelime öğrenin", iconColor: lightBlue)
+                    FeatureRow(icon: "lightbulb.fill", text: "2500'den fazla kelimeyi görsellerle kolayca öğrenin", iconColor: lightBlue)
                 }
+                .padding()
+                .background(Color.white)
+                .cornerRadius(12)
+                .padding(.horizontal)
+                
+                // --- Planlar ---
+                Text("PLANLAR")
+                    .font(.caption) // Daha küçük ve sade bir font
+                    .fontWeight(.bold)
+                    .foregroundColor(.gray)
+                    .padding(.top, 10)
+                
+                VStack(spacing: 12) {
+                    ForEach(plans) { plan in
+                        PlanCard(plan: plan, isSelected: selectedPlanId == plan.id, accentColor: lightBlue, bestValueColor: brightYellow)
+                            .onTapGesture {
+                                withAnimation(.spring()) { // Animasyon ekledim
+                                    selectedPlanId = plan.id
+                                }
+                            }
+                    }
+                }
+                .padding(.horizontal)
+                
+                Spacer()
+                
+                // --- Satın Alma Butonu ---
+                Button(action: {
+                    print("Satın alma işlemi başlatıldı: \(String(describing: selectedPlanId))")
+                    // Buraya StoreKit veya RevenueCat kodları gelecek
+                }) {
+                    Text("Premium'a Yükselt")
+                        .font(.title3) // Daha belirgin font
+                        .fontWeight(.heavy)
+                        .foregroundColor(.black) 
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(brightYellow) // Sarı renk
+                        .cornerRadius(30)
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 20)
             }
-
-            setTimeout(() => {
-                currentQuestionIndexQuiz++;
-                displayWordQuestion();
-            }, 1200); // Kullanıcının doğru cevabı görmesi için biraz bekle
         }
-        
-        // Sonuç Ekranı
-        function showWordQuizResults() {
-            questionArea.style.display = 'none';
-            resultsScreen.style.display = 'block';
+    }
+}
+
+// MARK: - Yardımcı Görünüm: Özellik Satırı
+struct FeatureRow: View {
+    let icon: String
+    let text: String
+    let iconColor: Color // Renk dışarıdan alınsın
+    
+    var body: some View {
+        HStack(alignment: .top) {
+            Image(systemName: icon)
+                .foregroundColor(iconColor)
+                .frame(width: 24)
+            Text(text)
+                .font(.subheadline)
+                .foregroundColor(.gray)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+}
+
+// MARK: - Yardımcı Görünüm: Plan Kartı
+struct PlanCard: View {
+    let plan: SubscriptionPlan
+    let isSelected: Bool
+    let accentColor: Color // Mavi renk
+    let bestValueColor: Color // Sarı renk
+    
+    var body: some View {
+        HStack {
+            // Radyo Butonu İkonu
+            Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                .resizable()
+                .frame(width: 24, height: 24)
+                .foregroundColor(isSelected ? bestValueColor : .gray.opacity(0.5)) // Seçiliyse sarı
+                .padding(.leading, 10)
             
-            const totalQuestions = quizDataShuffled.length;
-            const wrongCount = totalQuestions - scoreQuiz;
-
-            correctCountSpan.textContent = scoreQuiz;
-            totalQuestionsCountSpan.textContent = totalQuestions;
-            wrongCountSpan.textContent = wrongCount;
-
-            progressBar.style.width = '100%';
-        }
-
-        // Quiz Yeniden Başlatma
-        function restartWordQuiz() {
-            currentQuestionIndexQuiz = 0;
-            scoreQuiz = 0;
-            quizDataShuffled = shuffleArray([...wordList]); // Listenin kopyasını al ve karıştır
-            displayWordQuestion();
-        }
-        
-        // --- EVENT LISTENERS ---
-        const closeQuiz = () => {
-            quizContainer.style.display = 'none';
-            quizOverlay.style.display = 'none'; 
-            toggleQuizButton.style.display = 'block';
-            window.speechSynthesis.cancel();
-        };
-
-        toggleQuizButton.addEventListener('click', () => {
-            quizContainer.style.display = 'block'; 
-            quizOverlay.style.display = 'block'; 
-            toggleQuizButton.style.display = 'none';
-            restartWordQuiz();
-        });
-        
-        // Kapatma butonu ve overlay tıklaması
-        quizBackButton.addEventListener('click', closeQuiz);
-        quizOverlay.addEventListener('click', closeQuiz);
-
-
-        restartQuizButton.addEventListener('click', restartWordQuiz);
-
-        // Sayfa Yüklendiğinde Başlatma
-        document.addEventListener('DOMContentLoaded', function() {
-            if (wordList.length > 0) {
-                createCard(wordList[currentIndex]);
-            } else {
-                container.innerHTML = '<h2>Liste boş.</h2>';
-                infoText.textContent = 'Liste boş.';
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    Text(plan.title)
+                        .font(.headline)
+                        .foregroundColor(.black)
+                    
+                    if plan.isBestValue {
+                        Text("EN AVANTAJLI")
+                            .font(.caption2)
+                            .fontWeight(.bold)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(bestValueColor) // Sarı renk
+                            .foregroundColor(.black)
+                            .cornerRadius(10)
+                    }
+                }
+                
+                Text(plan.perMonth)
+                    .font(.subheadline)
+                    .foregroundColor(isSelected ? bestValueColor : .gray) // Seçiliyse sarı
             }
-            // Başlangıçta quiz kapalı
-            quizContainer.style.display = 'none'; 
-            quizOverlay.style.display = 'none';
-        });
+            
+            Spacer()
+            
+            Text(plan.price)
+                .font(.headline)
+                .foregroundColor(accentColor) // Mavi fiyat
+                .padding(.trailing, 10)
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(12)
+        // Seçili ise kenarlık ekle
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(isSelected ? accentColor : Color.clear, lineWidth: 2) // Seçiliyse mavi kenarlık
+        )
+        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2) // Daha belirgin gölge
+    }
+}
 
-    </script>
-</body>
-</html>
+// MARK: - Preview
+struct PaywallView_Previews: PreviewProvider {
+    static var previews: some View {
+        PaywallView()
+    }
+}
