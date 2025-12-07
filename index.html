@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnglishBox</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Vocab Builder Demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* GENEL AYARLAR */
         * {
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #eef1f5; /* Açık gri arka plan */
+            background-color: #f2f2f7; /* Hafif gri arka plan */
             display: flex;
             justify-content: center;
             min-height: 100vh;
@@ -24,196 +24,233 @@
         /* MOBİL GÖRÜNÜM KONTEYNERİ */
         .mobile-container {
             width: 100%;
-            max-width: 400px; /* Mobil genişlik sınırı */
-            background-color: #f5f5f5;
-            position: relative;
+            max-width: 400px;
+            background-color: #fff;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            padding-bottom: 80px; /* Alt menü için boşluk */
+            position: relative;
+            overflow: hidden;
+            min-height: 800px;
+            padding-bottom: 70px; /* Navigasyon için boşluk */
         }
 
-        /* HEADER (ÜST KISIM) */
+        /* HEADER */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 20px;
-            background-color: #f5f5f5;
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #eee;
+        }
+        header h1 { font-size: 18px; font-weight: bold; }
+        .crown-icon { color: #f1c40f; font-size: 20px; }
+
+        /* SAYFA YAPISI */
+        .page {
+            display: none; /* Sayfalar varsayılan olarak gizli */
+            animation: fadeIn 0.3s ease;
+        }
+        .page.active {
+            display: block; /* Sadece aktif sayfa görünür */
         }
 
-        header h1 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #222;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        .header-icon {
-            font-size: 20px;
-            color: #555;
-            cursor: pointer;
-        }
-
-        .crown-icon {
-            color: #fbc02d; /* Altın rengi */
-        }
-
-        /* KART LİSTESİ */
-        .card-list {
-            padding: 10px;
-        }
-
+        /* --- SAYFA 1: ANA LİSTE (HOME) --- */
         .card {
-            background-color: white;
+            background: #fff;
+            margin: 15px;
             border-radius: 12px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
             overflow: hidden;
         }
 
-        .card-body {
-            display: flex;
+        .card-content {
             padding: 15px;
+            display: flex;
             align-items: center;
         }
 
-        /* Yuvarlak Resim Alanı */
-        .card-image {
+        .card-icon {
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background-color: #ddd; /* Resim yoksa gri */
             margin-right: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: white;
-            flex-shrink: 0;
-            background-size: cover;
-            background-position: center;
-        }
-        
-        /* Örnek Resim Renkleri (Görseldeki gibi durması için) */
-        .img-1 { background: #3f51b5; } /* Lacivert */
-        .img-2 { background: #00bcd4; } /* Açık Mavi */
-        .img-3 { background: #e91e63; } /* Pembe */
-        .img-4 { background: #2196f3; } /* Mavi */
-
-        .card-content {
-            flex-grow: 1;
+            object-fit: cover;
         }
 
-        .card-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 4px;
-        }
+        .card-info h3 { font-size: 16px; margin-bottom: 5px; color: #333; }
+        .card-info p { font-size: 13px; color: #888; margin-bottom: 8px; }
 
-        .card-subtitle {
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 8px;
-        }
-
-        /* İlerleme Çubuğu */
-        .progress-bg {
-            width: 100%;
+        .progress-bar {
             height: 6px;
-            background-color: #e0e0e0;
+            background-color: #eee;
             border-radius: 3px;
+            width: 100%;
         }
-
         .progress-fill {
             height: 100%;
-            background-color: #448aff; /* Mavi dolgu */
+            background-color: #3498db;
+            width: 0%; /* İlerleme */
             border-radius: 3px;
-            width: 0%; /* Varsayılan */
-        }
-
-        /* DEVAM ET BUTONU KISMI */
-        .card-footer {
-            border-top: 1px solid #f0f0f0;
-            text-align: center;
-            padding: 12px;
         }
 
         .btn-continue {
-            background: none;
+            width: 100%;
+            padding: 12px;
+            background: #fff;
             border: none;
-            color: #445566;
-            font-weight: 700;
-            font-size: 13px;
+            border-top: 1px solid #eee;
+            color: #333;
+            font-weight: bold;
+            font-size: 14px;
             cursor: pointer;
-            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: background 0.2s;
+        }
+        .btn-continue:hover { background-color: #f5f5f5; }
+
+        /* --- SAYFA 2: DETAY (UNITS) --- */
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background: #fff;
+            margin-bottom: 10px;
+        }
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 30%;
+        }
+        .stat-icon-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .stat-text { font-size: 11px; color: #666; line-height: 1.2; }
+        
+        .bg-yellow { background-color: #f1c40f; }
+        .bg-red { background-color: #e74c3c; }
+        .bg-green { background-color: #a3cb38; }
+
+        .percentage-row {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 20px;
+            background: #fff;
+            color: #f39c12;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 20px;
         }
 
-        /* FLOATING ACTION BUTTON (Sarı + Butonu) */
+        /* Timeline / Ünite Listesi */
+        .timeline {
+            padding: 0 20px;
+        }
+        .unit-item {
+            display: flex;
+            align-items: flex-start;
+            position: relative;
+            padding-bottom: 30px;
+        }
+        /* Dotted Line Effect */
+        .unit-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 20px; /* Dairenin merkezi */
+            top: 40px;
+            bottom: 0;
+            width: 2px;
+            border-left: 2px dotted #ddd;
+        }
+
+        .unit-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            flex-shrink: 0;
+            z-index: 2;
+        }
+        .unit-content {
+            margin-left: 15px;
+            padding-top: 8px;
+        }
+        .unit-title { font-weight: bold; font-size: 16px; color: #333; }
+        .unit-subtitle { font-size: 13px; color: #999; margin-top: 4px; }
+
+        /* Ünite Renkleri */
+        .u1 { background-color: #e91e63; }
+        .u2 { background-color: #3498db; }
+        .u3 { background-color: #000; }
+        .u4 { background-color: #8bc34a; }
+        .u5 { background-color: #e67e22; }
+
+        /* NAVIGATION BAR */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            background: #fff;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .nav-item {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .nav-item.active { color: #3498db; }
+        .nav-item i { font-size: 20px; margin-bottom: 4px; display: block; }
+        
+        /* Floating Button (+) */
         .fab {
-            position: fixed;
-            bottom: 85px; /* Menünün hemen üstünde */
-            right: 20px; /* Masaüstünde ortalamak için JS gerekebilir ama basitçe sağa yasladık */
-            width: 56px;
-            height: 56px;
-            background-color: #fdd835; /* Sarı */
+            position: absolute;
+            bottom: 80px;
+            right: 20px;
+            width: 55px;
+            height: 55px;
+            background-color: #f1c40f;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            cursor: pointer;
-            z-index: 20;
-        }
-
-        .fab i {
             font-size: 24px;
             color: #333;
-        }
-        
-        /* Masaüstü düzeltmesi için FAB'ı container içine göre konumlandırma hilesi */
-        @media (min-width: 401px) {
-            .fab {
-                position: absolute;
-                bottom: 85px;
-                right: 20px;
-            }
-        }
-
-        /* ALT NAVİGASYON */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: 400px;
-            height: 70px;
-            background-color: white;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1px solid #eee;
-            z-index: 10;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #999;
-            font-size: 12px;
             cursor: pointer;
         }
 
-        .nav-item i {
-            font-size: 22px;
-            margin-bottom: 4px;
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            margin-right: 15px;
+            cursor: pointer;
+            color: #333;
         }
-
-        .nav-item.active {
-            color: #1976d2; /* Aktif mavi renk */
-        }
-
     </style>
 </head>
 <body>
@@ -221,99 +258,167 @@
     <div class="mobile-container">
         
         <header>
-            <i class="fas fa-bars header-icon"></i>
-            <h1>EnglishBox</h1>
-            <i class="fas fa-crown header-icon crown-icon"></i>
+            <div style="display:flex; align-items:center;">
+                <button id="back-button" class="back-button" style="display:none; border:none; background:none; font-size:18px; margin-right:10px; cursor:pointer;">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <i class="fas fa-bars" id="menu-icon"></i>
+                <h1 style="margin-left: 15px;">Vocab Builder</h1>
+            </div>
+            <i class="fas fa-crown crown-icon"></i>
         </header>
 
-        <div class="card-list">
-
+        <div id="home-page" class="page active">
             <div class="card">
-                <div class="card-body">
-                    <div class="card-image img-1"><i class="fas fa-landmark"></i></div>
-                    <div class="card-content">
-                        <div class="card-title">İleri Düzey Akademik Fiiller</div>
-                        <div class="card-subtitle">435 kelimeden 0 tanesi öğrenildi.</div>
-                        <div class="progress-bg">
-                            <div class="progress-fill" style="width: 0%;"></div>
-                        </div>
+                <div class="card-content">
+                    <img src="https://via.placeholder.com/60/34495e/ffffff?text=UK" class="card-icon" alt="icon">
+                    <div class="card-info">
+                        <h3>İleri Düzey Akademik Fiiller</h3>
+                        <p>435 kelimeden 0 tanesi öğrenildi.</p>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 5%"></div></div>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <button class="btn-continue">DEVAM ET</button>
-                </div>
+                <button class="btn-continue" onclick="openDetailPage()">DEVAM ET</button>
             </div>
 
             <div class="card">
-                <div class="card-body">
-                    <div class="card-image img-2"><i class="fas fa-bus"></i></div>
-                    <div class="card-content">
-                        <div class="card-title">Akademik Zarflar</div>
-                        <div class="card-subtitle">310 kelimeden 0 tanesi öğrenildi.</div>
-                        <div class="progress-bg">
-                            <div class="progress-fill" style="width: 0%;"></div>
-                        </div>
+                <div class="card-content">
+                    <img src="https://via.placeholder.com/60/3498db/ffffff?text=Bus" class="card-icon" alt="icon">
+                    <div class="card-info">
+                        <h3>Akademik Zarflar</h3>
+                        <p>310 kelimeden 0 tanesi öğrenildi.</p>
+                        <div class="progress-bar"><div class="progress-fill"></div></div>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <button class="btn-continue">DEVAM ET</button>
-                </div>
+                <button class="btn-continue">DEVAM ET</button>
             </div>
 
             <div class="card">
-                <div class="card-body">
-                    <div class="card-image img-3"><i class="fas fa-pencil-alt"></i></div>
-                    <div class="card-content">
-                        <div class="card-title">En Çok Kullanılan İsimler</div>
-                        <div class="card-subtitle">200 kelimeden 21 tanesi öğrenildi.</div>
-                        <div class="progress-bg">
-                            <div class="progress-fill" style="width: 10%;"></div>
-                        </div>
+                <div class="card-content">
+                    <img src="https://via.placeholder.com/60/e91e63/ffffff?text=Nouns" class="card-icon" alt="icon">
+                    <div class="card-info">
+                        <h3>En Çok Kullanılan İsimler</h3>
+                        <p>200 kelimeden 21 tanesi öğrenildi.</p>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 15%; background-color:#3498db;"></div></div>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <button class="btn-continue">DEVAM ET</button>
-                </div>
+                <button class="btn-continue">DEVAM ET</button>
             </div>
-
-            <div class="card">
-                <div class="card-body">
-                    <div class="card-image img-4"><i class="fas fa-book-open"></i></div>
-                    <div class="card-content">
-                        <div class="card-title">En Çok Kullanılan Fiiller</div>
-                        <div class="card-subtitle">150 kelimeden 149 tanesi öğrenildi.</div>
-                        <div class="progress-bg">
-                            <div class="progress-fill" style="width: 99%;"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn-continue">DEVAM ET</button>
-                </div>
-            </div>
-
+             <div class="fab"><i class="fas fa-plus"></i></div>
         </div>
 
-        <div class="fab">
-            <i class="fas fa-plus"></i>
+        <div id="detail-page" class="page">
+            
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-icon-circle bg-yellow"><i class="fas fa-thumbtack"></i></div>
+                    <div class="stat-text">Unutulabilecek<br>Kelimeler</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon-circle bg-red"><i class="fas fa-times"></i></div>
+                    <div class="stat-text">Sık Yanlış<br>Cevaplananlar</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon-circle bg-green"><i class="fas fa-random"></i></div>
+                    <div class="stat-text">Karışık Tekrar<br>Çalışması</div>
+                </div>
+            </div>
+
+            <div class="percentage-row">
+                <span>% 0 <span style="font-weight:normal; color:#666; font-size:12px;">Doğru yanıtlar</span></span>
+                <span>% 0 <span style="font-weight:normal; color:#666; font-size:12px;">Öğrenilenlerin oranı</span></span>
+            </div>
+
+            <div class="timeline">
+                <div class="unit-item">
+                    <div class="unit-circle u1">1</div>
+                    <div class="unit-content">
+                        <div class="unit-title">Ünite 1</div>
+                        <div class="unit-subtitle">0/20 öğrenildi.</div>
+                    </div>
+                </div>
+                <div class="unit-item">
+                    <div class="unit-circle u2">2</div>
+                    <div class="unit-content">
+                        <div class="unit-title">Ünite 2</div>
+                        <div class="unit-subtitle">0/20 öğrenildi.</div>
+                    </div>
+                </div>
+                <div class="unit-item">
+                    <div class="unit-circle u3">3</div>
+                    <div class="unit-content">
+                        <div class="unit-title">Ünite 3</div>
+                        <div class="unit-subtitle">0/20 öğrenildi.</div>
+                    </div>
+                </div>
+                <div class="unit-item">
+                    <div class="unit-circle u4">4</div>
+                    <div class="unit-content">
+                        <div class="unit-title">Ünite 4</div>
+                        <div class="unit-subtitle">0/20 öğrenildi.</div>
+                    </div>
+                </div>
+                <div class="unit-item">
+                    <div class="unit-circle u5">5</div>
+                    <div class="unit-content">
+                        <div class="unit-title">Ünite 5</div>
+                        <div class="unit-subtitle">0/20 öğrenildi.</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <nav class="bottom-nav">
-            <div class="nav-item active">
+
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="goHome()">
                 <i class="fas fa-home"></i>
-                <span>Home</span>
+                Home
             </div>
             <div class="nav-item">
                 <i class="fas fa-user"></i>
-                <span>Profil</span>
+                Profil
             </div>
             <div class="nav-item">
                 <i class="fas fa-bolt"></i>
-                <span>Kelimelerim</span>
+                Kelimelerim
             </div>
-        </nav>
+        </div>
 
     </div>
+
+    <script>
+        // Sayfa Elemanlarını Seç
+        const homePage = document.getElementById('home-page');
+        const detailPage = document.getElementById('detail-page');
+        const backButton = document.getElementById('back-button');
+        const menuIcon = document.getElementById('menu-icon');
+
+        // Detay Sayfasını Açan Fonksiyon
+        function openDetailPage() {
+            homePage.classList.remove('active');
+            detailPage.classList.add('active');
+            
+            // Header'ı güncelle
+            backButton.style.display = 'block';
+            menuIcon.style.display = 'none';
+            
+            // Sayfanın en üstüne kaydır
+            window.scrollTo(0,0);
+        }
+
+        // Ana Sayfaya Dönen Fonksiyon
+        function goHome() {
+            detailPage.classList.remove('active');
+            homePage.classList.add('active');
+
+            // Header'ı güncelle
+            backButton.style.display = 'none';
+            menuIcon.style.display = 'block';
+        }
+
+        // Geri butonuna tıklama olayı
+        backButton.addEventListener('click', goHome);
+    </script>
 
 </body>
 </html>
