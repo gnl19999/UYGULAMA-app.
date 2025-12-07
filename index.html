@@ -40,14 +40,14 @@
 
         .search-box {
             position: sticky;
-            top: 0; /* Arama kutusunun en üste yapışması için 0 olarak ayarlandı */
+            top: 0;
             z-index: 100;
             background: var(--bg-color);
-            padding: 10px 0 20px 0; /* Alttan boşluk artırıldı */
-            margin: 0 -20px; /* Kenar boşluklarını telafi etmek için */
+            padding: 10px 0 20px 0;
+            margin: 0 -20px;
             padding-left: 20px;
             padding-right: 20px;
-            box-shadow: 0 4px 5px -2px rgba(0,0,0,0.1); /* Kayarken daha belirgin olması için gölge eklendi */
+            box-shadow: 0 4px 5px -2px rgba(0,0,0,0.1);
         }
         
         /* Input'un kapsayıcı div'inden gelen ekstra padding'i ayarlamak için */
@@ -75,6 +75,17 @@
             font-size: 12px;
             color: #666;
             margin-top: 5px;
+        }
+        /* Başlangıçta boş olacağı için bu mesajı daha belirgin yaptık */
+        .initial-message {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+            font-size: 1.2em;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background-color: var(--card-bg);
+            margin-top: 20px;
         }
 
         .dictionary-list {
@@ -121,6 +132,10 @@
         </div>
     </div>
 
+    <div id="initial-message" class="initial-message">
+        Lütfen arama kutusuna bir kelime yazarak sözlükte arama yapın.
+    </div>
+
     <div id="dictionaryList" class="dictionary-list"></div>
 </div>
 
@@ -161,7 +176,7 @@
         { en: "Per", pr: "pör", tr: "Başına" },
         { en: "Plus", pr: "plas", tr: "Ve ayrıca" },
         { en: "Regarding", pr: "rigarding", tr: "Hakkında, -ilişkin" },
-        { en: "Save", pr: "seyv", tr: "-den başka, hariç" }, /* HATA DÜZELTİLDİ: tr: eklendi */
+        { en: "Save", pr: "seyv", tr: "-den başka, hariç" },
         { en: "Saving", pr: "seyving", tr: "-den başka, hariç" },
         { en: "Through", pr: "turuu", tr: "İçinden" },
         { en: "Considering", pr: "kınsaydıring", tr: "-e göre" },
@@ -584,13 +599,23 @@
     const searchInput = document.getElementById('searchInput');
     const dictionaryList = document.getElementById('dictionaryList');
     const totalCountSpan = document.getElementById('totalCount');
+    const initialMessage = document.getElementById('initial-message');
 
-    // Başlangıçta tüm listeyi göster
-    renderWords(words);
+    // Başlangıçta listeyi gösterme çağrısı kaldırıldı.
 
     // Arama fonksiyonu
     searchInput.addEventListener('keyup', (e) => {
-        const searchString = e.target.value.toLowerCase().trim(); /* Boşlukları temizle */
+        const searchString = e.target.value.toLowerCase().trim();
+
+        if (searchString === "") {
+            // Arama kutusu boşsa, listeyi temizle ve başlangıç mesajını göster
+            renderWords([]);
+            initialMessage.style.display = 'block';
+            return;
+        }
+
+        // Arama yapıldığında başlangıç mesajını gizle
+        initialMessage.style.display = 'none';
         
         const filteredWords = words.filter(word => {
             // Güvenli erişim ve filtreleme
@@ -630,6 +655,10 @@
             dictionaryList.appendChild(card);
         });
     }
+
+    // Sayfa yüklendiğinde listeyi bir kez temizle ve başlangıç mesajını göster
+    renderWords([]);
+
 </script>
 
 </body>
