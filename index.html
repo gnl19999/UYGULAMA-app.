@@ -40,10 +40,20 @@
 
         .search-box {
             position: sticky;
-            top: 20px;
+            top: 0; /* Arama kutusunun en üste yapışması için 0 olarak ayarlandı */
             z-index: 100;
             background: var(--bg-color);
-            padding: 10px 0;
+            padding: 10px 0 20px 0; /* Alttan boşluk artırıldı */
+            margin: 0 -20px; /* Kenar boşluklarını telafi etmek için */
+            padding-left: 20px;
+            padding-right: 20px;
+            box-shadow: 0 4px 5px -2px rgba(0,0,0,0.1); /* Kayarken daha belirgin olması için gölge eklendi */
+        }
+        
+        /* Input'un kapsayıcı div'inden gelen ekstra padding'i ayarlamak için */
+        .search-input-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         input[type="text"] {
@@ -82,12 +92,18 @@
             justify-content: space-between;
             align-items: center;
             border-left: 5px solid var(--accent-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .word-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .en-word { font-size: 20px; font-weight: bold; color: var(--primary-color); }
         .pronunciation { font-size: 14px; color: #7f8c8d; font-style: italic; margin-left: 10px; }
         .tr-word { font-size: 18px; color: #27ae60; font-weight: 500; text-align: right; }
-        .no-results { text-align: center; padding: 40px; color: #7f8c8d; }
+        .no-results { text-align: center; padding: 40px; color: #7f8c8d; font-size: 1.2em; }
     </style>
 </head>
 <body>
@@ -99,8 +115,10 @@
     </header>
 
     <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Kelime ara (Örn: Above, Terk etmek)...">
-        <div id="result-count">Listelenen kelime: <span id="totalCount">0</span></div>
+        <div class="search-input-wrapper">
+            <input type="text" id="searchInput" placeholder="Kelime ara (Örn: Above, Terk etmek)...">
+            <div id="result-count">Listelenen kelime: <span id="totalCount">0</span></div>
+        </div>
     </div>
 
     <div id="dictionaryList" class="dictionary-list"></div>
@@ -143,8 +161,8 @@
         { en: "Per", pr: "pör", tr: "Başına" },
         { en: "Plus", pr: "plas", tr: "Ve ayrıca" },
         { en: "Regarding", pr: "rigarding", tr: "Hakkında, -ilişkin" },
-        { en: "Save", pr: "seyv", "-den başka, hariç" },
-        { en: "Saving", pr: "seyving", "-den başka, hariç" },
+        { en: "Save", pr: "seyv", tr: "-den başka, hariç" }, /* HATA DÜZELTİLDİ: tr: eklendi */
+        { en: "Saving", pr: "seyving", tr: "-den başka, hariç" },
         { en: "Through", pr: "turuu", tr: "İçinden" },
         { en: "Considering", pr: "kınsaydıring", tr: "-e göre" },
         { en: "During", pr: "during", tr: "Esnasında" },
@@ -572,11 +590,14 @@
 
     // Arama fonksiyonu
     searchInput.addEventListener('keyup', (e) => {
-        const searchString = e.target.value.toLowerCase();
+        const searchString = e.target.value.toLowerCase().trim(); /* Boşlukları temizle */
         
         const filteredWords = words.filter(word => {
-            return word.en.toLowerCase().includes(searchString) || 
-                   word.tr.toLowerCase().includes(searchString);
+            // Güvenli erişim ve filtreleme
+            const enMatch = word.en ? word.en.toLowerCase().includes(searchString) : false;
+            const trMatch = word.tr ? word.tr.toLowerCase().includes(searchString) : false;
+            
+            return enMatch || trMatch;
         });
 
         renderWords(filteredWords);
@@ -587,20 +608,23 @@
         totalCountSpan.textContent = data.length;
 
         if (data.length === 0) {
-            dictionaryList.innerHTML = '<div class="no-results">Aradığınız kelime bulunamadı.</div>';
+            dictionaryList.innerHTML = '<div class="no-results">😔 Aradığınız kelime bulunamadı. Lütfen farklı bir kelime deneyin.</div>';
             return;
         }
 
         data.forEach(word => {
+            // Telaffuz (pr) bilgisinin olup olmadığını kontrol et
+            const pronunciationText = word.pr ? `/${word.pr}/` : ''; 
+            
             const card = document.createElement('div');
             card.classList.add('word-card');
             
             card.innerHTML = `
                 <div>
                     <span class="en-word">${word.en}</span>
-                    <span class="pronunciation">/${word.pr}/</span>
+                    <span class="pronunciation">${pronunciationText}</span>
                 </div>
-                <div class="tr-word">${word.tr}</div>
+                <div class="tr-word">${word.tr || 'Çeviri yok'}</div> 
             `;
             
             dictionaryList.appendChild(card);
