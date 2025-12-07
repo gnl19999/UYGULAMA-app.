@@ -1,146 +1,34 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İngilizce Kelime Sözlüğü</title>
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --accent-color: #3498db;
-            --bg-color: #f4f6f7;
-            --card-bg: #ffffff;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            background: var(--primary-color);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        h1 { margin: 0; font-size: 24px; }
-        p { margin: 5px 0 0; font-size: 14px; opacity: 0.8; }
-
-        .search-box {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: var(--bg-color);
-            padding: 10px 0 20px 0;
-            margin: 0 -20px;
-            padding-left: 20px;
-            padding-right: 20px;
-            box-shadow: 0 4px 5px -2px rgba(0,0,0,0.1);
-        }
+<!DOCTYPE html><html lang="tr"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>İngilizce Kelime Sözlüğü</title>    <style>        :root {            --primary-color: #2c3e50;            --accent-color: #3498db;            --bg-color: #f4f6f7;            --card-bg: #ffffff;        }
+        body {            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;            background-color: var(--bg-color);            margin: 0;            padding: 20px;            color: #333;        }
+        .container {            max-width: 800px;            margin: 0 auto;        }
+        header {            text-align: center;            margin-bottom: 30px;            background: var(--primary-color);            color: white;            /* LOGO İÇİN DOLGUYU ARTIRDIK */
+            padding: 30px 20px;            border-radius: 10px;            box-shadow: 0 4px 6px rgba(0,0,0,0.1);        }
         
-        /* Input'un kapsayıcı div'inden gelen ekstra padding'i ayarlamak için */
-        .search-input-wrapper {
-            max-width: 800px;
-            margin: 0 auto;
+        /* YENİ LOGO STİLİ */
+        .header-logo {
+            width: 120px; /* Logonun boyutu */
+            height: auto;
+            display: block; 
+            margin: 0 auto 10px auto; /* Ortala ve alttan boşluk ver */
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
         }
 
-        input[type="text"] {
-            width: 100%;
-            padding: 15px;
-            font-size: 18px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.3s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
+        h1 { margin: 0; font-size: 28px; } /* H1 boyutunu ayarladık */
+        p { margin: 5px 0 0; font-size: 14px; opacity: 0.8; }
+        .search-box {            position: sticky;            top: 0;            z-index: 100;            background: var(--bg-color);            padding: 10px 0 20px 0;            margin: 0 -20px;            padding-left: 20px;            padding-right: 20px;            box-shadow: 0 4px 5px -2px rgba(0,0,0,0.1);        }                /* Input'un kapsayıcı div'inden gelen ekstra padding'i ayarlamak için */        .search-input-wrapper {            max-width: 800px;            margin: 0 auto;        }
+        input[type="text"] {            width: 100%;            padding: 15px;            font-size: 18px;            border: 2px solid #ddd;            border-radius: 8px;            box-sizing: border-box;            outline: none;            transition: border-color 0.3s;            box-shadow: 0 2px 5px rgba(0,0,0,0.05);        }
         input[type="text"]:focus { border-color: var(--accent-color); }
-
-        #result-count {
-            text-align: right;
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-        }
-        /* Başlangıçta boş olacağı için bu mesajı daha belirgin yaptık */
-        .initial-message {
-            text-align: center;
-            padding: 40px;
-            color: #6c757d;
-            font-size: 1.2em;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            background-color: var(--card-bg);
-            margin-top: 20px;
-        }
-
-        .dictionary-list {
-            display: grid;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .word-card {
-            background: var(--card-bg);
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 5px solid var(--accent-color);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .word-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .en-word { font-size: 20px; font-weight: bold; color: var(--primary-color); }
-        .pronunciation { font-size: 14px; color: #7f8c8d; font-style: italic; margin-left: 10px; }
-        .tr-word { font-size: 18px; color: #27ae60; font-weight: 500; text-align: right; }
-        .no-results { text-align: center; padding: 40px; color: #7f8c8d; font-size: 1.2em; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <header>
-        <h1>ENGLISHBOX</h1>
-         <p>YDS</p>
-        <p>En Çok Kullanılan Kelimeler Listesi</p>
-    </header>
-
-    <div class="search-box">
-        <div class="search-input-wrapper">
-            <input type="text" id="searchInput" placeholder="Kelime ara (Örn: Above, Terk etmek)..." aria-label="Sözlükte İngilizce veya Türkçe kelime arayın">
-            <div id="result-count">Listelenen kelime: <span id="totalCount">0</span></div>
-        </div>
-    </div>
-
-    <div id="initial-message" class="initial-message">
-        Lütfen arama kutusuna bir kelime yazarak sözlükte arama yapın.
-    </div>
-
-    <div id="dictionaryList" class="dictionary-list"></div>
-</div>
-
-<script>
+        #result-count {            text-align: right;            font-size: 12px;            color: #666;            margin-top: 5px;        }        /* Başlangıçta boş olacağı için bu mesajı daha belirgin yaptık */        .initial-message {            text-align: center;            padding: 40px;            color: #6c757d;            font-size: 1.2em;            border: 1px solid #dee2e6;            border-radius: 8px;            background-color: var(--card-bg);            margin-top: 20px;        }
+        .dictionary-list {            display: grid;            gap: 10px;            margin-top: 20px;        }
+        .word-card {            background: var(--card-bg);            padding: 15px 20px;            border-radius: 8px;            box-shadow: 0 2px 4px rgba(0,0,0,0.05);            display: flex;            justify-content: space-between;            align-items: center;            border-left: 5px solid var(--accent-color);            transition: transform 0.2s, box-shadow 0.2s;        }
+        .word-card:hover {            transform: translateY(-2px);            box-shadow: 0 4px 8px rgba(0,0,0,0.1);        }
+        .en-word { font-size: 20px; font-weight: bold; color: var(--primary-color); }        .pronunciation { font-size: 14px; color: #7f8c8d; font-style: italic; margin-left: 10px; }        .tr-word { font-size: 18px; color: #27ae60; font-weight: 500; text-align: right; }        .no-results { text-align: center; padding: 40px; color: #7f8c8d; font-size: 1.2em; }    </style></head><body>
+<div class="container">    <header>        <img src="unnamed (12).jpg" alt="ENGLISHBOX Logo" class="header-logo">
+        <h1>ENGLISHBOX</h1>         <p>YDS</p>        <p>En Çok Kullanılan Kelimeler Listesi</p>    </header>
+    <div class="search-box">        <div class="search-input-wrapper">            <input type="text" id="searchInput" placeholder="Kelime ara (Örn: Above, Terk etmek)..." aria-label="Sözlükte İngilizce veya Türkçe kelime arayın">            <div id="result-count">Listelenen kelime: <span id="totalCount">0</span></div>        </div>    </div>
+    <div id="initial-message" class="initial-message">        Lütfen arama kutusuna bir kelime yazarak sözlükte arama yapın.    </div>
+    <div id="dictionaryList" class="dictionary-list"></div></div>
+<script> 
     // --- VERİTABANI BAŞLANGICI: TÜM TÜRKÇE KARŞILIKLARI 'tr' ANAHTARI ALTINA ALINDI ---
     const words = [
         // PREPOSITIONLAR
