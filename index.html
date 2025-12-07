@@ -395,8 +395,8 @@
                         <i class="fas fa-book-open"></i> </div>
                     <div class="card-info">
                         <h3>İleri Düzey Akademik Fiiller</h3>
-                        <p>435 kelimeden 21 tanesi öğrenildi.</p>
-                        <div class="progress-bar"><div class="progress-fill" style="width: 5%"></div></div>
+                        <p>50 kelimeden 1 tanesi öğrenildi.</p>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 2%"></div></div>
                     </div>
                 </div>
                 <button class="btn-continue" data-card-key="advanced_verbs">DEVAM ET</button>
@@ -496,51 +496,124 @@
 
     <script>
         // **1. YENİ KELİME VERİ MODELİ**
-        // Tüm kelime gruplarını, ünitelerini ve kelimelerini tutan ana veri yapısı
+        
+        // Verilen 50 kelimelik liste
+        const academicVerbs = [
+            { "en": "Analyze", "pr": "enılayz", "tr": "Analiz Etmek" },
+            { "en": "Identify", "pr": "aydentifay", "tr": "Tanımlamak, Belirlemek" },
+            { "en": "Determine", "pr": "dıtörmin", "tr": "Saptamak, Karar Vermek" },
+            { "en": "Establish", "pr": "estebliş", "tr": "Kurmak, Oluşturmak, Saptamak" },
+            { "en": "Investigate", "pr": "invesztigeyt", "tr": "Araştırmak, İncelemek" },
+            { "en": "Illustrate", "pr": "ilıstreyz", "tr": "Örneklemek, Resimlemek, Açıklamak" },
+            { "en": "Demonstrate", "pr": "demınstreyt", "tr": "Göstermek, Kanıtlamak" },
+            { "en": "Evaluate", "pr": "ivelüeyt", "tr": "Değerlendirmek" },
+            { "en": "Synthesize", "pr": "sintısayz", "tr": "Sentezlemek" },
+            { "en": "Formulate", "pr": "formyuleyt", "tr": "Formüle Etmek, Geliştirmek" },
+            { "en": "Define", "pr": "difayn", "tr": "Tanımlamak" },
+            { "en": "Compare", "pr": "kompeyır", "tr": "Karşılaştırmak" },
+            { "en": "Contrast", "pr": "kontraszt", "tr": "Karşıtlık Kurmak" },
+            { "en": "Argue", "pr": "argyuu", "tr": "Tartışmak, İddia Etmek" },
+            { "en": "Support", "pr": "sıport", "tr": "Desteklemek" },
+            { "en": "Challenge", "pr": "çelınc", "tr": "Sorgulamak, Meydan Okumak" }, // 'Challenged' fiil hali 'Challenge' olarak düzeltildi.
+            { "en": "Derive", "pr": "dirayv", "tr": "Türetmek, Elde Etmek" },
+            { "en": "Indicate", "pr": "indikey", "tr": "İşaret Etmek, Göstermek" },
+            { "en": "Suggest", "pr": "sıces", "tr": "Öne Sürmek, Önermek" },
+            { "en": "Conclude", "pr": "konklud", "tr": "Sonuçlandırmak" },
+            { "en": "Perceive", "pr": "pörsiv", "tr": "Algılamak" },
+            { "en": "Propose", "pr": "propouz", "tr": "Teklif Etmek, Önermek" },
+            { "en": "Observe", "pr": "obzörv", "tr": "Gözlemlemek" },
+            { "en": "Examine", "pr": "egzemin", "tr": "İncelemek, Muayene Etmek" },
+            { "en": "Apply", "pr": "ıplay", "tr": "Uygulamak" }, // İlk 25 burada biter
+
+            { "en": "Implement", "pr": "implimınt", "tr": "Uygulamaya Koymak" },
+            { "en": "Reflect", "pr": "riflekt", "tr": "Yansıtmak, Düşünmek" },
+            { "en": "Relate", "pr": "rıleyt", "tr": "İlişkilendirmek" },
+            { "en": "Discuss", "pr": "diskasıs", "tr": "Tartışmak" }, // "Discusss" 'Discuss' olarak düzeltildi
+            { "en": "Differentiate", "pr": "difırınşiyeyt", "tr": "Ayırt Etmek" },
+            { "en": "Validate", "pr": "velideyt", "tr": "Doğrulamak, Onaylamak" },
+            { "en": "Generate", "pr": "cenereyt", "tr": "Üretmek, Oluşturmak" },
+            { "en": "Evolve", "pr": "ivolv", "tr": "Gelişmek, Evrilmek" },
+            { "en": "Comprise", "pr": "komprayz", "tr": "İçermek, Kapsamak" },
+            { "en": "Precede", "pr": "prisiid", "tr": "Önce Gelmek" },
+            { "en": "Succeed", "pr": "sıksiid", "tr": "Başarılı Olmak, Yerine Geçmek" },
+            { "en": "Cite", "pr": "sayt", "tr": "Alıntı Yapmak" },
+            { "en": "Integrate", "pr": "intigreyt", "tr": "Bütünleştirmek" },
+            { "en": "Modify", "pr": "modıfay", "tr": "Değiştirmek, Uyarlamak" },
+            { "en": "Replicate", "pr": "replikeyt", "tr": "Tekrarlamak, Çoğaltmak" },
+            { "en": "Signify", "pr": "signifay", "tr": "İfade Etmek, Anlamına Gelmek" },
+            { "en": "Account for", "pr": "ekaunt for", "tr": "Açıklamak, Sorumlu Olmak" },
+            { "en": "Assess", "pr": "ases", "tr": "Değer Biçmek, Değerlendirmek" },
+            { "en": "Contribute", "pr": "kontribüut", "tr": "Katkıda Bulunmak" },
+            { "en": "Correlate", "pr": "korıleyt", "tr": "İlişkilendirmek, Korelasyon Kurmak" },
+            { "en": "Emphasize", "pr": "emfısayz", "tr": "Vurgulamak" },
+            { "en": "Extract", "pr": "ekstrakt", "tr": "Çıkarmak, Özütlemek" },
+            { "en": "Hypothesize", "pr": "haypıthısayz", "tr": "Hipotez Kurmak" },
+            { "en": "Justify", "pr": "castifay", "tr": "Gerekçelendirmek" },
+            { "en": "Reveal", "pr": "rivil", "tr": "Ortaya Çıkarmak, Açığa Vurmak" }
+        ];
+
+        // Kelimeleri 25'erli iki üniteye bölelim
+        const unit1Words = academicVerbs.slice(0, 25);
+        const unit2Words = academicVerbs.slice(25, 50);
+
+
         const vocabularyData = {
             "advanced_verbs": {
                 title: "İleri Düzey Akademik Fiiller",
                 units: [
                     { 
                         number: 1, 
-                        title: "Ünite 1 (Giriş)", 
-                        learned: 1, 
+                        title: "Ünite 1 (Temel Araştırma Fiilleri)", 
+                        learned: 1, // Örnek olarak 1 kelime öğrenilmiş bıraktık
+                        total: unit1Words.length, // Yeni toplam 25
+                        words: unit1Words
+                    },
+                    { 
+                        number: 2, 
+                        title: "Ünite 2 (Uygulama ve İlişkilendirme Fiilleri)", 
+                        learned: 0, 
+                        total: unit2Words.length, // Yeni toplam 25
+                        words: unit2Words
+                    },
+                    { 
+                        number: 3, 
+                        title: "Ünite 3 (Ek Fiiller)", 
+                        learned: 0, 
+                        total: 25,
+                        words: [
+                             { en: "Comprehend", tr: "Kavramak" },
+                             { en: "Incorporate", tr: "Dahil Etmek" },
+                             { en: "Presume", tr: "Varsaymak" },
+                        ]
+                    }
+                    // Diğer üniteler buraya eklenebilir...
+                ]
+            },
+            "academic_verbs": {
+                title: "Akademik Fiiller",
+                units: [
+                    { 
+                        number: 1, 
+                        title: "Ünite 1", 
+                        learned: 10, 
                         total: 20,
                         words: [
-                            { en: "Establish", tr: "Kurmak, Tespit Etmek" },
-                            { en: "Context", tr: "Bağlam, İçerik" },
-                            { en: "Concept", tr: "Kavram, Fikir" },
-                            { en: "Derive", tr: "Türetmek, Elde Etmek" },
-                            { en: "Source", tr: "Kaynak, Köken" },
+                            { en: "Occur", tr: "Meydana Gelmek" },
+                            { en: "Require", tr: "Gerekmek" },
+                            { en: "Assume", tr: "Varsaymak" },
                         ]
                     },
                     { 
                         number: 2, 
-                        title: "Ünite 2 (Yöntem)", 
-                        learned: 0, 
+                        title: "Ünite 2", 
+                        learned: 5, 
                         total: 20,
                         words: [
-                            { en: "Analyse", tr: "Analiz Etmek" },
-                            { en: "Structure", tr: "Yapı, Kurmak" },
-                            { en: "Interpret", tr: "Yorumlamak, Açıklamak" },
-                            { en: "Method", tr: "Yöntem, Usul" },
-                            { en: "Theory", tr: "Teori, Kuram" },
+                            { en: "Create", tr: "Yaratmak" },
+                            { en: "Specify", tr: "Belirtmek" },
+                            { en: "Vary", tr: "Değişmek" },
                         ]
                     },
-                    { 
-                        number: 3, 
-                        title: "Ünite 3 (Uygulama)", 
-                        learned: 0, 
-                        total: 20,
-                        words: [
-                            { en: "Achieve", tr: "Başarmak, Elde Etmek" },
-                            { en: "Constraint", tr: "Kısıtlama, Zorlama" },
-                            { en: "Implement", tr: "Uygulamak, Gerçekleştirmek" },
-                            { en: "Relevant", tr: "İlgili, Konuyla Alakalı" },
-                            { en: "Section", tr: "Bölüm, Kesim" },
-                        ]
-                    }
-                    // Diğer üniteler buraya eklenebilir...
                 ]
             },
             "academic_adjectives": {
@@ -621,8 +694,14 @@
                 words.forEach(word => {
                     const wordItem = document.createElement('div');
                     wordItem.className = 'word-item';
+                    
+                    // Kelime, telaffuz ve Türkçe anlamı gösteriliyor
+                    const pronunciationText = word.pr ? ` (${word.pr})` : '';
                     wordItem.innerHTML = `
-                        <span class="word-english">${word.en}</span>
+                        <div>
+                            <span class="word-english">${word.en}</span>
+                            <span style="font-size: 12px; color: #aaa;">${pronunciationText}</span>
+                        </div>
                         <span class="word-turkish">${word.tr}</span>
                     `;
                     wordListContainer.appendChild(wordItem);
@@ -633,7 +712,7 @@
 
             // İlerleme durumunu güncelle
             const detailProgress = document.getElementById('detail-unit-progress');
-            detailProgress.textContent = unitSubtitle; // Yeni fonksiyonda alt başlığı olduğu gibi kullanacağız
+            detailProgress.textContent = unitSubtitle; 
         }
 
         // **Yeni Fonksiyon:** Ünite Listesini Dinamik Oluştur
