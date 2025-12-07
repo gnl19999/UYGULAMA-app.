@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocab Builder Demo - QUIZ EKLENDİ</title>
+    <title>Kelime Testi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* GENEL AYARLAR */
@@ -19,6 +19,7 @@
             display: flex;
             justify-content: center;
             min-height: 100vh;
+            padding: 20px 10px;
         }
 
         /* MOBİL GÖRÜNÜM KONTEYNERİ */
@@ -27,59 +28,22 @@
             max-width: 400px;
             background-color: #fff;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            position: relative;
+            border-radius: 20px;
             overflow: hidden;
-            min-height: 800px;
-            padding-bottom: 70px; /* Navigasyon için boşluk */
+            padding: 30px;
         }
 
-        /* HEADER & SAYFA GEÇİŞ STİLLERİ */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background-color: #f9f9f9;
-            border-bottom: 1px solid #eee;
-        }
-        header h1 { font-size: 18px; font-weight: bold; }
-        .crown-icon { color: #f1c40f; font-size: 20px; }
-
-        .page { display: none; animation: fadeIn 0.3s ease; }
-        .page.active { display: block; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(10px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* HOME VE DETAY SAYFASI STİLLERİ (Mevcut Stiliniz) */
-        .card { background: #fff; margin: 15px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border: 1px solid #eee; overflow: hidden; }
-        .card-content { padding: 15px; display: flex; align-items: center; }
-        .card-icon { width: 60px; height: 60px; border-radius: 50%; margin-right: 15px; object-fit: cover; }
-        .card-info h3 { font-size: 16px; margin-bottom: 5px; color: #333; }
-        .card-info p { font-size: 13px; color: #888; margin-bottom: 8px; }
-        .progress-bar { height: 6px; background-color: #eee; border-radius: 3px; width: 100%; }
-        .progress-fill { height: 100%; background-color: #3498db; width: 0%; border-radius: 3px; }
-        .btn-continue { width: 100%; padding: 12px; background: #fff; border: none; border-top: 1px solid #eee; color: #333; font-weight: bold; font-size: 14px; cursor: pointer; text-transform: uppercase; transition: background 0.2s; }
-        .stats-row { display: flex; justify-content: space-around; padding: 20px; background: #fff; margin-bottom: 10px; }
-        /* Diğer Detay Sayfası Stilleri burada devam ediyor... */
-        .unit-item { display: flex; align-items: flex-start; position: relative; padding-bottom: 30px; }
-        .unit-item:not(:last-child)::before { content: ''; position: absolute; left: 20px; top: 40px; bottom: 0; width: 2px; border-left: 2px dotted #ddd; }
-        .unit-circle { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; flex-shrink: 0; z-index: 2; }
-        .u1 { background-color: #e91e63; }
-        .u2 { background-color: #3498db; }
-        /* ... diğer ünite renkleri ... */
-
-        /* --- YENİ EKLENEN QUIZ STİLLERİ --- */
-        #quiz-page, #result-page {
-            padding: 30px 20px;
+        /* QUIZ EKRANI (Quiz Page) */
+        #quiz-page {
             text-align: center;
         }
+
         .sound-icon {
             color: #f1c40f;
             font-size: 50px;
             margin-bottom: 20px;
         }
+
         .word-to-guess {
             font-size: 40px;
             font-weight: bold;
@@ -87,6 +51,7 @@
             margin-bottom: 40px;
             text-transform: lowercase;
         }
+
         .option-button {
             width: 100%;
             padding: 15px 20px;
@@ -101,89 +66,90 @@
             text-align: center;
             outline: none;
         }
+
+        /* Hover ve Seçim Efektleri */
+        .option-button:not([disabled]):hover {
+            background-color: #f0f0f0;
+            border-color: #ccc;
+        }
+
+        /* Doğru Cevap Stili */
         .option-button.correct {
             background-color: #e6ffe6; /* Açık yeşil */
             border-color: #27ae60;
             color: #27ae60;
             font-weight: bold;
         }
+
+        /* Yanlış Cevap Stili */
         .option-button.wrong {
             background-color: #ffe6e6; /* Açık kırmızı */
             border-color: #e74c3c;
             color: #e74c3c;
             font-weight: bold;
         }
-        .quiz-start-button {
-            width: 90%;
-            padding: 15px;
-            margin: 20px auto;
-            background-color: #27ae60;
-            color: white;
+
+        /* Buton Devre Dışı Bırakıldığında (Seçim Yapıldıktan Sonra) */
+        .option-button[disabled] {
+            cursor: default;
+        }
+
+        /* SONUÇ EKRANI (Result Page) */
+        #result-page {
+            text-align: center;
+            display: none;
+            padding: 50px 0;
+        }
+
+        .result-title {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .result-summary {
+            font-size: 60px;
+            font-weight: bold;
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+
+        .result-details p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .restart-button {
+            margin-top: 30px;
+            padding: 12px 30px;
+            background-color: #3498db;
+            color: #fff;
             border: none;
             border-radius: 8px;
             font-size: 16px;
-            font-weight: bold;
             cursor: pointer;
+            transition: background-color 0.2s;
         }
-        /* SONUÇ EKRANI STİLLERİ */
-        .result-title { font-size: 28px; color: #333; margin-bottom: 20px; }
-        .result-summary { font-size: 60px; font-weight: bold; color: #27ae60; margin-bottom: 10px; }
-        .result-details p { font-size: 16px; color: #666; margin-bottom: 8px; }
-        .restart-button { margin-top: 30px; padding: 12px 30px; background-color: #3498db; color: #fff; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: background-color 0.2s; }
 
-        /* HEADER Geri Butonu Stili */
-        .back-btn { background: none; border: none; font-size: 18px; margin-right: 15px; cursor: pointer; color: #333; }
+        .restart-button:hover {
+            background-color: #2980b9;
+        }
     </style>
 </head>
 <body>
 
     <div class="mobile-container">
         
-        <header>
-            <div style="display:flex; align-items:center;">
-                <button id="back-button" class="back-button" style="display:none; border:none; background:none; font-size:18px; margin-right:10px; cursor:pointer;">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-                <i class="fas fa-bars" id="menu-icon"></i>
-                <h1 style="margin-left: 15px;">Vocab Builder</h1>
-            </div>
-            <i class="fas fa-crown crown-icon"></i>
-        </header>
-
-        <div id="home-page" class="page active">
-            <div class="card">
-                <div class="card-content">
-                    <img src="https://via.placeholder.com/60/34495e/ffffff?text=UK" class="card-icon" alt="icon">
-                    <div class="card-info">
-                        <h3>İleri Düzey Akademik Fiiller</h3>
-                        <p>435 kelimeden 0 tanesi öğrenildi.</p>
-                        <div class="progress-bar"><div class="progress-fill" style="width: 5%"></div></div>
-                    </div>
-                </div>
-                <button class="btn-continue" onclick="openDetailPage()">DEVAM ET</button>
-            </div>
-            <div class="fab"><i class="fas fa-plus"></i></div>
-        </div>
-
-        <div id="detail-page" class="page">
-            <div class="stats-row"></div>
-            <div class="percentage-row"></div>
-
-            <button class="quiz-start-button" onclick="startQuiz()">
-                QUIZ ÇÖZ
-            </button>
-            
-            <div class="timeline"></div>
-        </div>
-        
-        <div id="quiz-page" class="page">
+        <div id="quiz-page">
             <i class="fas fa-volume-up sound-icon"></i>
             <div id="question-text" class="word-to-guess"></div>
+            
             <div id="options-container">
                 </div>
         </div>
 
-        <div id="result-page" class="page">
+        <div id="result-page">
             <div class="result-title">Testi Tamamladın! 🎉</div>
             <div id="score-display" class="result-summary"></div>
             <div class="result-details">
@@ -191,77 +157,65 @@
                 <p style="color:#27ae60;">Doğru Cevap: <span id="correct-count-display"></span></p>
                 <p style="color:#e74c3c;">Yanlış Cevap: <span id="wrong-count-display"></span></p>
             </div>
+            
             <button class="restart-button" onclick="startQuiz()">
                 Yeniden Başla
             </button>
         </div>
 
-
-        <div class="bottom-nav">
-            <div class="nav-item active" onclick="goHome()">
-                <i class="fas fa-home"></i>
-                Home
-            </div>
-            </div>
-
     </div>
 
     <script>
-        // Sayfa Elemanlarını Seç
-        const homePage = document.getElementById('home-page');
-        const detailPage = document.getElementById('detail-page');
+        // Quiz verileri (sorular, cevaplar ve yanlış seçenekler)
+        const quizData = [
+            {
+                word: "agreeable",
+                correctAnswer: "hoş, uyumlu, uygun",
+                options: ["kasti, planlı", "hoş, uyumlu, uygun", "farklı, belirgin, açık", "aşırı"]
+            },
+            {
+                word: "distinguish",
+                correctAnswer: "ayırt etmek, fark etmek",
+                options: ["katılmak, razı olmak", "ayırt etmek, fark etmek", "gecikmek, ertelemek", "ortaya çıkmak"]
+            },
+            {
+                word: "evident",
+                correctAnswer: "açık, belli, aşikar",
+                options: ["açık, belli, aşikar", "kaba, görgüsüz", "sınırlamak", "şüphe duymak"]
+            },
+            {
+                word: "crucial",
+                correctAnswer: "çok önemli, hayati",
+                options: ["esnek, bükülebilir", "çok önemli, hayati", "rastgele", "küçük, önemsiz"]
+            }
+        ];
+
+        // Durum değişkenleri
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answeredCount = 0;
+
+        // DOM elementleri
         const quizPage = document.getElementById('quiz-page');
         const resultPage = document.getElementById('result-page');
-        const backButton = document.getElementById('back-button');
-        const menuIcon = document.getElementById('menu-icon');
-
         const questionText = document.getElementById('question-text');
         const optionsContainer = document.getElementById('options-container');
 
-        // Quiz Verileri
-        const quizData = [
-            { word: "agreeable", correctAnswer: "hoş, uyumlu, uygun", options: ["kasti, planlı", "hoş, uyumlu, uygun", "farklı, belirgin, açık", "aşırı"] },
-            { word: "distinguish", correctAnswer: "ayırt etmek, fark etmek", options: ["katılmak, razı olmak", "ayırt etmek, fark etmek", "gecikmek, ertelemek", "ortaya çıkmak"] },
-            { word: "evident", correctAnswer: "açık, belli, aşikar", options: ["açık, belli, aşikar", "kaba, görgüsüz", "sınırlamak", "şüphe duymak"] },
-            { word: "crucial", correctAnswer: "çok önemli, hayati", options: ["esnek, bükülebilir", "çok önemli, hayati", "rastgele", "küçük, önemsiz"] }
-        ];
-
-        // Quiz Durum Değişkenleri
-        let currentQuestionIndex = 0;
-        let score = 0;
-
-        // Tüm sayfaları gizleyip sadece isteneni gösteren yardımcı fonksiyon
-        function showPage(pageElement) {
-            [homePage, detailPage, quizPage, resultPage].forEach(page => {
-                page.classList.remove('active');
-            });
-            pageElement.classList.add('active');
-            window.scrollTo(0,0);
-        }
-
-        // 1. Ana Sayfa -> Detay Sayfası
-        function openDetailPage() {
-            showPage(detailPage);
-            backButton.style.display = 'block';
-            menuIcon.style.display = 'none';
-        }
-
-        // 2. Ana Sayfaya Dönüş
-        function goHome() {
-            showPage(homePage);
-            backButton.style.display = 'none';
-            menuIcon.style.display = 'block';
-        }
-        
-        // 3. QUIZ BAŞLATMA
+        // 1. QUIZ BAŞLATMA
         function startQuiz() {
+            // Değişkenleri sıfırla
             currentQuestionIndex = 0;
             score = 0;
-            showPage(quizPage);
+            answeredCount = 0;
+
+            // Sayfa görünümlerini ayarla
+            resultPage.style.display = 'none';
+            quizPage.style.display = 'block';
+
             loadQuestion();
         }
 
-        // 4. SORU YÜKLEME
+        // 2. SORU YÜKLEME
         function loadQuestion() {
             if (currentQuestionIndex >= quizData.length) {
                 showResults();
@@ -270,30 +224,33 @@
 
             const currentQ = quizData[currentQuestionIndex];
             questionText.textContent = currentQ.word;
-            optionsContainer.innerHTML = ''; 
+            optionsContainer.innerHTML = ''; // Önceki seçenekleri temizle
 
             // Seçenekleri oluştur
             currentQ.options.forEach(option => {
                 const button = document.createElement('button');
                 button.classList.add('option-button');
                 button.textContent = option;
-                // Fonksiyon çağrılırken 'this' ile butonu gönderiyoruz.
-                button.onclick = (e) => checkAnswer(option, currentQ.correctAnswer, e.target);
+                button.onclick = () => checkAnswer(option, currentQ.correctAnswer, button);
                 optionsContainer.appendChild(button);
             });
         }
 
-        // 5. CEVAP KONTROLÜ
+        // 3. CEVAP KONTROLÜ
         function checkAnswer(selectedOption, correctAnswer, clickedButton) {
             // Tüm butonları devre dışı bırak
             Array.from(optionsContainer.children).forEach(btn => btn.disabled = true);
             
+            answeredCount++;
+
             if (selectedOption === correctAnswer) {
+                // Doğru cevap
                 score++;
                 clickedButton.classList.add('correct');
             } else {
+                // Yanlış cevap
                 clickedButton.classList.add('wrong');
-                // Doğru cevabı bul ve işaretle
+                // Doğru cevabı işaretle
                 Array.from(optionsContainer.children).forEach(btn => {
                     if (btn.textContent === correctAnswer) {
                         btn.classList.add('correct');
@@ -308,9 +265,10 @@
             }, 1000);
         }
 
-        // 6. SONUÇ EKRANI
+        // 4. SONUÇ EKRANI
         function showResults() {
-            showPage(resultPage);
+            quizPage.style.display = 'none';
+            resultPage.style.display = 'block';
             
             const totalQuestions = quizData.length;
             const wrongCount = totalQuestions - score;
@@ -321,8 +279,9 @@
             document.getElementById('wrong-count-display').textContent = wrongCount;
         }
 
-        // Geri butonuna tıklama olayı
-        backButton.addEventListener('click', goHome);
+        // Quiz'i hemen başlat
+        startQuiz();
+
     </script>
 
 </body>
