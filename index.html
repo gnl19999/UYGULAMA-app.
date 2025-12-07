@@ -16,6 +16,7 @@
             --color-yellow: #f1c40f;
             --color-red: #e74c3c;
             --color-green: #a3cb38;
+            --color-purple: #9b59b6;
         }
 
         * {
@@ -42,7 +43,8 @@
             position: relative;
             overflow: hidden;
             min-height: 800px;
-            padding-bottom: 20px;
+            /* Padding altta butona yer açmak için artırıldı */
+            padding-bottom: 70px; 
         }
 
         /* HEADER */
@@ -300,13 +302,13 @@
         .unit-detail-info {
             padding: 20px;
             text-align: center;
+            margin-bottom: 20px; /* Buton alanından önce boşluk bırakıldı */
         }
 
         .unit-progress-circle {
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background-color: var(--color-primary);
             color: #fff;
             font-size: 36px;
             font-weight: bold;
@@ -325,10 +327,75 @@
             color: #888;
             margin-bottom: 20px;
         }
+        
+        .unit-word-list {
+            padding: 0 15px;
+        }
+        .word-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--color-light-gray);
+            align-items: center;
+        }
+        .word-item:last-child {
+            border-bottom: none;
+        }
+        
+        .word-left-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .word-english {
+            font-weight: bold;
+            color: var(--color-dark);
+            font-size: 15px;
+        }
+        .word-turkish {
+            color: #666;
+            font-size: 14px;
+            text-align: right;
+        }
+
+        /* Yeni: Telaffuz İkonu */
+        .pronounce-icon {
+            color: var(--color-primary);
+            font-size: 14px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background-color 0.1s;
+        }
+        .pronounce-icon:active {
+            background-color: #f2f2f7;
+        }
+
+        /* Yeni: Sabit Footer Alanı (Action Buttons) */
+        .fixed-footer-actions {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 400px;
+            background: #fff;
+            padding: 10px 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 20;
+            display: none; /* Varsayılan olarak gizli */
+        }
+        
+        .fixed-footer-actions.active {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
         .action-button {
             display: block;
-            width: 90%;
-            margin: 15px auto;
+            width: 100%;
             padding: 15px;
             border: none;
             border-radius: 10px;
@@ -339,37 +406,9 @@
             transition: background-color 0.2s;
         }
         .btn-quiz { background-color: var(--color-green); }
-        .btn-quiz:hover { background-color: #8db532; }
-        .btn-list { background-color: #e91e63; }
-        .btn-list:hover { background-color: #c71585; }
-
-        .unit-word-list {
-            padding: 0 15px;
-        }
-        .word-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--color-light-gray);
-            align-items: center;
-        }
-        .word-item:last-child {
-            border-bottom: none;
-        }
-        .word-english {
-            font-weight: bold;
-            color: var(--color-dark);
-            font-size: 15px;
-        }
-        .word-turkish {
-            color: #666;
-            font-size: 14px;
-        }
-        
-        /* Yeni: Ünite listesi için dinamik oluşturulmuş konteyner */
-        #units-timeline-container {
-            /* Stil Ayarları */
-        }
+        .btn-quiz:active { background-color: #8db532; }
+        .btn-list { background-color: var(--color-purple); } /* Mor renk kullanıldı */
+        .btn-list:active { background-color: #7d4496; }
     </style>
 </head>
 <body>
@@ -441,7 +480,7 @@
                 <button class="btn-continue" data-card-key="academic_nouns">DEVAM ET</button>
             </div>
             
-            </div>
+        </div>
 
         <div id="detail-page" class="page">
             
@@ -480,12 +519,6 @@
                 <div class="unit-progress-circle" id="detail-unit-circle">1</div>
                 <h2 id="detail-unit-title">Ünite Başlığı</h2>
                 <p id="detail-unit-progress">20 kelimeden X tanesi öğrenildi.</p>
-                <button class="action-button btn-quiz" onclick="alert('Quiz başlatıldı!')">
-                    <i class="fas fa-question-circle"></i> Quiz Çöz
-                </button>
-                <button class="action-button btn-list" onclick="alert('Kelime Listesi Açıldı!')">
-                    <i class="fas fa-list"></i> Kelime Listesine Bak
-                </button>
             </div>
             
             <div class="unit-word-list" id="word-list-container">
@@ -493,11 +526,19 @@
         </div>
 
     </div>
+    
+    <div class="fixed-footer-actions" id="footer-actions">
+        <button class="action-button btn-quiz" onclick="alert('Quiz başlatıldı!')">
+            <i class="fas fa-question-circle"></i> Quiz Çöz
+        </button>
+        <button class="action-button btn-list" onclick="alert('Kelime Listesi Açıldı!')">
+            <i class="fas fa-list"></i> Kelime Listesine Bak
+        </button>
+    </div>
 
     <script>
-        // **1. YENİ KELİME VERİ MODELİ**
+        // **1. KELİME VERİ MODELİ**
         
-        // Verilen 50 kelimelik liste
         const academicVerbs = [
             { "en": "Analyze", "pr": "enılayz", "tr": "Analiz Etmek" },
             { "en": "Identify", "pr": "aydentifay", "tr": "Tanımlamak, Belirlemek" },
@@ -514,7 +555,7 @@
             { "en": "Contrast", "pr": "kontraszt", "tr": "Karşıtlık Kurmak" },
             { "en": "Argue", "pr": "argyuu", "tr": "Tartışmak, İddia Etmek" },
             { "en": "Support", "pr": "sıport", "tr": "Desteklemek" },
-            { "en": "Challenge", "pr": "çelınc", "tr": "Sorgulamak, Meydan Okumak" }, // 'Challenged' fiil hali 'Challenge' olarak düzeltildi.
+            { "en": "Challenge", "pr": "çelınc", "tr": "Sorgulamak, Meydan Okumak" },
             { "en": "Derive", "pr": "dirayv", "tr": "Türetmek, Elde Etmek" },
             { "en": "Indicate", "pr": "indikey", "tr": "İşaret Etmek, Göstermek" },
             { "en": "Suggest", "pr": "sıces", "tr": "Öne Sürmek, Önermek" },
@@ -523,12 +564,12 @@
             { "en": "Propose", "pr": "propouz", "tr": "Teklif Etmek, Önermek" },
             { "en": "Observe", "pr": "obzörv", "tr": "Gözlemlemek" },
             { "en": "Examine", "pr": "egzemin", "tr": "İncelemek, Muayene Etmek" },
-            { "en": "Apply", "pr": "ıplay", "tr": "Uygulamak" }, // İlk 25 burada biter
+            { "en": "Apply", "pr": "ıplay", "tr": "Uygulamak" },
 
             { "en": "Implement", "pr": "implimınt", "tr": "Uygulamaya Koymak" },
             { "en": "Reflect", "pr": "riflekt", "tr": "Yansıtmak, Düşünmek" },
             { "en": "Relate", "pr": "rıleyt", "tr": "İlişkilendirmek" },
-            { "en": "Discuss", "pr": "diskasıs", "tr": "Tartışmak" }, // "Discusss" 'Discuss' olarak düzeltildi
+            { "en": "Discuss", "pr": "diskasıs", "tr": "Tartışmak" },
             { "en": "Differentiate", "pr": "difırınşiyeyt", "tr": "Ayırt Etmek" },
             { "en": "Validate", "pr": "velideyt", "tr": "Doğrulamak, Onaylamak" },
             { "en": "Generate", "pr": "cenereyt", "tr": "Üretmek, Oluşturmak" },
@@ -552,10 +593,8 @@
             { "en": "Reveal", "pr": "rivil", "tr": "Ortaya Çıkarmak, Açığa Vurmak" }
         ];
 
-        // Kelimeleri 25'erli iki üniteye bölelim
         const unit1Words = academicVerbs.slice(0, 25);
         const unit2Words = academicVerbs.slice(25, 50);
-
 
         const vocabularyData = {
             "advanced_verbs": {
@@ -564,15 +603,15 @@
                     { 
                         number: 1, 
                         title: "Ünite 1 (Temel Araştırma Fiilleri)", 
-                        learned: 1, // Örnek olarak 1 kelime öğrenilmiş bıraktık
-                        total: unit1Words.length, // Yeni toplam 25
+                        learned: 1, 
+                        total: unit1Words.length, 
                         words: unit1Words
                     },
                     { 
                         number: 2, 
                         title: "Ünite 2 (Uygulama ve İlişkilendirme Fiilleri)", 
                         learned: 0, 
-                        total: unit2Words.length, // Yeni toplam 25
+                        total: unit2Words.length, 
                         words: unit2Words
                     },
                     { 
@@ -586,7 +625,6 @@
                              { en: "Presume", tr: "Varsaymak" },
                         ]
                     }
-                    // Diğer üniteler buraya eklenebilir...
                 ]
             },
             "academic_verbs": {
@@ -639,7 +677,7 @@
                         words: [
                             { en: "Substantial", tr: "Büyük, Önemli" },
                             { en: "Minor", tr: "Küçük, Önemsiz" },
-                            { en: "Diverse", tr: "Çeşitli, Farklı" }
+                            { "en": "Diverse", tr: "Çeşitli, Farklı" }
                         ]
                     }
                 ]
@@ -653,14 +691,13 @@
                         learned: 0, 
                         total: 25,
                         words: [
-                            { en: "Individual", tr: "Birey" },
-                            { en: "Community", tr: "Topluluk" },
-                            { en: "Generation", tr: "Nesil" }
+                            { "en": "Individual", tr: "Birey" },
+                            { "en": "Community", tr: "Topluluk" },
+                            { "en": "Generation", tr: "Nesil" }
                         ]
                     }
                 ]
             }
-            // Diğer kelime grupları buraya eklenebilir...
         };
 
         // Mevcut kelime grubunu ve ünite bilgisini tutmak için
@@ -676,31 +713,45 @@
         const cards = document.querySelectorAll('.card');
         const wordListContainer = document.getElementById('word-list-container');
         const unitsTimelineContainer = document.getElementById('units-timeline-container');
+        const footerActions = document.getElementById('footer-actions'); // Yeni eklenen footer
 
         // Detay Sayfası içeriğini tutmak için
         let currentPageTitle = "EnglishBox";
 
         // Yardımcı Fonksiyon: Ünite Renk Sınıfını Belirler
         function getUnitColorClass(unitNumber) {
-            const index = (unitNumber - 1) % 5; // 1-5 arasında döngü
+            const index = (unitNumber - 1) % 5; 
             return `u${index + 1}`;
+        }
+        
+        // Yardımcı Fonksiyon: Footer durumunu ayarlar
+        function setFooterState(pageId) {
+            // Sadece Level 3 sayfasında (unit-detail-page) aktif olmalı
+            if (pageId === 'unit-detail-page') {
+                footerActions.classList.add('active');
+            } else {
+                footerActions.classList.remove('active');
+            }
         }
 
         // **Yeni Fonksiyon:** Kelime Listesini Yükle ve Oluştur
         function loadUnitWords(words, unitSubtitle) {
-            wordListContainer.innerHTML = ''; // Önceki listeyi temizle
+            wordListContainer.innerHTML = ''; 
             
             if (words && words.length > 0) {
                 words.forEach(word => {
                     const wordItem = document.createElement('div');
                     wordItem.className = 'word-item';
                     
-                    // Kelime, telaffuz ve Türkçe anlamı gösteriliyor
                     const pronunciationText = word.pr ? ` (${word.pr})` : '';
+                    
                     wordItem.innerHTML = `
-                        <div>
-                            <span class="word-english">${word.en}</span>
-                            <span style="font-size: 12px; color: #aaa;">${pronunciationText}</span>
+                        <div class="word-left-section">
+                            <i class="fas fa-volume-up pronounce-icon" onclick="alert('Telaffuz: ${word.en}${pronunciationText}')"></i>
+                            <div>
+                                <span class="word-english">${word.en}</span>
+                                <span style="font-size: 12px; color: #aaa;">${pronunciationText}</span>
+                            </div>
                         </div>
                         <span class="word-turkish">${word.tr}</span>
                     `;
@@ -710,14 +761,13 @@
                 wordListContainer.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">Bu ünite için henüz kelime eklenmedi.</p>';
             }
 
-            // İlerleme durumunu güncelle
             const detailProgress = document.getElementById('detail-unit-progress');
             detailProgress.textContent = unitSubtitle; 
         }
 
         // **Yeni Fonksiyon:** Ünite Listesini Dinamik Oluştur
         function renderUnitsTimeline(cardKey) {
-            unitsTimelineContainer.innerHTML = ''; // Önceki üniteleri temizle
+            unitsTimelineContainer.innerHTML = ''; 
             const category = vocabularyData[cardKey];
 
             if (!category || !category.units) return;
@@ -731,7 +781,7 @@
                 const unitItem = document.createElement('div');
                 unitItem.className = 'unit-item';
                 unitItem.setAttribute('data-unit-number', unit.number);
-                unitItem.setAttribute('data-card-key', cardKey); // Hangi kategoriye ait olduğunu sakla
+                unitItem.setAttribute('data-card-key', cardKey); 
 
                 unitItem.innerHTML = `
                     <div class="unit-circle ${colorClass}">${unit.number}</div>
@@ -741,16 +791,12 @@
                     </div>
                 `;
 
-                // Üniteye tıklama olayını ekle
                 unitItem.addEventListener('click', (event) => {
-                    // Tıklanan öğenin verilerini al
                     const unitNumber = parseInt(event.currentTarget.getAttribute('data-unit-number'));
                     const cardKey = event.currentTarget.getAttribute('data-card-key');
                     
-                    // Veriden ilgili üniteyi bul
                     const selectedUnit = vocabularyData[cardKey].units.find(u => u.number === unitNumber);
                     
-                    // Gerekli verilerle Ünite Detay sayfasını aç
                     if (selectedUnit) {
                         const unitColorClass = getUnitColorClass(unitNumber);
                         const progressText = `${selectedUnit.learned}/${selectedUnit.total} kelime öğrenildi.`;
@@ -765,7 +811,7 @@
 
         // Detay Sayfasını Açan Fonksiyon (Level 1 -> Level 2)
         function openDetailPage(cardKey, title) {
-            currentCardKey = cardKey; // Seçilen kartın anahtarını kaydet
+            currentCardKey = cardKey; 
 
             homePage.classList.remove('active');
             unitDetailPage.classList.remove('active');
@@ -777,10 +823,9 @@
             headerTitle.textContent = title; 
             currentPageTitle = title;
             
-            // Dinamik olarak ünite listesini oluştur
             renderUnitsTimeline(cardKey);
+            setFooterState('detail-page'); // Footer'ı gizle
 
-            // İlerleme yüzdelerini güncelle (Şimdilik sabit/örnek)
             document.getElementById('detail-correct-percentage').textContent = '% 10';
             document.getElementById('detail-learned-percentage').textContent = '% 5';
 
@@ -797,7 +842,8 @@
             menuIcon.style.display = 'block';
             headerTitle.textContent = "EnglishBox"; 
             currentPageTitle = "EnglishBox";
-            currentCardKey = null; // Kategori bilgisini sıfırla
+            currentCardKey = null; 
+            setFooterState('home-page'); // Footer'ı gizle
         }
         
         // Ünite Detay Sayfasını Açan Fonksiyon (Level 2 -> Level 3)
@@ -811,7 +857,6 @@
             
             headerTitle.textContent = unitTitle;
 
-            // Detay sayfasındaki içeriği güncelle
             const detailCircle = document.getElementById('detail-unit-circle');
             const detailTitle = document.getElementById('detail-unit-title');
             
@@ -822,8 +867,8 @@
             const backgroundColor = computedStyle.backgroundColor;
             detailCircle.style.backgroundColor = backgroundColor;
 
-            // Kelimeleri yükle
             loadUnitWords(unitWords, unitSubtitle);
+            setFooterState('unit-detail-page'); // Footer'ı göster
 
             window.scrollTo(0, 0);
         }
@@ -833,21 +878,19 @@
             unitDetailPage.classList.remove('active');
             detailPage.classList.add('active');
 
-            // Geri tuşu Level 1'e dönecek şekilde ayarlanmalı
             backButton.setAttribute('data-page-level', '1'); 
             
             headerTitle.textContent = currentPageTitle; 
+            setFooterState('detail-page'); // Footer'ı gizle
         }
 
 
         // **OLAY YÖNETİMİ**
 
-        // Kartlara tıklama olayı (Level 1 -> Level 2)
         cards.forEach(card => {
             const cardKey = card.getAttribute('data-card-key');
             const cardTitle = card.querySelector('h3').textContent;
             
-            // Tıklama işlevi
             const clickHandler = (event) => {
                 if (event.target.closest('.btn-continue')) {
                     return; 
@@ -858,12 +901,12 @@
             card.addEventListener('click', clickHandler);
             const continueButton = card.querySelector('.btn-continue');
             continueButton.addEventListener('click', (event) => {
-                event.stopPropagation(); // Buton tıklaması kart tıklamasını tetiklemesin
+                event.stopPropagation(); 
                 openDetailPage(cardKey, cardTitle);
             });
         });
 
-        // Geri butonuna tıklama olayı (Tüm seviyeler için güncellendi)
+        // Geri butonuna tıklama olayı
         backButton.addEventListener('click', () => {
             const level = backButton.getAttribute('data-page-level');
             
@@ -874,9 +917,8 @@
             }
         });
         
-        // Menü ikonuna tıklama olayı
         menuIcon.addEventListener('click', () => {
-            alert('Menü Tıklandı. Buraya menü açma işlevi eklenebilir.');
+            alert('Menü Tıklandı.');
         });
         
     </script>
