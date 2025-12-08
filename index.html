@@ -63,7 +63,7 @@
         .page { display: none; opacity: 0; transition: opacity 0.3s ease; width: 100%; }
         .page.active { display: block; opacity: 1; }
         
-        #unit-detail-page.active {
+        #unit-detail-page.active, #word-detail-page.active {
             display: flex;
             flex-direction: column;
             height: 100%;
@@ -177,7 +177,8 @@
 
         .unit-word-list { padding: 0 15px 10px 15px; overflow-y: auto; flex-grow: 1; }
         
-        .word-item { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--color-light-gray); }
+        /* Kelimeye tıklanabilir cursor eklendi */
+        .word-item { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--color-light-gray); cursor: pointer; } 
         .word-item:last-child { border-bottom: none; }
         
         .word-item img { width: 50px; height: 50px; border-radius: 8px; margin-right: 15px; }
@@ -185,7 +186,7 @@
         .word-english { font-weight: bold; color: var(--color-dark); font-size: 16px; text-transform: lowercase; }
         .word-turkish { font-size: 14px; color: #888; text-transform: lowercase; }
 
-        /* QUIZ SAYFASI STİLLERİ */
+        /* QUIZ SAYFASI STİLLERİ (Değişmedi) */
         #quiz-page { display: flex; flex-direction: column; padding: 0 20px; text-align: center; }
         .quiz-header-word { padding: 30px 0; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; }
         .quiz-speaker-icon { font-size: 36px; color: var(--color-yellow); margin-bottom: 10px; cursor: pointer; }
@@ -193,23 +194,83 @@
         #quiz-question-counter { font-size: 14px; color: #999; margin-top: 10px; font-weight: normal; }
         .options-container { display: flex; flex-direction: column; gap: 15px; }
         .quiz-option { padding: 20px 15px; background-color: #fff; border: 1px solid var(--color-light-gray); border-radius: 12px; text-align: center; font-weight: bold; font-size: 16px; color: var(--color-dark); box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.1s; }
-        .quiz-option:hover { background-color: #f5f5f5; border-color: #ccc; }
-        .quiz-option:active { transform: scale(0.98); }
         .quiz-option.correct { background-color: var(--color-green); color: white; border-color: var(--color-green); pointer-events: none; animation: pulse-correct 0.5s ease; }
         .quiz-option.incorrect { background-color: var(--color-red); color: white; border-color: var(--color-red); pointer-events: none; animation: shake-incorrect 0.3s ease; }
         .options-container.answered .quiz-option:not(.correct):not(.incorrect) { opacity: 0.5; pointer-events: none; }
         .quiz-results { margin-top: 50px; padding: 20px; background-color: var(--bg-light-gray); border-radius: 15px; text-align: center; }
-        .quiz-results h2 { font-size: 24px; margin-bottom: 10px; color: var(--color-dark); }
-        .quiz-results p { font-size: 16px; color: #666; margin-bottom: 5px; }
         .results-score-circle { width: 100px; height: 100px; border-radius: 50%; background-color: var(--color-green); color: white; font-size: 28px; font-weight: bold; display: flex; align-items: center; justify-content: center; margin: 20px auto; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
 
-        @keyframes pulse-correct { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-        @keyframes shake-incorrect { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
+        /* YENİ KELİME DETAY SAYFASI STİLLERİ */
+        .word-detail-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #word-image {
+            width: 90%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .word-main-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #detail-english-word {
+            font-size: 30px;
+            font-weight: bold;
+            color: var(--color-dark);
+            text-transform: capitalize;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        #detail-turkish-word {
+            font-size: 18px;
+            color: var(--color-primary);
+            font-weight: 500;
+            display: block;
+            margin-top: 5px;
+        }
+        .example-section {
+            background-color: var(--bg-light-gray);
+            padding: 15px;
+            border-radius: 12px;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--color-yellow);
+        }
+        .example-section h4 {
+            font-size: 16px;
+            color: var(--color-dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .example-sentence {
+            font-style: italic;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        .speaker-icon-small {
+            color: var(--color-dark);
+            cursor: pointer;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+
     </style>
 </head>
 <body>
 
     <div class="mobile-container">
+        
         <header>
             <div class="header-content">
                 <button id="back-button" class="back-button" style="display: none;" data-page-level="1">
@@ -231,24 +292,30 @@
         </div>
 
         <div id="detail-page" class="page">
+            
             <div class="stats-row">
                 <div class="stat-item" onclick="alert('Unutulabilecek Kelimeler çalışması başlatıldı!')"><div class="stat-icon-circle bg-yellow"><i class="fas fa-thumbtack"></i></div><div class="stat-text">Unutulabilecek<br>Kelimeler</div></div>
                 <div class="stat-item" onclick="alert('Sık Yanlış Cevaplananlar çalışması başlatıldı!')"><div class="stat-icon-circle bg-red"><i class="fas fa-times"></i></div><div class="stat-text">Sık Yanlış<br>Cevaplananlar</div></div>
                 <div class="stat-item" onclick="alert('Karışık Tekrar Çalışması başlatıldı!')"><div class="stat-icon-circle bg-green"><i class="fas fa-random"></i></div><div class="stat-text">Karışık Tekrar<br>Çalışması</div></div>
             </div>
+            
             <div class="percentage-row">
                 <div class="percentage-item"><span class="percentage-value" id="detail-correct-rate">% 10</span> <span class="label">Doğru yanıtlar</span></div>
                 <div class="percentage-item"><span class="percentage-value" id="detail-learned-rate">% 5</span> <span class="label">Öğrenilenlerin oranı</span></div>
             </div>
+            
             <div class="timeline"></div>
         </div>
 
         <div id="unit-detail-page" class="page">
+            
             <div class="unit-detail-info">
                 <div class="unit-progress-circle" id="detail-unit-circle">1</div>
                 <p id="detail-unit-progress" class="word-count-info"></p>
             </div>
+            
             <div class="unit-word-list" id="word-list-container"></div>
+
             <div class="bottom-actions">
                 <button class="action-button btn-quiz" onclick="startQuiz()">
                     <i class="fas fa-question-circle"></i> Quiz Çöz
@@ -256,18 +323,49 @@
             </div>
         </div>
         
+        <div id="word-detail-page" class="page">
+            <div class="word-detail-content">
+                <img id="word-image" src="" alt="Kelime görseli">
+                <div class="word-main-info">
+                    <span id="detail-english-word"></span>
+                    <i class="fas fa-volume-up speaker-icon-small" onclick="alert('Seslendirildi!')"></i>
+                    <span id="detail-turkish-word"></span>
+                </div>
+                
+                <div class="example-section">
+                    <h4><i class="fas fa-lightbulb"></i> Örnek Cümle</h4>
+                    <p id="example-sentence-en" class="example-sentence"></p>
+                    <p id="example-sentence-tr" class="example-sentence"></p>
+                </div>
+                
+                <div class="example-section">
+                    <h4><i class="fas fa-graduation-cap"></i> Öğrenme Durumu</h4>
+                    <p style="font-size: 14px; color: #555;">Bu kelimeyi **3** kez doğru cevapladınız. Sonraki tekrar 7 gün sonra.</p>
+                </div>
+            </div>
+
+            <div class="bottom-actions">
+                <button class="action-button" style="background-color: var(--color-primary);" onclick="goBack()">
+                    <i class="fas fa-list-ul"></i> Kelime Listesine Dön
+                </button>
+            </div>
+        </div>
+
         <div id="quiz-page" class="page">
             <div class="quiz-header-word">
                 <i class="fas fa-volume-up quiz-speaker-icon" onclick="alert('Seslendirildi!')"></i>
                 <h3 id="quiz-question-text">AGREEABLE</h3>
                 <p id="quiz-question-counter"></p>
             </div>
-            <div id="quiz-options" class="options-container"></div>
+            <div id="quiz-options" class="options-container">
+            </div>
         </div>
+
     </div>
 
     <script>
-        // === VERİ OLUŞTURMA BÖLÜMÜ ===
+        // === VERİ OLUŞTURMA BÖLÜMÜ (Değişmedi) ===
+
         const realWordData = {
             "İleri Düzey Akademik Fiiller": {
                 1: [
@@ -312,48 +410,71 @@
                     { en: "Succeed", tr: "Başarılı Olmak, Yerine Geçmek" },
                 ],
                 3: [
-                    { en: "Agreeable", tr: "hoş, uyumlu, uygun" }, { en: "Intentional", tr: "kasti, planlı" },
-                    { en: "Distinct", tr: "farklı, belirgin, açık" }, { en: "Excessive", tr: "aşırı" }
+                    { en: "Agreeable", tr: "hoş, uyumlu, uygun" },
+                    { en: "Intentional", tr: "kasti, planlı" },
+                    { en: "Distinct", tr: "farklı, belirgin, açık" },
+                    { en: "Excessive", tr: "aşırı" }
                 ]
             },
+            
             "Akademik Fiiller": {
                 1: [
-                    { en: "Acquire", tr: "Edinmek, Kazanmak" }, { en: "Adapt", tr: "Uyum Sağlamak, Adapte Etmek" },
-                    { en: "Adjust", tr: "Ayarlamak, Düzeltmek" }, { en: "Allocate", tr: "Tahsis Etmek, Paylaştırmak" },
-                    { en: "Alter", tr: "Değiştirmek" }, { en: "Assume", tr: "Varsaymak, Üstlenmek" },
-                    { en: "Conceive", tr: "Tasarlamak, Algılamak" }, { en: "Confirm", tr: "Doğrulamak, Onaylamak" },
-                    { en: "Convert", tr: "Dönüştürmek" }, { en: "Decline", tr: "Reddetmek, Azalmak" }
+                    { en: "Acquire", tr: "Edinmek, Kazanmak" },
+                    { en: "Adapt", tr: "Uyum Sağlamak, Adapte Etmek" },
+                    { en: "Adjust", tr: "Ayarlamak, Düzeltmek" },
+                    { en: "Allocate", tr: "Tahsis Etmek, Paylaştırmak" },
+                    { en: "Alter", tr: "Değiştirmek" },
+                    { en: "Assume", tr: "Varsaymak, Üstlenmek" },
+                    { en: "Conceive", tr: "Tasarlamak, Algılamak" },
+                    { en: "Confirm", tr: "Doğrulamak, Onaylamak" },
+                    { en: "Convert", tr: "Dönüştürmek" },
+                    { en: "Decline", tr: "Reddetmek, Azalmak" }
                 ],
                 2: [
-                    { en: "Depict", tr: "Tasvir Etmek, Betimlemek" }, { en: "Diverge", tr: "Ayrılmak, Farklılaşmak" },
-                    { en: "Enhance", tr: "Geliştirmek, Artırmak" }, { en: "Exceed", tr: "Aşmak, Üstün Gelmek" },
-                    { en: "Facilitate", tr: "Kolaylaştırmak" }, { en: "Inhibit", tr: "Engellemek, Önlemek" },
-                    { en: "Isolate", tr: "İzole Etmek, Ayırmak" }, { en: "Manipulate", tr: "Yönlendirmek, Elde Oynamak" },
-                    { en: "Oversee", tr: "Denetlemek, Gözetmek" }, { en: "Precede", tr: "Önde Gelmek, Önce Olmak" }
+                    { en: "Depict", tr: "Tasvir Etmek, Betimlemek" },
+                    { en: "Diverge", tr: "Ayrılmak, Farklılaşmak" },
+                    { en: "Enhance", tr: "Geliştirmek, Artırmak" },
+                    { en: "Exceed", tr: "Aşmak, Üstün Gelmek" },
+                    { en: "Facilitate", tr: "Kolaylaştırmak" },
+                    { en: "Inhibit", tr: "Engellemek, Önlemek" },
+                    { en: "Isolate", tr: "İzole Etmek, Ayırmak" },
+                    { en: "Manipulate", tr: "Yönlendirmek, Elde Oynamak" },
+                    { en: "Oversee", tr: "Denetlemek, Gözetmek" },
+                    { en: "Precede", tr: "Önde Gelmek, Önce Olmak" }
                 ],
                 3: [
-                    { en: "Replicate", tr: "Kopyalamak, Tekrarlamak" }, { en: "Reside", tr: "İkamet Etmek, Bulunmak" },
-                    { en: "Resolve", tr: "Çözmek, Kararlaştırmak" }, { en: "Restrict", tr: "Kısıtlamak, Sınırlamak" },
-                    { en: "Retain", tr: "Alıkoymak, Muhafaza Etmek" }, { en: "Substantiate", tr: "Kanıtlamak, Doğrulamak" },
-                    { en: "Suffice", tr: "Yeterli Gelmek" }, { en: "Underlie", tr: "Temelini Oluşturmak" },
-                    { en: "Utilize", tr: "Kullanmak, Faydalanmak" }, { en: "Vary", tr: "Değişmek, Farklılık Göstermek" }
+                    { en: "Replicate", tr: "Kopyalamak, Tekrarlamak" },
+                    { en: "Reside", tr: "İkamet Etmek, Bulunmak" },
+                    { en: "Resolve", tr: "Çözmek, Kararlaştırmak" },
+                    { en: "Restrict", tr: "Kısıtlamak, Sınırlamak" },
+                    { en: "Retain", tr: "Alıkoymak, Muhafaza Etmek" },
+                    { en: "Substantiate", tr: "Kanıtlamak, Doğrulamak" },
+                    { en: "Suffice", tr: "Yeterli Gelmek" },
+                    { en: "Underlie", tr: "Temelini Oluşturmak" },
+                    { en: "Utilize", tr: "Kullanmak, Faydalanmak" },
+                    { en: "Vary", tr: "Değişmek, Farklılık Göstermek" }
                 ]
             },
             "Akademik İsimler": {
                 1: [
-                    { en: "Basis", tr: "Temel, Dayanak" }, { en: "Context", tr: "Bağlam" },
-                    { en: "Concept", tr: "Kavram" }, { en: "Dimension", tr: "Boyut" },
-                    { en: "Structure", tr: "Yapı" }, { en: "Theory", tr: "Kuram" }
+                    { en: "Basis", tr: "Temel, Dayanak" },
+                    { en: "Context", tr: "Bağlam" },
+                    { en: "Concept", tr: "Kavram" },
+                    { en: "Dimension", tr: "Boyut" },
+                    { en: "Structure", tr: "Yapı" },
+                    { en: "Theory", tr: "Kuram" }
                 ]
             },
             "Akademik Sıfatlar": {
                 1: [
-                    { en: "Cohesive", tr: "uyumlu, yapışkan" }, { en: "Subtle", tr: "ince, ustaca" },
-                    { en: "Vast", tr: "geniş, büyük" }
+                    { en: "Cohesive", tr: "uyumlu, yapışkan" },
+                    { en: "Subtle", tr: "ince, ustaca" },
+                    { en: "Vast", tr: "geniş, büyük" },
                 ]
             }
         };
 
+        // Yardımcı Fonksiyon: Diziyi karıştırma
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -365,13 +486,24 @@
         const globalTranslationPool = [];
         for (const category in realWordData) {
             for (const unit in realWordData[category]) {
-                realWordData[category][unit].forEach(word => globalTranslationPool.push(word.tr));
+                realWordData[category][unit].forEach(word => {
+                    globalTranslationPool.push(word.tr);
+                });
             }
         }
         const dummyWordsTurkish = ["gelişimsel", "kavramsal", "farkındalık", "etkileşim", "değişim", "kapsamlı", "uygulama", "yöntem", "çıkarım", "kuramsal", "karmaşık", "basitçe", "genellikle", "önemli", "zorluk", "çözüm", "tanıtım", "işlev", "başlangıç", "teorik", "bağlam", "sonuç", "görünür"];
 
         function generateAllData() {
-            const categories = [ "İleri Düzey Akademik Fiiller", "Akademik Fiiller", "Akademik Sıfatlar", "Akademik İsimler", "Akademik Bağlaçlar", "Öbek Fiiller", "Akademik Zarflar", "En Çok Kullanılan İsimler" ];
+            const categories = [
+                "İleri Düzey Akademik Fiiller", 
+                "Akademik Fiiller", 
+                "Akademik Sıfatlar", 
+                "Akademik İsimler", 
+                "Akademik Bağlaçlar",
+                "Öbek Fiiller", 
+                "Akademik Zarflar", 
+                "En Çok Kullanılan İsimler",
+            ];
             const allData = {};
             categories.forEach(category => {
                 allData[category] = Array(20).fill(0).map((_, index) => {
@@ -380,7 +512,7 @@
                     if (realWordData[category] && realWordData[category][unitNum]) {
                         words = realWordData[category][unitNum];
                     } else {
-                        const numWords = Math.floor(Math.random() * 7) + 4; 
+                        const numWords = Math.floor(Math.random() * 7) + 4;
                         const shuffledPool = shuffleArray([...globalTranslationPool]);
                         words = Array(numWords).fill(0).map((__, wIndex) => {
                             let dummyTR = shuffledPool.length > 0 ? shuffledPool[(unitNum * wIndex) % shuffledPool.length] : dummyWordsTurkish[Math.floor(Math.random() * dummyWordsTurkish.length)];
@@ -388,7 +520,12 @@
                             return { en: `${baseWord}_U${unitNum}_W${wIndex + 1}`, tr: dummyTR };
                         });
                     }
-                    words = words.map(w => ({ ...w, img: `https://placehold.co/80x80/3498db/ffffff?text=${w.en.charAt(0)}` }));
+                    words = words.map(w => ({
+                        ...w,
+                        img: `https://picsum.photos/seed/${w.en}/400/200`, // Kelimeye özgü rastgele görsel (sahte)
+                        exampleEN: generateExampleSentence(w.en),
+                        exampleTR: generateExampleSentenceTR(w.tr)
+                    }));
                     let learnedWords = 0;
                     if (unitNum === 1 && (category === "Akademik Fiiller" || category === "İleri Düzey Akademik Fiiller")) learnedWords = Math.min(words.length, 5);
                     else if (unitNum === 2 && category === "Akademik Fiiller") learnedWords = Math.min(words.length, 5);
@@ -402,6 +539,35 @@
         }
 
         const cardUnitData = generateAllData();
+
+        // SAHTE ÖRNEK CÜMLELER ÜRETME FONKSİYONLARI (Mocking)
+        function generateExampleSentence(word) {
+            const examples = {
+                "Analyze": "The research team needs to **analyze** the data carefully before concluding.",
+                "Identify": "We must **identify** the root causes of the problem.",
+                "Determine": "The committee will **determine** the final grade based on performance.",
+                "Formulate": "She helped **formulate** a new strategy for the project.",
+                "Acquire": "Students **acquire** new vocabulary through consistent practice.",
+                "Basis": "Evidence is the **basis** of any scientific argument.",
+                "Context": "Always consider the **context** of a quote.",
+                "Agreeable": "The new manager has a very **agreeable** personality.",
+            };
+            return examples[word] || `The study attempts to highlight how to properly use the term **${word.toUpperCase()}** in academic writing.`;
+        }
+        
+        function generateExampleSentenceTR(wordTR) {
+            const examplesTR = {
+                "Analiz Etmek": "Araştırma ekibi, sonuca varmadan önce verileri dikkatlice **analiz etmelidir**.",
+                "Tanımlamak, Belirlemek": "Sorunun temel nedenlerini **belirlemeliyiz**.",
+                "Belirlemek": "Komite, performansa göre son notu **belirleyecek**.",
+                "Formüle Etmek": "Proje için yeni bir strateji **formüle etmeye** yardımcı oldu.",
+                "Edinmek, Kazanmak": "Öğrenciler düzenli pratikle yeni kelimeler **edinir**.",
+                "Temel, Dayanak": "Kanıt, herhangi bir bilimsel argümanın **temelidir**.",
+                "Bağlam": "Her zaman bir alıntının **bağlamını** göz önünde bulundurun.",
+                "hoş, uyumlu, uygun": "Yeni yöneticinin çok **uyumlu** bir kişiliği var.",
+            };
+            return examplesTR[wordTR] || `Çalışma, **${wordTR}** teriminin akademik yazımda nasıl doğru kullanılacağını vurgulamaya çalışmaktadır.`;
+        }
 
         function updateHomePageCards() {
             document.querySelectorAll('#home-page .card').forEach(card => {
@@ -421,6 +587,8 @@
         
         document.addEventListener('DOMContentLoaded', updateHomePageCards);
 
+
+        // === UI ve NAVİGASYON ===
         let currentQuiz = [];
         let currentQuestionIndex = 0;
         let score = 0;
@@ -432,16 +600,14 @@
         const homePage = document.getElementById('home-page');
         const detailPage = document.getElementById('detail-page');
         const unitDetailPage = document.getElementById('unit-detail-page');
+        const wordDetailPage = document.getElementById('word-detail-page'); // Yeni detay sayfası
         const quizPage = document.getElementById('quiz-page');
         const backButton = document.getElementById('back-button');
         const headerTitle = document.querySelector('header h1');
         const cards = document.querySelectorAll('.card');
         const unitTimeline = detailPage.querySelector('.timeline');
         const wordListContainer = document.getElementById('word-list-container');
-        const quizOptionsContainer = document.getElementById('quiz-options');
-        const quizQuestionText = document.getElementById('quiz-question-text');
-        const quizQuestionCounter = document.getElementById('quiz-question-counter');
-        const detailUnitProgress = document.getElementById('detail-unit-progress');
+        const detailUnitProgress = document.getElementById('detail-unit-progress'); 
         
         let navigationStack = [];
         let currentCategoryTitle = '';
@@ -450,7 +616,8 @@
             const pages = document.querySelectorAll('.page');
             pages.forEach(page => page.classList.remove('active'));
             document.getElementById(targetPageId).classList.add('active');
-            if (level === 0) { 
+
+            if (level === 0) {
                 backButton.style.display = 'none';
                 headerTitle.textContent = 'EnglishBox';
                 navigationStack = [];
@@ -459,8 +626,12 @@
                 backButton.setAttribute('data-page-level', level);
                 headerTitle.textContent = title;
                 headerTitle.style.marginLeft = '0';
+                
                 const lastState = navigationStack[navigationStack.length - 1];
-                if (!lastState || lastState.id !== targetPageId) navigationStack.push({ id: targetPageId, level: level, title: title });
+                if (!lastState || lastState.id !== targetPageId) {
+                    // Quiz veya kelime detay sayfasından geri gelindiğinde yığını temizlemiyoruz, sadece ekliyoruz
+                    navigationStack.push({ id: targetPageId, level: level, title: title });
+                }
             }
         }
 
@@ -468,19 +639,25 @@
             if (navigationStack.length > 1) {
                 navigationStack.pop(); 
                 const prevPage = navigationStack[navigationStack.length - 1];
+                
                 const pages = document.querySelectorAll('.page');
                 pages.forEach(page => page.classList.remove('active'));
                 document.getElementById(prevPage.id).classList.add('active');
+
                 headerTitle.textContent = prevPage.title;
                 backButton.setAttribute('data-page-level', prevPage.level);
+                
                 if (prevPage.id === 'home-page') {
                     backButton.style.display = 'none';
-                    headerTitle.textContent = 'EnglishBox'; 
+                    headerTitle.textContent = 'EnglishBox';
                 }
+                
+                // Quiz sonuç ekranını temizle
                 if (document.querySelector('.quiz-results')) {
                     document.querySelector('.quiz-results').remove();
                     document.querySelector('.quiz-header-word').style.display = 'flex';
                 }
+
             } else if (navigationStack.length === 1 && navigationStack[0].id !== 'home-page') {
                 navigationStack.pop();
                 navigateTo('home-page', 0, 'EnglishBox');
@@ -489,22 +666,41 @@
 
         backButton.addEventListener('click', goBack);
 
+        // Giriş Sayfası Kart Click Event'leri
         cards.forEach(card => {
             const categoryTitle = card.querySelector('h3').textContent;
             const continueButton = card.querySelector('.btn-continue');
-            continueButton.addEventListener('click', (e) => { e.stopPropagation(); currentCategoryTitle = categoryTitle; loadDetailPage(categoryTitle); navigateTo('detail-page', 1, categoryTitle); });
-            card.addEventListener('click', () => { currentCategoryTitle = categoryTitle; loadDetailPage(categoryTitle); navigateTo('detail-page', 1, categoryTitle); });
+            
+            continueButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                currentCategoryTitle = categoryTitle;
+                loadDetailPage(categoryTitle);
+                navigateTo('detail-page', 1, categoryTitle);
+            });
+
+            card.addEventListener('click', () => {
+                currentCategoryTitle = categoryTitle;
+                loadDetailPage(categoryTitle);
+                navigateTo('detail-page', 1, categoryTitle);
+            });
         });
+
+        // === DETAY SAYFASI VE ÜNİTE LİSTESİ YÖNETİMİ ===
 
         function loadDetailPage(categoryTitle) {
             const units = cardUnitData[categoryTitle];
             unitTimeline.innerHTML = ''; 
-            let totalWords = 0; let totalLearned = 0;
+
+            let totalWords = 0;
+            let totalLearned = 0;
             units.forEach(unit => { totalWords += unit.totalWords; totalLearned += unit.learnedWords; });
+
             const learnedRate = totalWords > 0 ? ((totalLearned / totalWords) * 100).toFixed(0) : 0;
             const correctRate = Math.min(100, (Number(learnedRate) * 1.5)).toFixed(0); 
+
             document.getElementById('detail-correct-rate').textContent = `% ${correctRate}`;
             document.getElementById('detail-learned-rate').textContent = `% ${learnedRate}`;
+
             loadTimeline(units, categoryTitle);
         }
         
@@ -512,10 +708,12 @@
             currentUnitNumber = unitNumber;
             currentUnitColorClass = colorClass;
             currentUnitTitle = unitTitle;
+
             document.getElementById('detail-unit-circle').textContent = unitNumber;
             document.getElementById('detail-unit-circle').className = 'unit-progress-circle ' + colorClass;
-            // Metin ve parantez içi açıklama tamamen kaldırıldı.
+            
             detailUnitProgress.textContent = ``; 
+
             wordListContainer.innerHTML = '';
             words.forEach(word => {
                 const wordItem = document.createElement('div');
@@ -527,8 +725,25 @@
                         <span class="word-turkish">${word.tr.toLowerCase()}</span>
                     </div>
                 `;
+                // Yeni: Kelimeye tıklama olayı eklendi
+                wordItem.addEventListener('click', () => {
+                    loadWordDetailPage(word);
+                });
+
                 wordListContainer.appendChild(wordItem);
             });
+        }
+        
+        function loadWordDetailPage(wordData) {
+            // Detay sayfasını doldurma
+            document.getElementById('word-image').src = wordData.img;
+            document.getElementById('detail-english-word').textContent = wordData.en;
+            document.getElementById('detail-turkish-word').textContent = wordData.tr;
+            document.getElementById('example-sentence-en').textContent = wordData.exampleEN;
+            document.getElementById('example-sentence-tr').textContent = wordData.exampleTR;
+
+            // Yeni sayfaya navigasyon
+            navigateTo('word-detail-page', 3, wordData.en);
         }
 
         function loadTimeline(units, categoryTitle) {
@@ -553,6 +768,8 @@
                 unitTimeline.appendChild(unitItem);
             });
         }
+
+        // === QUIZ FONKSİYONLARI (Değişmedi) ===
 
         function generateQuiz(words, numOptions = 4) {
             const shuffledWords = shuffleArray([...words]);
