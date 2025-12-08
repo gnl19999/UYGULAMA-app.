@@ -808,12 +808,12 @@
             });
         }
 
-        // === GÜNCELLENMİŞ loadTimeline FONKSİYONU (Kısa Başlık) ===
+        // === GÜNCELLENMİŞ loadTimeline FONKSİYONU (Kelime Sayısı Bilgili) ===
         function loadTimeline(units, categoryTitle) {
             unitTimeline.innerHTML = '';
             units.forEach(unit => {
-                // İlerleme yüzdesi hesaplanıyor
-                const percentage = unit.totalWords > 0 ? ((unit.learnedWords / unit.totalWords) * 100).toFixed(0) : 0;
+                // Kelime sayısı bilgisi burada kullanılıyor
+                const subtitleText = `${unit.learnedWords}/${unit.totalWords} kelime öğrenildi.`;
                 
                 const unitItem = document.createElement('div');
                 unitItem.className = 'unit-item';
@@ -823,7 +823,7 @@
                         <div class="unit-title">Ünite ${unit.unit}</div>
                         
                         <div class="unit-subtitle">
-                            <span style="font-weight: bold; color: var(--color-primary);">%${percentage} İlerleme</span>
+                            <span style="font-weight: normal; color: #888;">${subtitleText}</span>
                         </div>
                     </div>
                 `;
