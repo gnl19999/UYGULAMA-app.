@@ -640,7 +640,7 @@
                         totalLearned += unit.learnedWords;
                     });
 
-                    const percentage = totalWords > 0 ? (totalLearled / totalWords) * 100 : 0;
+                    const percentage = totalWords > 0 ? (totalLearned / totalWords) * 100 : 0;
                     
                     const cardInfo = card.querySelector('.card-info');
                     cardInfo.querySelector('p').textContent = `${totalWords} kelimeden ${totalLearned} tanesi öğrenildi.`;
@@ -808,17 +808,23 @@
             });
         }
 
+        // === GÜNCELLENMİŞ loadTimeline FONKSİYONU (Kısa Başlık) ===
         function loadTimeline(units, categoryTitle) {
             unitTimeline.innerHTML = '';
             units.forEach(unit => {
+                // İlerleme yüzdesi hesaplanıyor
                 const percentage = unit.totalWords > 0 ? ((unit.learnedWords / unit.totalWords) * 100).toFixed(0) : 0;
+                
                 const unitItem = document.createElement('div');
                 unitItem.className = 'unit-item';
                 unitItem.innerHTML = `
                     <div class="unit-circle ${unit.colorClass}">${unit.unit}</div>
                     <div class="unit-content">
-                        <div class="unit-title">${categoryTitle} Ünite ${unit.unit}</div>
-                        <div class="unit-subtitle">${unit.totalWords} Kelime | %${percentage} Öğrenildi</div>
+                        <div class="unit-title">Ünite ${unit.unit}</div>
+                        
+                        <div class="unit-subtitle">
+                            <span style="font-weight: bold; color: var(--color-primary);">%${percentage} İlerleme</span>
+                        </div>
                     </div>
                 `;
                 unitItem.addEventListener('click', () => {
@@ -827,6 +833,7 @@
                     unitItem.classList.add('selected');
                     
                     loadUnitDetailPage(unit.unit, categoryTitle, unit.totalWords, unit.learnedWords, unit.colorClass, unit.words);
+                    // Detay sayfasının başlığı hala tam kategori adını gösterir
                     navigateTo('unit-detail-page', 2, `${categoryTitle} - Ünite ${unit.unit}`);
                 });
                 unitTimeline.appendChild(unitItem);
