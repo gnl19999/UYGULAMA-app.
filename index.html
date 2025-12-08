@@ -46,7 +46,7 @@
         /* HEADER */
         header {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start; /* Sadece geri butonu ve başlık kaldı */
             align-items: center;
             padding: 15px 20px;
             background-color: #fff;
@@ -56,10 +56,8 @@
             z-index: 10;
         }
         .header-content { display: flex; align-items: center; }
-        /* Menü simgesi kaldırıldığı için başlık sola yaslanıyor */
         header h1 { font-size: 18px; font-weight: bold; margin-left: 0; } 
-        .crown-icon { color: var(--color-yellow); font-size: 20px; }
-        .back-button { color: var(--color-dark); cursor: pointer; font-size: 18px; background: none; border: none; padding: 0; line-height: 1; margin-right: 15px; } /* Başlık ve geri butonu arasına boşluk */
+        .back-button { color: var(--color-dark); cursor: pointer; font-size: 18px; background: none; border: none; padding: 0; line-height: 1; margin-right: 15px; }
 
         /* SAYFA YAPISI */
         .page { display: none; opacity: 0; transition: opacity 0.3s ease; width: 100%; }
@@ -201,10 +199,12 @@
             font-weight: bold;
             color: var(--color-dark);
             font-size: 16px;
+            text-transform: lowercase; /* İngilizce kelimeler küçük harf */
         }
         .word-turkish {
             font-size: 14px;
             color: #888;
+            text-transform: lowercase; /* Türkçe çeviriler küçük harf */
         }
 
         /* QUIZ SAYFASI STİLLERİ */
@@ -233,7 +233,7 @@
             font-size: 32px; 
             color: var(--color-dark);
             font-weight: bold;
-            text-transform: capitalize;
+            /* text-transform: capitalize kaldırıldı */
             margin: 0;
         }
         #quiz-question-counter {
@@ -339,10 +339,9 @@
                 <button id="back-button" class="back-button" style="display: none;" data-page-level="1">
                     <i class="fas fa-arrow-left"></i>
                 </button>
-                <h1>EnglishBox</h1>
+                <h1></h1> 
             </div>
-            <i class="fas fa-crown crown-icon"></i>
-        </header>
+            </header>
 
         <div id="home-page" class="page active">
             <div class="card"><div class="card-content"><div class="card-icon-wrapper icon-verb"><i class="fas fa-book-open"></i></div><div class="card-info"><h3>İleri Düzey Akademik Fiiller</h3><p>435 kelimeden 21 tanesi öğrenildi.</p><div class="progress-bar"><div class="progress-fill" style="width: 5%"></div></div></div></div><button class="btn-continue" data-card-title="İleri Düzey Akademik Fiiller">DEVAM ET</button></div>
@@ -686,18 +685,17 @@
             pages.forEach(page => page.classList.remove('active'));
             document.getElementById(targetPageId).classList.add('active');
 
-            // Geri Butonu Yönetimi
+            // Geri Butonu Yönetimi ve Başlık Güncelleme
             if (level === 0) { // Home Page
                 backButton.style.display = 'none';
-                headerTitle.textContent = 'EnglishBox';
+                headerTitle.textContent = 'EnglishBox'; // Ana sayfada yine de başlık gösterilebilir
                 navigationStack = [];
             } else {
-                backButton.style.display = 'inline-flex'; // Butonu görünür yap
+                backButton.style.display = 'inline-flex';
                 backButton.setAttribute('data-page-level', level);
                 headerTitle.textContent = title;
-                // Header Title'ı sağa kaydırmak için style ekleyelim (geri butonu varken başlık sola yaslı kalmasın)
-                headerTitle.style.marginLeft = '0'; 
-
+                headerTitle.style.marginLeft = '0';
+                
                 // Navigasyon yığınına ekle/güncelle
                 const lastState = navigationStack[navigationStack.length - 1];
                 if (!lastState || lastState.id !== targetPageId) {
@@ -708,10 +706,9 @@
 
         function goBack() {
             if (navigationStack.length > 1) {
-                navigationStack.pop(); // Mevcut sayfayı çıkar
+                navigationStack.pop(); 
                 const prevPage = navigationStack[navigationStack.length - 1];
                 
-                // Önceki sayfaya git (navigateTo'yu tekrar çağırmadan direkt DOM manipülasyonu)
                 const pages = document.querySelectorAll('.page');
                 pages.forEach(page => page.classList.remove('active'));
                 document.getElementById(prevPage.id).classList.add('active');
@@ -721,16 +718,15 @@
                 
                 if (prevPage.id === 'home-page') {
                     backButton.style.display = 'none';
+                    headerTitle.textContent = 'EnglishBox'; // Ana sayfaya dönerken başlığı tekrar ayarla
                 }
                 
-                // Quiz sayfasından dönerken sonuç ekranını temizle ve başlığı geri getir
                 if (document.querySelector('.quiz-results')) {
                     document.querySelector('.quiz-results').remove();
-                    document.querySelector('.quiz-header-word').style.display = 'flex'; // Başlığı geri getir
+                    document.querySelector('.quiz-header-word').style.display = 'flex';
                 }
 
             } else if (navigationStack.length === 1 && navigationStack[0].id !== 'home-page') {
-                // Detay sayfasından Ana Sayfaya dönme
                 navigationStack.pop();
                 navigateTo('home-page', 0, 'EnglishBox');
             }
@@ -763,9 +759,8 @@
 
         function loadDetailPage(categoryTitle) {
             const units = cardUnitData[categoryTitle];
-            unitTimeline.innerHTML = ''; // Önceki üniteleri temizle
+            unitTimeline.innerHTML = ''; 
 
-            // Doğru ve Öğrenilmiş Oranlarını Güncelle
             let totalWords = 0;
             let totalLearned = 0;
             units.forEach(unit => {
@@ -774,7 +769,6 @@
             });
 
             const learnedRate = totalWords > 0 ? ((totalLearned / totalWords) * 100).toFixed(0) : 0;
-            // Doğru yanıt oranı için basit bir varsayım
             const correctRate = Math.min(100, (Number(learnedRate) * 1.5)).toFixed(0); 
 
             document.getElementById('detail-correct-rate').textContent = `% ${correctRate}`;
@@ -800,15 +794,15 @@
                 wordItem.innerHTML = `
                     <img src="${word.img}" alt="${word.en} görseli">
                     <div class="word-text-group">
-                        <span class="word-english">${word.en.toUpperCase()}</span>
-                        <span class="word-turkish">${word.tr}</span>
+                        <span class="word-english">${word.en.toLowerCase()}</span>
+                        <span class="word-turkish">${word.tr.toLowerCase()}</span>
                     </div>
                 `;
                 wordListContainer.appendChild(wordItem);
             });
         }
 
-        // === GÜNCELLENMİŞ loadTimeline FONKSİYONU (Kelime sözcüğü silindi) ===
+        // === GÜNCELLENMİŞ loadTimeline FONKSİYONU ===
         function loadTimeline(units, categoryTitle) {
             unitTimeline.innerHTML = '';
             units.forEach(unit => {
@@ -828,12 +822,10 @@
                     </div>
                 `;
                 unitItem.addEventListener('click', () => {
-                    // Tıklanan üniteyi seçili yap ve detay sayfasına git
                     document.querySelectorAll('.unit-item').forEach(item => item.classList.remove('selected'));
                     unitItem.classList.add('selected');
                     
                     loadUnitDetailPage(unit.unit, categoryTitle, unit.totalWords, unit.learnedWords, unit.colorClass, unit.words);
-                    // Detay sayfasının başlığı hala tam kategori adını gösterir
                     navigateTo('unit-detail-page', 2, `${categoryTitle} - Ünite ${unit.unit}`);
                 });
                 unitTimeline.appendChild(unitItem);
@@ -843,19 +835,13 @@
         // === QUIZ FONKSİYONLARI ===
 
         function generateQuiz(words, numOptions = 4) {
-            // 1. Sorulacak kelimeleri karıştır
             const shuffledWords = shuffleArray([...words]);
             const quiz = [];
 
             shuffledWords.forEach(correctWord => {
-                // 2. Doğru cevap haricindeki tüm çevirileri al
                 const allTranslations = globalTranslationPool.filter(tr => tr !== correctWord.tr);
-                
-                // 3. Yanlış cevapları seç
-                let wrongOptions = shuffleArray(allTranslations)
-                                .slice(0, numOptions - 1);
+                let wrongOptions = shuffleArray(allTranslations).slice(0, numOptions - 1);
 
-                // Eğer global havuzdan yeterli kelime çekilemediyse dummy kelimelerden destek al
                 while (wrongOptions.length < numOptions - 1) {
                     const dummy = dummyWordsTurkish[Math.floor(Math.random() * dummyWordsTurkish.length)];
                     if (!wrongOptions.includes(dummy) && dummy !== correctWord.tr) {
@@ -863,12 +849,10 @@
                     }
                 }
                 
-                // Yanlış cevapları benzersiz hale getir (doğru cevap ile çakışmadığından emin olmak için)
                 wrongOptions = wrongOptions.filter((option, index, self) => 
                     self.indexOf(option) === index && option !== correctWord.tr
                 ).slice(0, numOptions - 1);
 
-                // 4. Tüm seçenekleri birleştir ve karıştır
                 const options = shuffleArray([correctWord.tr, ...wrongOptions]);
 
                 quiz.push({
@@ -882,26 +866,22 @@
         }
 
         function startQuiz() {
-            // Seçili üniteyi bul
             const selectedUnitData = cardUnitData[currentCategoryTitle].find(u => u.unit === currentUnitNumber);
             if (!selectedUnitData || selectedUnitData.words.length === 0) {
                 alert("Quiz başlatılamadı: Bu ünitede kelime bulunmamaktadır.");
                 return;
             }
 
-            // Quiz verisini oluştur
             currentQuiz = generateQuiz(selectedUnitData.words);
             currentQuestionIndex = 0;
             score = 0;
             totalQuestions = currentQuiz.length;
 
-            // Sonuç ekranını temizle ve quiz başlıklarını göster
             const results = document.querySelector('.quiz-results');
             if (results) results.remove();
             document.querySelector('.quiz-header-word').style.display = 'flex';
 
 
-            // Sayfaya geçiş yap
             navigateTo('quiz-page', 3, `Quiz: Ünite ${currentUnitNumber}`);
             displayQuestion();
         }
@@ -914,41 +894,36 @@
 
             const questionData = currentQuiz[currentQuestionIndex];
 
-            // Soruyu ve sayacı güncelle
-            quizQuestionText.textContent = questionData.question.toUpperCase();
+            // Soruyu küçük harf olarak göster
+            quizQuestionText.textContent = questionData.question.toLowerCase(); 
             quizQuestionCounter.textContent = `${currentQuestionIndex + 1} / ${totalQuestions}`;
             quizOptionsContainer.innerHTML = '';
             quizOptionsContainer.classList.remove('answered');
 
-            // Seçenekleri oluştur
             questionData.options.forEach(optionText => {
                 const option = document.createElement('div');
                 option.className = 'quiz-option';
-                option.textContent = optionText;
+                option.textContent = optionText.toLowerCase(); // Quiz seçenekleri de küçük harf
                 option.addEventListener('click', () => checkAnswer(option, optionText, questionData.correctAnswer));
                 quizOptionsContainer.appendChild(option);
             });
         }
 
         function checkAnswer(selectedOption, selectedAnswer, correctAnswer) {
-            // Yanıt verildi işaretini koy, diğer seçenekleri karartmak için CSS kullan
             quizOptionsContainer.classList.add('answered');
 
-            // Doğru/Yanlış kontrolü
             if (selectedAnswer === correctAnswer) {
                 selectedOption.classList.add('correct');
                 score++;
             } else {
                 selectedOption.classList.add('incorrect');
-                // Doğru cevabı da işaretle
                 document.querySelectorAll('.quiz-option').forEach(option => {
-                    if (option.textContent === correctAnswer) {
+                    if (option.textContent === correctAnswer.toLowerCase()) { // Karşılaştırma için küçük harf kullanıldı
                         option.classList.add('correct');
                     }
                 });
             }
 
-            // Kısa bir bekleme süresi sonrası sonraki soruya geç
             setTimeout(() => {
                 currentQuestionIndex++;
                 displayQuestion();
@@ -956,13 +931,11 @@
         }
 
         function showResults() {
-            // Quiz sayfasındaki mevcut içeriği temizle
             quizOptionsContainer.innerHTML = '';
             
             const percentage = totalQuestions > 0 ? ((score / totalQuestions) * 100).toFixed(0) : 0;
             const resultText = percentage >= 70 ? "Tebrikler, başarılı bir sonuç!" : "Daha fazla tekrar gerekiyor.";
 
-            // Sonuç ekranı yapısını oluştur
             const resultsHtml = `
                 <div class="quiz-results">
                     <h2>🎉 Quiz Tamamlandı!</h2>
@@ -978,9 +951,7 @@
                 </div>
             `;
             
-            // Quiz sayfasının içine sonucu yerleştir
             const quizPageContent = document.getElementById('quiz-page');
-            // Önceki soru ve sayacı gizle
             document.querySelector('.quiz-header-word').style.display = 'none';
 
             quizPageContent.insertAdjacentHTML('beforeend', resultsHtml);
