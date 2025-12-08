@@ -452,10 +452,41 @@
                     { en: "Intentional", tr: "kasti, planlı" },
                     { en: "Distinct", tr: "farklı, belirgin, açık" },
                     { en: "Excessive", tr: "aşırı" }
+                ],
+                // Diğer ünitelerin eksik olduğunu varsayalım
+            },
+            // Diğer kategorilerde de eksik üniteler olduğunu varsayalım
+            "Akademik Sıfatlar": {
+                1: [
+                    { en: "Cohesive", tr: "uyumlu, yapışkan" },
+                    { en: "Subtle", tr: "ince, ustaca" },
+                    { en: "Vast", tr: "geniş, büyük" },
                 ]
             }
         };
 
+        // Yardımcı Fonksiyon: Diziyi karıştırma
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Genel çeviri havuzu oluşturmak için (sahte çeviriler yerine kullanılacak)
+        const globalTranslationPool = [];
+        for (const category in realWordData) {
+            for (const unit in realWordData[category]) {
+                realWordData[category][unit].forEach(word => {
+                    globalTranslationPool.push(word.tr);
+                });
+            }
+        }
+        // Sahte çeviri yerine İngilizce kelimenin telaffuzu yakın bir kelime
+        const dummyWordsTurkish = ["gelişimsel", "kavramsal", "farkındalık", "etkileşim", "değişim", "kapsamlı", "uygulama", "yöntem", "çıkarım", "kuramsal", "karmaşık", "basitçe", "genellikle", "önemli", "zorluk", "çözüm", "tanıtım", "işlev", "başlangıç", "teorik", "bağlam", "sonuç", "görünür"];
+
+        // === DÜZELTİLMİŞ VERİ OLUŞTURMA FONKSİYONU ===
         function generateAllData() {
             const categories = [
                 "İleri Düzey Akademik Fiiller", "Akademik Fiiller", "En Çok Kullanılan Fiiller",
@@ -473,11 +504,24 @@
                     if (realWordData[category] && realWordData[category][unitNum]) {
                         words = realWordData[category][unitNum];
                     } else {
-                        // Diğer üniteler için dummy veri oluştur
-                        words = Array(4).fill(0).map((__, wIndex) => ({ // 4 Kelime
-                            en: `DummyWord${unitNum}${wIndex + 1}`,
-                            tr: `Sahte Çeviri ${unitNum}${wIndex + 1}`
-                        }));
+                        // Eğer üniteye ait gerçek veri yoksa:
+                        words = Array(4).fill(0).map((__, wIndex) => {
+                            let dummyTR;
+                            const pool = shuffleArray([...globalTranslationPool]);
+                            
+                            if (pool.length > 0) {
+                                // 1. Global havuzdan rastgele bir çeviri al (en azından gerçek kelime)
+                                dummyTR = pool[wIndex % pool.length];
+                            } else {
+                                // 2. Havuz boşsa, anlamlı dummy çeviri kullan
+                                dummyTR = dummyWordsTurkish[Math.floor(Math.random() * dummyWordsTurkish.length)];
+                            }
+
+                            return {
+                                en: `Word${unitNum}_${wIndex + 1}`,
+                                tr: dummyTR
+                            };
+                        });
                     }
 
                     words = words.map(w => ({
@@ -488,7 +532,6 @@
                     return {
                         unit: unitNum,
                         totalWords: words.length,
-                        // Ünite 1 için 3 öğrenilmiş kelime ekle
                         learnedWords: (category === "İleri Düzey Akademik Fiiller" && unitNum === 1) ? 3 : 0, 
                         words: words,
                         colorClass: 'u' + ((unitNum - 1) % 20 + 1)
@@ -531,15 +574,6 @@
         let currentPageTitle = "EnglishBox";
         let currentCardId = ""; 
 
-        // Yardımcı Fonksiyon: Diziyi karıştırma
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
         // Yardımcı Fonksiyon: Belirtilen sayı kadar rastgele kelime çevirisi al
         function getDistractors(correctTranslation, allWords, count = 3) {
             // Sadece çevirileri al ve doğru cevabı ele
@@ -552,20 +586,28 @@
                 if (shuffledTranslations[i]) {
                     distractors.push(shuffledTranslations[i]);
                 } else {
-                    // Yeterli çeşitlilik yoksa, var olan çevirileri kopyala
-                    if (distractors.length > 0) {
-                        distractors.push(distractors[i % distractors.length]);
+                    // Yeterli çeşitlilik yoksa, global havuzu kullan
+                    const globalPoolWithoutCorrect = globalTranslationPool.filter(t => t !== correctTranslation);
+                    const globalShuffled = shuffleArray(globalPoolWithoutCorrect);
+                    if(globalShuffled[i]) {
+                        distractors.push(globalShuffled[i]);
+                    } else {
+                        // Hala bulamazsa, ilk distractor'ı tekrar kullan
+                        if (distractors.length > 0) {
+                            distractors.push(distractors[i % distractors.length]);
+                        }
                     }
                 }
             }
-            return distractors.slice(0, count);
+            // En az 3 farklı distractor sağlamaya çalış
+            return [...new Set(distractors)].slice(0, count);
         }
 
         // === QUIZ FONKSİYONLARI ===
 
         function generateQuizQuestions(unitWords, allWordsInCard) {
             const questions = [];
-            const allWordsTranslations = allWordsInCard.filter(w => w.tr); // Türkçe çevirisi olanları al
+            const allWordsTranslations = allWordsInCard.filter(w => w.tr); 
 
             unitWords.forEach((word, index) => {
                 const questionWord = word.en;
@@ -574,7 +616,7 @@
                 const distractorTranslations = getDistractors(correctAnswer, allWordsTranslations, 3);
 
                 let options = [...distractorTranslations, correctAnswer];
-                options = shuffleArray(options); // Seçenekleri karıştır
+                options = shuffleArray(options); 
 
                 questions.push({
                     questionNumber: index + 1,
@@ -584,7 +626,7 @@
                 });
             });
 
-            return shuffleArray(questions); // Soruları da karıştır
+            return shuffleArray(questions); 
         }
 
         function startQuiz() {
