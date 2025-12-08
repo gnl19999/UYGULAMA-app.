@@ -152,8 +152,13 @@
         /* ÜNİTE DETAY & KELİME LİSTESİ */
         .unit-detail-info { padding: 20px; text-align: center; flex-shrink: 0; }
         .unit-progress-circle { width: 120px; height: 120px; border-radius: 50%; background-color: var(--color-primary); color: #fff; font-size: 36px; font-weight: bold; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto; }
-        /* .unit-detail-info h2 kaldırıldı */
-        .unit-detail-info p { font-size: 14px; color: #888; margin-bottom: 20px; }
+        /* Açıklama metni kaldırıldığı için P etiketinin alt boşluğu azaltıldı */
+        .unit-detail-info p { 
+            font-size: 14px; 
+            color: #888; 
+            margin-bottom: 10px; /* Önceden 20px idi */
+            height: 18px; /* Yer tutması için sabit bir yükseklik */
+        }
         .unit-detail-info .word-count-info {
              font-size: 16px; 
              font-weight: bold; 
@@ -379,8 +384,8 @@
             
             <div class="unit-detail-info">
                 <div class="unit-progress-circle" id="detail-unit-circle">1</div>
-                <p id="detail-unit-progress" class="word-count-info">Bu ünitede çalışılacak 20 kelime var.</p>
-                </div>
+                <p id="detail-unit-progress" class="word-count-info"></p>
+            </div>
             
             <div class="unit-word-list" id="word-list-container"></div>
 
@@ -677,7 +682,7 @@
         const quizOptionsContainer = document.getElementById('quiz-options');
         const quizQuestionText = document.getElementById('quiz-question-text');
         const quizQuestionCounter = document.getElementById('quiz-question-counter');
-        const detailUnitProgress = document.getElementById('detail-unit-progress'); // Yeni açıklama için referans
+        const detailUnitProgress = document.getElementById('detail-unit-progress'); // Açıklama için referans
         
         // Navigasyon Yığını (geri butonu için)
         let navigationStack = [];
@@ -790,8 +795,8 @@
             document.getElementById('detail-unit-circle').textContent = unitNumber;
             document.getElementById('detail-unit-circle').className = 'unit-progress-circle ' + colorClass;
             
-            // Başlık silindi. Sadece kelime sayısı bilgisi güncellendi.
-            detailUnitProgress.textContent = `Bu ünitede çalışılacak ${totalWords} kelime var. (${learnedWords} öğrenildi)`; 
+            // Metin ve parantez içi açıklama tamamen kaldırıldı.
+            detailUnitProgress.textContent = ``; 
 
             wordListContainer.innerHTML = '';
             words.forEach(word => {
@@ -831,7 +836,7 @@
                     unitItem.classList.add('selected');
                     
                     loadUnitDetailPage(unit.unit, categoryTitle, unit.totalWords, unit.learnedWords, unit.colorClass, unit.words);
-                    // Başlığı sadece kategori ve ünite numarası olarak ayarla (başlık etiketi kaldırıldığı için)
+                    // Başlığı sadece kategori ve ünite numarası olarak ayarla
                     navigateTo('unit-detail-page', 2, `${categoryTitle} - Ünite ${unit.unit}`);
                 });
                 unitTimeline.appendChild(unitItem);
@@ -910,7 +915,7 @@
                 const option = document.createElement('div');
                 option.className = 'quiz-option';
                 option.textContent = optionText.toLowerCase(); // Quiz seçenekleri de küçük harf
-                option.addEventListener('click', () => checkAnswer(option, optionText, questionData.correctAnswer));
+                option.addEventListener('click', () => checkAnswer(option, optionText, correctAnswer));
                 quizOptionsContainer.appendChild(option);
             });
         }
