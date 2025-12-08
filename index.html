@@ -39,14 +39,14 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
             position: relative;
             overflow: hidden;
-            min-height: 800px;
+            min-height: 700px; /* Azaltıldı */
             padding-bottom: 0; 
         }
 
         /* HEADER */
         header {
             display: flex;
-            justify-content: flex-start; /* Sadece geri butonu ve başlık kaldı */
+            justify-content: flex-start;
             align-items: center;
             padding: 15px 20px;
             background-color: #fff;
@@ -67,9 +67,9 @@
             display: flex;
             flex-direction: column;
             height: 100%;
-            min-height: calc(800px - 50px);
+            min-height: calc(100vh - 50px); /* Ekran yüksekliğine ayarlandı */
             position: relative;
-            padding-bottom: 85px; 
+            padding-bottom: 70px; /* Sadece sabit butonu kadar boşluk bırakıldı */
         }
         
         /* KART STİLLERİ */
@@ -199,12 +199,12 @@
             font-weight: bold;
             color: var(--color-dark);
             font-size: 16px;
-            text-transform: lowercase; /* İngilizce kelimeler küçük harf */
+            text-transform: lowercase; 
         }
         .word-turkish {
             font-size: 14px;
             color: #888;
-            text-transform: lowercase; /* Türkçe çeviriler küçük harf */
+            text-transform: lowercase; 
         }
 
         /* QUIZ SAYFASI STİLLERİ */
@@ -233,7 +233,6 @@
             font-size: 32px; 
             color: var(--color-dark);
             font-weight: bold;
-            /* text-transform: capitalize kaldırıldı */
             margin: 0;
         }
         #quiz-question-counter {
@@ -341,7 +340,7 @@
                 </button>
                 <h1></h1> 
             </div>
-            </header>
+        </header>
 
         <div id="home-page" class="page active">
             <div class="card"><div class="card-content"><div class="card-icon-wrapper icon-verb"><i class="fas fa-book-open"></i></div><div class="card-info"><h3>İleri Düzey Akademik Fiiller</h3><p>435 kelimeden 21 tanesi öğrenildi.</p><div class="progress-bar"><div class="progress-fill" style="width: 5%"></div></div></div></div><button class="btn-continue" data-card-title="İleri Düzey Akademik Fiiller">DEVAM ET</button></div>
@@ -815,7 +814,6 @@
                     <div class="unit-circle ${unit.colorClass}">${unit.unit}</div>
                     <div class="unit-content">
                         <div class="unit-title">Ünite ${unit.unit}</div>
-                        
                         <div class="unit-subtitle">
                             <span style="font-weight: normal; color: #888;">${subtitleText}</span>
                         </div>
