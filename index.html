@@ -56,10 +56,10 @@
             z-index: 10;
         }
         .header-content { display: flex; align-items: center; }
-        header h1 { font-size: 18px; font-weight: bold; margin-left: 15px; }
+        /* Menü simgesi kaldırıldığı için başlık sola yaslanıyor */
+        header h1 { font-size: 18px; font-weight: bold; margin-left: 0; } 
         .crown-icon { color: var(--color-yellow); font-size: 20px; }
-        #menu-icon, .back-button { color: var(--color-dark); cursor: pointer; font-size: 18px; background: none; border: none; padding: 0; line-height: 1; }
-        .back-button { margin-right: 0; }
+        .back-button { color: var(--color-dark); cursor: pointer; font-size: 18px; background: none; border: none; padding: 0; line-height: 1; margin-right: 15px; } /* Başlık ve geri butonu arasına boşluk */
 
         /* SAYFA YAPISI */
         .page { display: none; opacity: 0; transition: opacity 0.3s ease; width: 100%; }
@@ -339,7 +339,6 @@
                 <button id="back-button" class="back-button" style="display: none;" data-page-level="1">
                     <i class="fas fa-arrow-left"></i>
                 </button>
-                <i class="fas fa-bars" id="menu-icon"></i>
                 <h1>EnglishBox</h1>
             </div>
             <i class="fas fa-crown crown-icon"></i>
@@ -668,7 +667,6 @@
         const unitDetailPage = document.getElementById('unit-detail-page');
         const quizPage = document.getElementById('quiz-page');
         const backButton = document.getElementById('back-button');
-        const menuIcon = document.getElementById('menu-icon');
         const headerTitle = document.querySelector('header h1');
         const cards = document.querySelectorAll('.card');
         const unitTimeline = detailPage.querySelector('.timeline');
@@ -694,9 +692,11 @@
                 headerTitle.textContent = 'EnglishBox';
                 navigationStack = [];
             } else {
-                backButton.style.display = 'block';
+                backButton.style.display = 'inline-flex'; // Butonu görünür yap
                 backButton.setAttribute('data-page-level', level);
                 headerTitle.textContent = title;
+                // Header Title'ı sağa kaydırmak için style ekleyelim (geri butonu varken başlık sola yaslı kalmasın)
+                headerTitle.style.marginLeft = '0'; 
 
                 // Navigasyon yığınına ekle/güncelle
                 const lastState = navigationStack[navigationStack.length - 1];
@@ -808,12 +808,12 @@
             });
         }
 
-        // === GÜNCELLENMİŞ loadTimeline FONKSİYONU (Kelime Sayısı Bilgili) ===
+        // === GÜNCELLENMİŞ loadTimeline FONKSİYONU (Kelime sözcüğü silindi) ===
         function loadTimeline(units, categoryTitle) {
             unitTimeline.innerHTML = '';
             units.forEach(unit => {
-                // Kelime sayısı bilgisi burada kullanılıyor
-                const subtitleText = `${unit.learnedWords}/${unit.totalWords} kelime öğrenildi.`;
+                // İlerleme bilgisi: sadece [Öğrenilen]/[Toplam] öğrenildi.
+                const subtitleText = `${unit.learnedWords}/${unit.totalWords} öğrenildi.`;
                 
                 const unitItem = document.createElement('div');
                 unitItem.className = 'unit-item';
