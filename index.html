@@ -39,7 +39,7 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
             position: relative;
             overflow: hidden;
-            min-height: 700px; /* Azaltıldı */
+            min-height: 700px; 
             padding-bottom: 0; 
         }
 
@@ -67,9 +67,9 @@
             display: flex;
             flex-direction: column;
             height: 100%;
-            min-height: calc(100vh - 50px); /* Ekran yüksekliğine ayarlandı */
+            min-height: calc(100vh - 50px);
             position: relative;
-            padding-bottom: 70px; /* Sadece sabit butonu kadar boşluk bırakıldı */
+            padding-bottom: 70px; 
         }
         
         /* KART STİLLERİ */
@@ -151,9 +151,15 @@
 
         /* ÜNİTE DETAY & KELİME LİSTESİ */
         .unit-detail-info { padding: 20px; text-align: center; flex-shrink: 0; }
-        .unit-progress-circle { width: 120px; height: 120px; border-radius: 50%; background-color: var(--color-primary); color: #fff; font-size: 36px; font-weight: bold; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; }
-        .unit-detail-info h2 { font-size: 24px; color: var(--color-dark); margin-bottom: 5px; }
+        .unit-progress-circle { width: 120px; height: 120px; border-radius: 50%; background-color: var(--color-primary); color: #fff; font-size: 36px; font-weight: bold; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto; }
+        /* .unit-detail-info h2 kaldırıldı */
         .unit-detail-info p { font-size: 14px; color: #888; margin-bottom: 20px; }
+        .unit-detail-info .word-count-info {
+             font-size: 16px; 
+             font-weight: bold; 
+             color: var(--color-dark); 
+             margin-top: 10px;
+        }
         
         /* Buton Sabitleme */
         .bottom-actions { 
@@ -373,9 +379,8 @@
             
             <div class="unit-detail-info">
                 <div class="unit-progress-circle" id="detail-unit-circle">1</div>
-                <h2 id="detail-unit-title">Ünite Başlığı</h2>
-                <p id="detail-unit-progress">...</p>
-            </div>
+                <p id="detail-unit-progress" class="word-count-info">Bu ünitede çalışılacak 20 kelime var.</p>
+                </div>
             
             <div class="unit-word-list" id="word-list-container"></div>
 
@@ -672,6 +677,7 @@
         const quizOptionsContainer = document.getElementById('quiz-options');
         const quizQuestionText = document.getElementById('quiz-question-text');
         const quizQuestionCounter = document.getElementById('quiz-question-counter');
+        const detailUnitProgress = document.getElementById('detail-unit-progress'); // Yeni açıklama için referans
         
         // Navigasyon Yığını (geri butonu için)
         let navigationStack = [];
@@ -783,8 +789,9 @@
 
             document.getElementById('detail-unit-circle').textContent = unitNumber;
             document.getElementById('detail-unit-circle').className = 'unit-progress-circle ' + colorClass;
-            document.getElementById('detail-unit-title').textContent = `${unitTitle} Ünitesi`;
-            document.getElementById('detail-unit-progress').textContent = `${totalWords} kelimeden ${learnedWords} tanesi öğrenildi.`;
+            
+            // Başlık silindi. Sadece kelime sayısı bilgisi güncellendi.
+            detailUnitProgress.textContent = `Bu ünitede çalışılacak ${totalWords} kelime var. (${learnedWords} öğrenildi)`; 
 
             wordListContainer.innerHTML = '';
             words.forEach(word => {
@@ -824,6 +831,7 @@
                     unitItem.classList.add('selected');
                     
                     loadUnitDetailPage(unit.unit, categoryTitle, unit.totalWords, unit.learnedWords, unit.colorClass, unit.words);
+                    // Başlığı sadece kategori ve ünite numarası olarak ayarla (başlık etiketi kaldırıldığı için)
                     navigateTo('unit-detail-page', 2, `${categoryTitle} - Ünite ${unit.unit}`);
                 });
                 unitTimeline.appendChild(unitItem);
