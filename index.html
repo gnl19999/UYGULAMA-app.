@@ -783,6 +783,46 @@
         const globalTranslationPool = ["etkilemek", "uyum", "değişim", "gelişme", "sistem", "bölüm", "yöntem", "veri", "analiz", "sonuç", "öğrenme", "çözüm", "amaç", "süreç", "kavram", "uygulama", "farklılaşma", "yapı", "neden", "sorumluluk"];
 
         // === YARDIMCI FONKSİYONLAR ===
+
+        // Kelime anlamlarına göre rastgele ve yaklaşık bir ikon atar
+        function getIconForWord(englishWord) {
+            const wordLower = englishWord.toLowerCase();
+            
+            // 1. Genel Eylemler/Kavramlar için Yüksek Öncelikli Eşleşmeler
+            if (wordLower.includes("analyze") || wordLower.includes("scrutinize") || wordLower.includes("determine")) return "fas fa-search"; // Analiz, İnceleme
+            if (wordLower.includes("formulate") || wordLower.includes("synthesize") || wordLower.includes("propose")) return "fas fa-drafting-compass"; // Formülleştirme, Taslak
+            if (wordLower.includes("evaluate") || wordLower.includes("assess") || wordLower.includes("critique")) return "fas fa-balance-scale"; // Değerlendirme, Tartma
+            if (wordLower.includes("demonstrate") || wordLower.includes("illustrate") || wordLower.includes("reveal")) return "fas fa-lightbulb"; // Gösterme, Açıklama
+            if (wordLower.includes("investigate") || wordLower.includes("observe")) return "fas fa-binoculars"; // Araştırma, Gözlem
+            if (wordLower.includes("establish") || wordLower.includes("validate") || wordLower.includes("verify")) return "fas fa-check-circle"; // Kurma, Doğrulama
+            if (wordLower.includes("implement") || wordLower.includes("apply")) return "fas fa-wrench"; // Uygulama, Araç
+            if (wordLower.includes("hinder") || wordLower.includes("constrain") || wordLower.includes("inhibit") || wordLower.includes("restrict")) return "fas fa-ban"; // Engelleme, Kısıtlama
+            if (wordLower.includes("mitigate") || wordLower.includes("alleviate") || wordLower.includes("minimize")) return "fas fa-minus-circle"; // Hafifletme, Azaltma
+            if (wordLower.includes("integrate") || wordLower.includes("unify") || wordLower.includes("merge")) return "fas fa-layer-group"; // Bütünleştirme, Birleştirme
+            if (wordLower.includes("promote") || wordLower.includes("foster") || wordLower.includes("bolster")) return "fas fa-chart-line"; // Geliştirme, Destekleme
+
+            // 2. Diğer İleri Düzey Fiiller için Rastgele İkon Havuzu
+            const academicIcons = [
+                "fas fa-file-alt", // Genel metin, çalışma
+                "fas fa-brain",    // Düşünme, anlama
+                "fas fa-puzzle-piece", // İlişkilendirme, çözme
+                "fas fa-cogs",     // Süreç, mekanizma
+                "fas fa-flask",    // Deney, araştırma
+                "fas fa-chart-bar", // Veri, istatistik
+                "fas fa-code-branch", // Sapma, dallanma
+                "fas fa-handshake" // İlişki, anlaşma
+            ];
+            
+            // Kelimenin hash değerine göre tutarlı bir seçim yap
+            let hash = 0;
+            for (let i = 0; i < wordLower.length; i++) {
+                hash = wordLower.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const index = Math.abs(hash) % academicIcons.length;
+            
+            return academicIcons[index];
+        }
+
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -864,7 +904,7 @@
                     else if (unitNum === 2 && category === "Akademik Fiiller") learnedWords = Math.min(words.length, 5);
                     else if (unitNum === 3 && category === "İleri Düzey Akademik Fiiller") learnedWords = Math.min(words.length, 5);
                     else if (unitNum <= 10) learnedWords = Math.min(words.length, Math.floor(words.length / 2));
-                    else learnedWords = Math.floor(words.length / 3);
+                    else learnedWords = Math.min(words.length, Math.floor(words.length / 3));
 
                     // Ünite rengi (U1, U2, U3 vb. sınıfları kullanıldı)
                     const colorClass = `u${unitNum % 20 === 0 ? 20 : unitNum % 20}`; 
@@ -1025,10 +1065,13 @@
 
             wordListContainer.innerHTML = '';
             unitData.words.forEach(word => {
+                // OTOMATİK İKON ATAMASI BURADA KULLANILDI
+                const wordIcon = getIconForWord(word.en); 
+                
                 const wordItem = document.createElement('div');
                 wordItem.className = 'word-item';
                 wordItem.innerHTML = `
-                    <div class="word-icon-placeholder"><i class="fas fa-spell-check"></i></div>
+                    <div class="word-icon-placeholder"><i class="${wordIcon}"></i></div>
                     <div class="word-text-group">
                         <span class="word-english">${word.en}</span>
                         <span class="word-turkish">${word.tr}</span>
@@ -1043,7 +1086,10 @@
         }
 
         function loadWordDetailPage(wordData) {
-            document.getElementById('word-icon-main').innerHTML = '<i class="fas fa-cube"></i>';
+            // OTOMATİK İKON ATAMASI BURADA KULLANILDI
+            const mainIcon = getIconForWord(wordData.en); 
+            document.getElementById('word-icon-main').innerHTML = `<i class="${mainIcon}"></i>`;
+            
             document.getElementById('detail-english-word').textContent = wordData.en;
             document.getElementById('detail-turkish-word').textContent = wordData.tr;
             document.getElementById('example-sentence-en').textContent = wordData.exampleEN;
