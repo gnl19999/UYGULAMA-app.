@@ -479,6 +479,7 @@
         const realWordData = {
            
              "İleri Düzey Akademik Fiiller": {
+                // Her ünitede 20 kelime kuralını desteklemek için mevcut kelimeler
                 1: [
                     { en: "Analyze", tr: "Analiz Etmek" }, { en: "Identify", tr: "Tanımlamak, Belirlemek" },
                     { en: "Determine", tr: "Belirlemek" }, { en: "Formulate", tr: "Formüle Etmek" },
@@ -605,7 +606,7 @@
                     const unitNum = index + 1;
                     let words = [];
                     
-                    // İstenen Düzeltme: "İleri Düzey Akademik Fiiller" için her ünitede 20 kelime garantisi
+                    // İstenen Kural: "İleri Düzey Akademik Fiiller" için her ünitede 20 kelime garantisi
                     if (category === "İleri Düzey Akademik Fiiller") {
                         const REQUIRED_COUNT = 20;
                         const existingWords = realWordData[category] && realWordData[category][unitNum] ? realWordData[category][unitNum] : [];
@@ -616,11 +617,12 @@
                         while (words.length < REQUIRED_COUNT) {
                             wIndex++;
                             const baseWord = category.split(' ')[0].substring(0, 3).toUpperCase();
-                            const newWordEN = `${baseWord}_U${unitNum}_W${wIndex + 1}`;
-                            const dummyTR = shuffleArray([...dummyWordsTurkish])[wIndex % dummyWordsTurkish.length] + ` (D${wIndex})`;
+                            // Dummy kelimenin benzersizliğini artırmak için unitNum ve wIndex kullanıldı
+                            const newWordEN = `${baseWord}_U${unitNum}_W${words.length + 1}`;
+                            const dummyTR = shuffleArray([...dummyWordsTurkish])[words.length % dummyWordsTurkish.length] + ` (D${unitNum}-${words.length + 1})`;
                             
                             words.push({ en: newWordEN, tr: dummyTR });
-                            if (wIndex > 50) break; // Sonsuz döngüden kaçınma kontrolü
+                            if (words.length > 50) break; 
                         }
                         words = words.slice(0, REQUIRED_COUNT); 
 
@@ -650,6 +652,7 @@
                     else if (unitNum === 2 && category === "Akademik Fiiller") learnedWords = Math.min(words.length, 5);
                     else if (unitNum === 3 && category === "İleri Düzey Akademik Fiiller") learnedWords = Math.min(words.length, 2);
                     else if (category === "En Çok Kullanılan İsimler" && unitNum === 1) learnedWords = Math.min(words.length, 8);
+                    // Rastgele öğrenilmiş kelime sayısı ataması
                     if (learnedWords === 0) learnedWords = Math.floor(Math.random() * Math.min(5, words.length));
                     
                     return { unit: unitNum, totalWords: words.length, learnedWords: learnedWords, words: words, colorClass: 'u' + ((unitNum - 1) % 20 + 1) };
@@ -672,7 +675,6 @@
                 "Context": "Always consider the **context** of a quote.",
                 "Agreeable": "The new manager has a very **agreeable** personality.",
             };
-            // Eğer kelime hardcoded örneklerde yoksa ve dummy ise, özel bir cümle üret
             if (!examples[word] && word.includes('_U')) {
                 return `The purpose of the experiment is to examine the implications of the variable, **${word.toUpperCase()}**, on the main subject.`;
             }
@@ -683,7 +685,7 @@
         function generateExampleSentenceTR(wordTR) {
             if (wordTR.includes('(D')) {
                 // Dummy kelimeler için özel çeviri
-                const cleanTR = wordTR.replace(/ \(D\d+\)/, '').trim();
+                const cleanTR = wordTR.replace(/ \(D\d+-\d+\)/, '').trim();
                 return `Bu kelime için test çevirisi: ${cleanTR}.`;
             }
             return `Bu cümlenin Türkçe çevirisidir. (Kelime anlamı: ${wordTR})`; 
@@ -721,7 +723,6 @@
         const detailPage = document.getElementById('detail-page');
         const unitDetailPage = document.getElementById('unit-detail-page');
         const wordDetailPage = document.getElementById('word-detail-page');
-        // Yeni detay sayfası
         const quizPage = document.getElementById('quiz-page');
         const backButton = document.getElementById('back-button');
         const headerTitle = document.querySelector('header h1');
@@ -905,23 +906,27 @@
             });
         }
 
-        // === QUIZ FONKSİYONLARI (Değişmedi) ===
+        // === QUIZ FONKSİYONLARI ===
+
+        const quizQuestionText = document.getElementById('quiz-question-text');
+        const quizQuestionCounter = document.getElementById('quiz-question-counter');
+        const quizOptionsContainer = document.getElementById('quiz-options');
 
         function generateQuiz(words, numOptions = 4) {
             const shuffledWords = shuffleArray([...words]);
             const quiz = [];
             shuffledWords.forEach(correctWord => {
-                // Sadece kelime anlamlarını kullanıyoruz
+                // Sadece kelime anlamlarını kullanıyoruz ve dummy kelimeleri filtreliyoruz
                 const allTranslations = globalTranslationPool.filter(tr => tr !== correctWord.tr && !tr.includes('(D')); 
                 let wrongOptions = shuffleArray(allTranslations).slice(0, numOptions - 1);
                 
-                // Eğer yeterli seçenek yoksa, dummyWordsTurkish'ten tamamla
+                // Eğer yeterli seçenek yoksa, dummyWordsTurkish'ten tamamla (Ancak Quiz'de görünür olmayacaklar)
                 while (wrongOptions.length < numOptions - 1) {
                     const dummy = dummyWordsTurkish[Math.floor(Math.random() * dummyWordsTurkish.length)];
                     if (!wrongOptions.includes(dummy) && dummy !== correctWord.tr) wrongOptions.push(dummy);
                 }
                 
-                // Seçenekleri sadece kelime anlamlarını içerecek şekilde filtrele
+                // Seçenekleri sadece kelime anlamlarını içerecek şekilde filtrele ve kes
                 wrongOptions = wrongOptions.filter((option, index, self) => self.indexOf(option) === index && option !== correctWord.tr).slice(0, numOptions - 1);
                 const options = shuffleArray([correctWord.tr, ...wrongOptions]);
          
@@ -932,7 +937,7 @@
 
         function startQuiz() {
             const selectedUnitData = cardUnitData[currentCategoryTitle].find(u => u.unit === currentUnitNumber);
-            if (!selectedUnitData || selectedUnitData.words.length === 0) { alert("Quiz başlatılamadı: Bu ünitede kelime bulunmamaktadır."); return;
+            if (!selectedUnitData || selectedUnitData.words.length < 4) { alert("Quiz başlatılamadı: Quiz için en az 4 kelime gereklidir."); return;
             }
             currentQuiz = generateQuiz(selectedUnitData.words);
             currentQuestionIndex = 0;
