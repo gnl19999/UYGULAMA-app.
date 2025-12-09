@@ -494,8 +494,6 @@
         /**
          * 8 Kategori x 20 Ünite = 160 Ünite Toplam
          * Her Ünite 20 Kelime Kapasiteli
-         * Not: Kelimeleri eklemek için '[EN KELİME X]' ve '[TR ÇEVİRİ X]'
-         * yerlerini doldurmanız gerekmektedir.
          */
         const twentyWordTemplate = Array.from({ length: 20 }, (_, i) => ({
             en: `[EN KELİME ${i + 1}]`,
@@ -524,15 +522,76 @@
             return acc;
         }, {});
         
-        // Örnek: "Akademik Fiiller" kategorisinin 3. ünitesine kelime ekleme:
-        /*
-        realWordData["Akademik Fiiller"][3] = [
-            { en: "establish", tr: "kurmak, tesis etmek" },
-            { en: "implement", tr: "uygulamak" },
-            // ... 18 kelime daha ...
+        
+        // ==========================================================
+        // YENİ EKLEME: 10 ADET RASTGELE KELİMEYİ HER ÜNİTEYE DOLDURMA
+        // ==========================================================
+        
+        // Kelime Havuzu (Toplam 190 kelime)
+        const wordPool = [
+            { en: "analyze", tr: "analiz etmek" }, { en: "establish", tr: "kurmak, tesis etmek" }, { en: "identify", tr: "tanımlamak, belirlemek" }, { en: "determine", tr: "belirlemek, saptamak" }, { en: "formulate", tr: "formüle etmek" },
+            { en: "acquire", tr: "edinmek, kazanmak" }, { en: "context", tr: "bağlam" }, { en: "basis", tr: "temel, dayanak" }, { en: "principle", tr: "ilke" }, { en: "distribute", tr: "dağıtmak" },
+            { en: "approach", tr: "yaklaşım" }, { en: "contract", tr: "sözleşme" }, { en: "economy", tr: "ekonomi" }, { en: "structure", tr: "yapı" }, { en: "process", tr: "süreç" },
+            { en: "theory", tr: "teori" }, { en: "concept", tr: "kavram" }, { en: "method", tr: "yöntem" }, { en: "research", tr: "araştırma" }, { en: "data", tr: "veri" },
+            { en: "area", tr: "alan" }, { en: "factor", tr: "faktör" }, { en: "issue", tr: "mesele, sorun" }, { en: "variable", tr: "değişken" }, { en: "indicate", tr: "göstermek" },
+            { en: "major", tr: "ana, büyük" }, { en: "specific", tr: "belirli, özgül" }, { en: "significance", tr: "önem, anlam" }, { en: "function", tr: "işlev" }, { en: "assume", tr: "varsaymak" },
+            { en: "create", tr: "yaratmak" }, { en: "derive", tr: "türetmek, elde etmek" }, { en: "impact", tr: "etki" }, { en: "require", tr: "gerektirmek" }, { en: "respond", tr: "cevap vermek" },
+            { en: "select", tr: "seçmek" }, { en: "source", tr: "kaynak" }, { en: "total", tr: "toplam" }, { en: "available", tr: "mevcut" }, { en: "benefit", tr: "fayda" },
+            { en: "chapter", tr: "bölüm" }, { en: "evidence", tr: "kanıt" }, { en: "labor", tr: "emek, işgücü" }, { en: "legal", tr: "yasal" }, { en: "locate", tr: "konumlandırmak" },
+            { en: "occur", tr: "meydana gelmek" }, { en: "policy", tr: "politika" }, { en: "section", tr: "kısım" }, { en: "similar", tr: "benzer" }, { en: "view", tr: "görüş, manzara" },
+            { en: "achieve", tr: "başarmak" }, { en: "administrate", tr: "yönetmek" }, { en: "affect", tr: "etkilemek" }, { en: "appropriate", tr: "uygun" }, { en: "aspect", tr: "yön" },
+            { en: "conduct", tr: "yürütmek, yönetmek" }, { en: "consequence", tr: "sonuç" }, { en: "construct", tr: "inşa etmek" }, { en: "consume", tr: "tüketmek" }, { en: "design", tr: "tasarlamak" },
+            { en: "dimension", tr: "boyut" }, { en: "feature", tr: "özellik" }, { en: "instance", tr: "örnek" }, { en: "investigate", tr: "araştırmak" }, { en: "maintain", tr: "sürdürmek" },
+            { en: "obtain", tr: "elde etmek" }, { en: "potential", tr: "potansiyel" }, { en: "primary", tr: "birincil" }, { en: "range", tr: "aralık" }, { en: "regulate", tr: "düzenlemek" },
+            { en: "relevant", tr: "ilgili" }, { en: "represent", tr: "temsil etmek" }, { en: "solve", tr: "çözmek" }, { en: "substitute", tr: "yerine koymak" }, { en: "transfer", tr: "aktarmak" },
+            { en: "valid", tr: "geçerli" }, { en: "access", tr: "erişim" }, { en: "adequate", tr: "yeterli" }, { en: "commit", tr: "taahhüt etmek" }, { en: "despite", tr: "rağmen" },
+            { en: "evolve", tr: "evrim geçirmek" }, { en: "internal", tr: "içsel" }, { en: "output", tr: "çıktı" }, { en: "previous", tr: "önceki" }, { en: "reject", tr: "reddetmek" },
+            { en: "secure", tr: "güvenli, sağlamak" }, { en: "sustain", tr: "sürdürmek" }, { en: "target", tr: "hedef" }, { en: "utilize", tr: "kullanmak" }, { en: "volume", tr: "hacim" },
+            { en: "whereas", tr: "oysa, halbuki" }, { en: "affective", tr: "duygusal" }, { en: "bias", tr: "önyargı" }, { en: "coherence", tr: "tutarlılık" }, { en: "deduce", tr: "sonuç çıkarmak" },
+            { en: "explicit", tr: "açık, net" }, { en: "flexibility", tr: "esneklik" }, { en: "hypothesis", tr: "hipotez" }, { en: "interact", tr: "etkileşimde bulunmak" }, { en: "paradigm", tr: "örnek, paradigma" },
+            { en: "precede", tr: "önce gelmek" }, { en: "qualitative", tr: "nitel" }, { en: "quantitative", tr: "nicel" }, { en: "ratio", tr: "oran" }, { en: "sequence", tr: "sıra" },
+            { en: "simulate", tr: "simüle etmek" }, { en: "submit", tr: "sunmak" }, { en: "transmission", tr: "iletim" }, { en: "undergo", tr: "maruz kalmak" }, { en: "unique", tr: "eşsiz" },
+            { en: "abstract", tr: "soyut" }, { en: "acknowledge", tr: "kabul etmek" }, { en: "aggregate", tr: "toplam, birleşik" }, { en: "allocate", tr: "tahsis etmek" }, { en: "approximate", tr: "yaklaşık" },
+            { en: "civil", tr: "sivil" }, { en: "cooperate", tr: "işbirliği yapmak" }, { en: "definite", tr: "kesin" }, { en: "denote", tr: "göstermek" }, { en: "dispose", tr: "elden çıkarmak" },
+            { en: "dynamic", tr: "dinamik" }, { en: "edit", tr: "düzenlemek" }, { en: "emphasize", tr: "vurgulamak" }, { en: "empirical", tr: "deneysel" }, { en: "expose", tr: "maruz bırakmak" },
+            { en: "global", tr: "küresel" }, { en: "gradient", tr: "eğim" }, { en: "integrate", tr: "bütünleştirmek" }, { en: "justification", tr: "gerekçe" }, { en: "mutual", tr: "karşılıklı" },
+            { en: "neglect", tr: "ihmal etmek" }, { en: "offense", tr: "suç" }, { en: "oriented", tr: "odaklanmış" }, { en: "passive", tr: "edilgen" }, { en: "presume", tr: "varsaymak" },
+            { en: "priority", tr: "öncelik" }, { en: "prohibit", tr: "yasaklamak" }, { en: "promote", tr: "teşvik etmek" }, { en: "random", tr: "rastgele" }, { en: "restrict", tr: "kısıtlamak" },
+            { en: "scope", tr: "kapsam" }, { en: "status", tr: "statü" }, { en: "technical", tr: "teknik" }, { en: "transmit", tr: "iletmek" }, { en: "ultimate", tr: "nihai" },
+            { en: "unify", tr: "birleştirmek" }, { en: "violate", tr: "ihlal etmek" }, { en: "virtual", tr: "sanal" }, { en: "welfare", tr: "refah" }, { en: "whereby", tr: "bununla birlikte" },
+            { en: "adapt", tr: "uyarlamak" }, { en: "convene", tr: "toplanmak" }, { en: "deem", tr: "kabul etmek, saymak" }, { en: "ethical", tr: "etik" }, { en: "exceed", tr: "aşmak" },
+            { en: "exploit", tr: "sömürmek, faydalanmak" }, { en: "framework", tr: "çerçeve" }, { en: "impose", tr: "dayatmak" }, { en: "inherent", tr: "doğuştan" }, { en: "insight", tr: "içgörü" },
+            { en: "invoke", tr: "başvurmak" }, { en: "mechanism", tr: "mekanizma" }, { en: "minimal", tr: "asgari" }, { en: "offset", tr: "dengelemek" }, { en: "prescribe", tr: "reçete yazmak, emretmek" },
+            { en: "resolve", tr: "çözmek, karara bağlamak" }, { en: "restore", tr: "restore etmek" }, { en: "retain", tr: "alıkoymak" }, { en: "static", tr: "statik, durağan" }, { en: "subordinate", tr: "ast" },
+            { en: "supplement", tr: "takviye etmek" }, { en: "tremendous", tr: "muazzam" }, { en: "unified", tr: "birleşik" }, { en: "unprecedented", tr: "eşsiz" }, { en: "viable", tr: "uygulanabilir" },
+            { en: "abstracted", tr: "soyutlanmış" }, { en: "adhere", tr: "bağlı kalmak" }, { en: "confront", tr: "yüzleşmek" }, { en: "crucial", tr: "hayati" }, { en: "domestic", tr: "yerel" },
+            { en: "emergence", tr: "ortaya çıkış" }, { en: "entity", tr: "varlık" }, { en: "integral", tr: "ayrılmaz" }, { en: "monitor", tr: "izlemek" }, { en: "notion", tr: "kavram, fikir" },
+            { en: "notwithstanding", tr: "bununla birlikte" }, { en: "overall", tr: "genel" }, { en: "portion", tr: "bölüm" }, { en: "preliminary", tr: "ön, ilk" }, { en: "prospect", tr: "olasılık" },
+            { en: "radical", tr: "radikal" }, { en: "reinforce", tr: "güçlendirmek" }, { en: "schedule", tr: "programlamak" }, { en: "shift", tr: "değişim" }, { en: "solely", tr: "sadece" },
+            { en: "specialize", tr: "uzmanlaşmak" }, { en: "subsequent", tr: "sonraki" }, { en: "successor", tr: "halef" }, { en: "tape", tr: "bant" }, { en: "tense", tr: "gergin" },
+            { en: "underlie", tr: "temelini oluşturmak" }, { en: "visible", tr: "görünür" }, { en: "warrant", tr: "garanti etmek" }
         ];
-        */
 
+        // Kelime havuzundan rastgele ve benzersiz 10 kelime seçer
+        function getRandomWordsForUnit(pool, count) {
+            let shuffledPool = shuffleArray([...pool]);
+            return shuffledPool.slice(0, count);
+        }
+
+        // Tüm üniteleri rastgele kelimelerle doldurma
+        categories.forEach(category => {
+            for (let i = 1; i <= 20; i++) {
+                // Her ünite için yeni 10 rastgele kelime alınır
+                let randomWords = getRandomWordsForUnit(wordPool, 10);
+                
+                // Ünitenin ilk 10 kelimesi doldurulur, kalan 10 kelime placeholder olarak kalır.
+                realWordData[category][i] = randomWords.concat(realWordData[category][i].slice(10));
+            }
+        });
+
+        // ==========================================================
+        // DOLDURMA İŞLEMİ BİTTİ
+        // ==========================================================
 
         // Yardımcı Fonksiyon: Diziyi karıştırma (Mevcut koddan alındı)
         function shuffleArray(array) { 
@@ -543,7 +602,6 @@
             return array; 
         } 
 
-        // Not: Eski globalTranslationPool ve dummyWordsTurkish kaldırıldı.
 
         // === GÜNCELLENMİŞ VE YENİ VERİ YAPISINA UYUMLU generateAllData FONKSİYONU ===
 
@@ -553,11 +611,11 @@
 
             categories.forEach(category => {
                 const unitsData = [];
-                // realWordData'dan ilgili kategorinin ünite verilerini al
+                // realWordData'dan ilgili kategorinin ünite verilerini al (Artık dolu)
                 const units = realWordData[category] || {}; 
 
                 for (let unitNum = 1; unitNum <= 20; unitNum++) {
-                    // realWordData'daki üniteden kelimeleri al, eğer yoksa 20 kelimelik şablonu kullan
+                    // units[unitNum] artık doldurulmuş 20 kelimelik listeyi içerir
                     const words = units[unitNum] || twentyWordTemplate; 
 
                     // Kelime detaylarını (örnek cümle) ekle
@@ -570,8 +628,8 @@
 
                     // Öğrenilmiş kelime sayısını simüle et (Basit rastgele atama yapıldı)
                     const totalWords = wordsWithDetails.length;
-                    // Yeni yapıda, her ünitede rastgele (0-5 arası) öğrenilmiş kelime simülasyonu yapılır.
-                    let learnedWords = Math.floor(Math.random() * (totalWords > 0 ? Math.min(5, totalWords + 1) : 1));
+                    // Max 5 öğrenilmiş kelime simülasyonu (rastgele doldurulan 10 kelimenin içinden)
+                    let learnedWords = Math.floor(Math.random() * (totalWords > 0 ? Math.min(5, 11) : 1));
 
                     unitsData.push({ 
                         unit: unitNum, 
@@ -590,17 +648,18 @@
         const cardUnitData = generateAllData();
 
         // SAHTE ÖRNEK CÜMLELER ÜRETME FONKSİYONLARI (Mocking)
+        // Yeni eklenen kelimeler için de basit mantıkla cümle üretecektir.
         function generateExampleSentence(word) { 
             const examples = { 
-                "Analyze": "The research team needs to **analyze** the data carefully before concluding.", "Identify": "We must **identify** the root causes of the problem.", "Determine": "The committee will **determine** the final grade based on performance.", "Formulate": "She helped **formulate** a new strategy for the project.", "Acquire": "Students **acquire** new vocabulary through consistent practice.", "Basis": "Evidence is the **basis** of any scientific argument.", "Context": "Always consider the **context** of a quote.", "Agreeable": "The new manager has a very **agreeable** personality.", 
+                "analyze": "The research team needs to **analyze** the data carefully before concluding.", "identify": "We must **identify** the root causes of the problem.", "determine": "The committee will **determine** the final grade based on performance.", "formulate": "She helped **formulate** a new strategy for the project.", "acquire": "Students **acquire** new vocabulary through consistent practice.", "basis": "Evidence is the **basis** of any scientific argument.", "context": "Always consider the **context** of a quote.", "agreeable": "The new manager has a very **agreeable** personality.", 
             }; 
-            return examples[word] || `The study attempts to highlight how to properly use the term **${word.toUpperCase()}** in academic writing.`;
+            return examples[word] || `The latest report suggests that we should **${word.toUpperCase()}** our current strategy.`;
         } 
         function generateExampleSentenceTR(wordTR) { 
             const examplesTR = { 
-                "Analiz Etmek": "Araştırma ekibi, sonuca varmadan önce verileri dikkatlice analiz etmelidir.", "Tanımlamak, Belirlemek": "Sorunun temel nedenlerini belirlemeliyiz.", "Belirlemek": "Komite, performansa göre son notu belirleyecek.", "Formüle Etmek": "Proje için yeni bir strateji formüle etmeye yardımcı oldu.", "Edinmek, Kazanmak": "Öğrenciler düzenli pratikle yeni kelimeler edinir.", "Temel, Dayanak": "Kanıt, herhangi bir bilimsel argümanın temelidir.", "Bağlam": "Her zaman bir alıntının bağlamını göz önünde bulundurun.", "hoş, uyumlu, uygun": "Yeni yöneticinin çok uyumlu bir kişiliği var.", 
+                "analiz etmek": "Araştırma ekibi, sonuca varmadan önce verileri dikkatlice analiz etmelidir.", "tanımlamak, belirlemek": "Sorunun temel nedenlerini belirlemeliyiz.", "belirlemek, saptamak": "Komite, performansa göre son notu belirleyecek.", "formüle etmek": "Proje için yeni bir strateji formüle etmeye yardımcı oldu.", "edinmek, kazanmak": "Öğrenciler düzenli pratikle yeni kelimeler edinir.", "temel, dayanak": "Kanıt, herhangi bir bilimsel argümanın temelidir.", "bağlam": "Her zaman bir alıntının bağlamını göz önünde bulundurun.", "hoş, uyumlu, uygun": "Yeni yöneticinin çok uyumlu bir kişiliği var.", 
             };
-            return examplesTR[wordTR] || `Çalışma, ${wordTR} teriminin akademik yazımda nasıl doğru kullanılacağını vurgulamaya çalışmaktadır.`;
+            return examplesTR[wordTR] || `Son rapor, mevcut stratejimizi ${wordTR} gerektiğini öne sürmektedir.`;
         } 
         
         function updateHomePageCards() {
@@ -612,11 +671,17 @@
                     let totalLearned = 0;
                     info.forEach(unit => {
                         totalWords += unit.totalWords;
-                        totalLearmed += unit.learnedWords;
+                        totalLearned += unit.learnedWords;
                     });
                     const percentage = totalWords > 0 ? (totalLearned / totalWords) * 100 : 0;
                     const cardInfo = card.querySelector('.card-info');
-                    cardInfo.querySelector('p').textContent = `${totalWords} kelimeden ${totalLearned} tanesi öğrenildi.`;
+                    // Toplam kelime sayısı 8 kategori * 20 ünite * 20 kelime = 3200 (20'şer kelime varsayımıyla)
+                    // Ancak kartta kategori kartında gösterilen toplam kelime sayısını korumak için totalWords = 20 * 20 = 400 gibi sabit bir sayı da kullanılabilir.
+                    
+                    // Şimdilik dinamik hesaplamayı koruyorum, ancak kelimeler doldurulduğu için totalWords hep 400 (20 ünite * 20 kelime) çıkacaktır.
+                    const displayTotalWords = 400; // Örnek olarak sabit tuttum (20 ünite * 20 kelime)
+                    
+                    cardInfo.querySelector('p').textContent = `${displayTotalWords} kelimeden ${totalLearned} tanesi öğrenildi.`;
                     cardInfo.querySelector('.progress-fill').style.width = `${percentage.toFixed(0)}%`;
                 }
             });
@@ -736,11 +801,11 @@
             let totalLearned = 0;
 
             units.forEach(unit => {
-                totalWords += unit.totalWords;
+                // Sadece doldurulmuş kelimeleri saymak için totalWords = 20, learnedWords ise rastgele
+                totalWords += unit.totalWords; 
                 totalLearned += unit.learnedWords;
             });
 
-            const totalUnitCount = units.length;
             const learnedRate = totalWords > 0 ? ((totalLearned / totalWords) * 100).toFixed(0) : 0;
             // Quiz doğru cevap oranını simüle et
             const correctRate = Math.min(100, (Number(learnedRate) * 1.5)).toFixed(0);
@@ -764,24 +829,44 @@
 
             wordListContainer.innerHTML = '';
             words.forEach(word => {
-                const wordItem = document.createElement('div');
-                wordItem.className = 'word-item';
-                
-                // 3D ikon placeholder kullanıldı
-                wordItem.innerHTML = `
-                    <div class="word-icon-placeholder"><i class="fas fa-cube"></i></div>
-                    <div class="word-text-group">
-                        <span class="word-english">${word.en.toLowerCase()}</span>
-                        <span class="word-turkish">${word.tr.toLowerCase()}</span>
-                    </div>
-                `;
+                // Placeholder kelimeleri gösterme
+                if (word.en.startsWith('[EN KELİME')) {
+                    // Placeholder'ları listeye eklemeyi atlayabilir veya farklı gösterebilirsiniz.
+                    // Şimdilik sadece dolu kelimeleri gösteriyoruz.
+                    // Ancak, unit.totalWords'un 20 olduğu varsayıldığı için,
+                    // placeholder'ları da listede göstermek daha doğru olur.
+                    // Placeholder'ları "Kelime Yeri" şeklinde gösterelim.
+                    const wordItem = document.createElement('div');
+                    wordItem.className = 'word-item';
+                    wordItem.innerHTML = `
+                        <div class="word-icon-placeholder" style="background-color: #f7f7f7; color: #ccc;"><i class="fas fa-lock"></i></div>
+                        <div class="word-text-group">
+                            <span class="word-english" style="color: #ccc;">${word.en.toLowerCase()}</span>
+                            <span class="word-turkish" style="color: #ccc;">(Doldurulacak Alan)</span>
+                        </div>
+                    `;
+                    wordListContainer.appendChild(wordItem);
 
-                // Kelimeye tıklama olayı eklendi
-                wordItem.addEventListener('click', () => {
-                    loadWordDetailPage(word);
-                });
+                } else {
+                    const wordItem = document.createElement('div');
+                    wordItem.className = 'word-item';
+                    
+                    // 3D ikon placeholder kullanıldı
+                    wordItem.innerHTML = `
+                        <div class="word-icon-placeholder"><i class="fas fa-cube"></i></div>
+                        <div class="word-text-group">
+                            <span class="word-english">${word.en.toLowerCase()}</span>
+                            <span class="word-turkish">${word.tr.toLowerCase()}</span>
+                        </div>
+                    `;
 
-                wordListContainer.appendChild(wordItem);
+                    // Kelimeye tıklama olayı eklendi
+                    wordItem.addEventListener('click', () => {
+                        loadWordDetailPage(word);
+                    });
+
+                    wordListContainer.appendChild(wordItem);
+                }
             });
         }
 
@@ -831,7 +916,12 @@
 
         function generateQuiz(unitWords, numQuestions = 10, categoryTitle) {
             const quizQuestions = [];
-            const wordsToQuiz = shuffleArray([...unitWords]).slice(0, numQuestions); 
+            
+            // Sadece dolu (gerçek) kelimeleri al
+            const realWords = unitWords.filter(w => !w.en.startsWith('[EN KELİME'));
+
+            // Quiz için kelime sayısını ayarla
+            const wordsToQuiz = shuffleArray([...realWords]).slice(0, numQuestions); 
 
             // Tüm kelimelerin Türkçe karşılıklarından oluşan bir havuz oluştur
             const allTranslations = [];
@@ -839,7 +929,9 @@
             if (cardUnitData[categoryTitle]) {
                  cardUnitData[categoryTitle].forEach(unit => {
                     unit.words.forEach(word => {
-                        allTranslations.push(word.tr);
+                        if (!word.en.startsWith('[EN KELİME')) { // Placeholder'ları çıkarma
+                            allTranslations.push(word.tr);
+                        }
                     });
                 });
             }
@@ -858,8 +950,11 @@
                     }
                 }
                 
-                // Yeterli distractors yoksa, sahte kelimelerden ekle (Eğer eskiden kalan bir havuzunuz varsa kullanabilirsiniz.)
-                // Yeni kodda sahte havuz oluşturulmadı, bu nedenle sadece mevcut kelimeleri kullanacaktır.
+                // Yeterli distractors yoksa, sadece 4 seçenek oluşturmak için doğru cevabı tekrarlayabiliriz
+                while(options.length < 4) {
+                     options.push('...'); 
+                }
+
 
                 quizQuestions.push({
                     question: word.en,
@@ -879,13 +974,16 @@
             if (currentUnitNumber === null) return;
 
             const unitData = cardUnitData[currentCategoryTitle].find(u => u.unit === currentUnitNumber);
-            if (!unitData || unitData.words.length === 0) {
-                 alert("Bu ünitede henüz kelime bulunmamaktadır.");
+            // Sadece dolu olan kelimeleri sayarak quiz'i başlat
+            const realWordsCount = unitData.words.filter(w => !w.en.startsWith('[EN KELİME')).length;
+            
+            if (!unitData || realWordsCount === 0) {
+                 alert("Bu ünitede quiz için yeterli (dolu) kelime bulunmamaktadır. Lütfen kelimeleri ekleyiniz.");
                  return;
             }
 
             // Kelime sayısı 10'dan azsa, o kadar soru sor
-            const numQuestions = Math.min(10, unitData.words.length);
+            const numQuestions = Math.min(10, realWordsCount);
             
             score = 0;
             currentQuestionIndex = 0;
@@ -899,7 +997,7 @@
             totalQuestions = currentQuiz.length;
             const results = document.querySelector('.quiz-results');
             if (results) results.remove();
-            document.querySelector('.quiz-header-word').style.display = 'none';
+            document.querySelector('.quiz-header-word').style.display = 'flex';
             navigateTo('quiz-page', 3, `Quiz: Ünite ${currentUnitNumber}`);
             displayQuestion();
         }
