@@ -160,14 +160,14 @@
         }
         
         .word-text-group { display: flex; flex-direction: column; }
-        .word-english { font-weight: bold; color: var(--color-dark); font-size: 16px; text-transform: lowercase; }
+        .word-english { font-weight: bold; color: var(--color-dark); font-size: 16px; text-transform: capitalize; }
         .word-turkish { font-size: 14px; color: #888; text-transform: lowercase; }
 
         /* QUIZ SAYFASI */
         #quiz-page { display: flex; flex-direction: column; padding: 0 20px; text-align: center; }
         .quiz-header-word { padding: 30px 0; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; }
         .quiz-speaker-icon { font-size: 36px; color: var(--color-yellow); margin-bottom: 10px; cursor: pointer; }
-        #quiz-question-text { font-size: 32px; color: var(--color-dark); font-weight: bold; margin: 0; }
+        #quiz-question-text { font-size: 32px; color: var(--color-dark); font-weight: bold; margin: 0; text-transform: capitalize; }
         #quiz-question-counter { font-size: 14px; color: #999; margin-top: 10px; font-weight: normal; }
         .options-container { display: flex; flex-direction: column; gap: 15px; }
         .quiz-option {
@@ -284,7 +284,7 @@
         <div id="quiz-page" class="page">
             <div class="quiz-header-word">
                 <i class="fas fa-volume-up quiz-speaker-icon" onclick="alert('Seslendirildi!')"></i>
-                <h3 id="quiz-question-text">AGREEABLE</h3>
+                <h3 id="quiz-question-text"></h3>
                  <p id="quiz-question-counter"></p>
             </div>
             <div id="quiz-options" class="options-container">
@@ -294,7 +294,7 @@
     </div>
 
     <script>
-        // === VERİ OLUŞTURMA BÖLÜMÜ ===
+        // === GÜNCEL VE ZENGİNLEŞTİRİLMİŞ VERİ BÖLÜMÜ ===
 
         const realWordData = {
             "İleri Düzey Akademik Fiiller": {
@@ -334,6 +334,7 @@
                     { en: "Globalize", tr: "Küreselleştirmek" }, { en: "Guarantee", tr: "Garanti etmek" },
                     { en: "Hinder", tr: "Engellemek, Önlemek" }, { en: "Imply", tr: "Kastetmek, İma etmek, Çıkarım Yapmak" }
                 ],
+                // ... (Diğer İleri Düzey Fiiller üniteleri olduğu gibi bırakıldı)
                 4: [
                     { en: "Incur", tr: "Maruz kalmak, Uğramak (masraf, zarar)" }, { en: "Infer", tr: "Çıkarım yapmak, Sonuç çıkarmak" },
                     { en: "Inhibit", tr: "Engellemek, Ket vurmak" }, { en: "Initiate", tr: "Başlatmak, Girişimde bulunmak" },
@@ -375,7 +376,7 @@
                     { en: "Utilize", tr: "Kullanmak, Faydalanmak" }, { en: "Vary", tr: "Değişmek, Farklılık göstermek" },
                     { en: "Verify", tr: "Teyit etmek, Doğrulamak" }, { en: "Acknowledge", tr: "Kabul etmek, Onaylamak" },
                     { en: "Allocate", tr: "Ayırmak, Tahsis etmek" }, { en: "Appraise", tr: "Değer biçmek, Değerlendirmek" },
-                    { en: "Ascend", tr: "Yükselmek, Artmak" }, { en: "Authorize", tr: "Yetki vermek" },
+                    { en: "Ascend", tr: "Yükselmek" }, { en: "Authorize", tr: "Yetki vermek" },
                     { en: "Bias", tr: "Önyargı oluşturmak, Etkilemek" }, { en: "Calculate", tr: "Hesaplamak" },
                     { en: "Conceive", tr: "Tasarlamak, Düşünmek" }, { en: "Confine", tr: "Sınırlandırmak, Hapsetmek" },
                     { en: "Consolidate", tr: "Pekiştirmek, Sağlamlaştırmak, Birleştirmek" }, { en: "Contract", tr: "Küçülmek, Daralmak, Sözleşme yapmak" },
@@ -535,7 +536,9 @@
                     { en: "Disperse", tr: "Dağıtmak, Yaymak" }, { en: "Dispute", tr: "Tartışmak, İtiraz etmek" },
                     { en: "Distinguish", tr: "Ayırt etmek, Farklılaştırmak" }, { en: "Elicit", tr: "Ortaya çıkarmak, Elde etmek (bilgi/tepki)" },
                     { en: "Embed", tr: "Gömülmek, Yerleştirmek" }, { en: "Encompass", tr: "Kapsamak, Çevrelemek" },
-                    { en: "Enhance", tr: "Geliştirmek, İyileştirmek" }
+                    { en: "Enhance", tr: "Geliştirmek, İyileştirmek" },
+                    { en: "Examine", tr: "İncelemek" }, { en: "Extend", tr: "Uzatmak, Genişletmek" },
+                    { en: "Foresee", tr: "Öngörmek" }
                 ]
             },
             
@@ -562,17 +565,78 @@
                     { en: "Utilize", tr: "Kullanmak, Faydalanmak" }, { en: "Vary", tr: "Değişmek, Farklılık Göstermek" }
                 ]
             },
+            
+            "Akademik Sıfatlar": {
+                1: [
+                    { en: "Cohesive", tr: "Uyumlu, Yapışkan" }, { en: "Subtle", tr: "İnce, Ustaca" },
+                    { en: "Vast", tr: "Geniş, Büyük" }, { en: "Implicit", tr: "Zımni, Dolaylı" },
+                    { en: "Explicit", tr: "Açık, Net" }, { en: "Crucial", tr: "Çok önemli, Hayati" }
+                ],
+                2: [
+                    { en: "Integral", tr: "Temel, Bütünleyici" }, { en: "Viable", tr: "Uygulanabilir, Yaşayabilir" },
+                    { en: "Diverse", tr: "Çeşitli" }, { en: "Arbitrary", tr: "Keyfi, Rastgele" },
+                    { en: "Rigorous", tr: "Titiz, Sıkı" }, { en: "Tentative", tr: "Geçici, Deneme amaçlı" }
+                ]
+            },
+            
             "Akademik İsimler": {
                 1: [
                     { en: "Basis", tr: "Temel, Dayanak" }, { en: "Context", tr: "Bağlam" },
                     { en: "Concept", tr: "Kavram" }, { en: "Dimension", tr: "Boyut" },
                     { en: "Structure", tr: "Yapı" }, { en: "Theory", tr: "Kuram" }
+                ],
+                2: [
+                    { en: "Paradigm", tr: "Örnek, Model" }, { en: "Assumption", tr: "Varsayım" },
+                    { en: "Implication", tr: "Çıkarım, İma" }, { en: "Framework", tr: "Çerçeve" },
+                    { en: "Hypothesis", tr: "Hipotez" }, { en: "Constraint", tr: "Kısıtlama, Zorlama" }
                 ]
             },
-            "Akademik Sıfatlar": {
+            
+            "Akademik Bağlaçlar": {
                 1: [
-                    { en: "Cohesive", tr: "uyumlu, yapışkan" }, { en: "Subtle", tr: "ince, ustaca" },
-                    { en: "Vast", tr: "geniş, büyük" },
+                    { en: "However", tr: "Ancak, Yine de" }, { en: "Moreover", tr: "Dahası, Üstelik" },
+                    { en: "Therefore", tr: "Bu nedenle" }, { en: "Consequently", tr: "Sonuç olarak" },
+                    { en: "Although", tr: "Rağmen" }, { en: "Whereas", tr: "Oysa" },
+                    { en: "In addition", tr: "Ek olarak" }, { en: "Similarly", tr: "Benzer şekilde" },
+                    { en: "In contrast", tr: "Aksine, Tersine" }, { en: "Despite", tr: "Rağmen" }
+                ],
+                2: [
+                    { en: "Furthermore", tr: "Ayrıca" }, { en: "Nevertheless", tr: "Bununla birlikte" },
+                    { en: "Hence", tr: "Bu yüzden, Bundan dolayı" }, { en: "Thus", tr: "Böylece" },
+                    { en: "Subsequently", tr: "Daha sonra" }, { en: "Meanwhile", tr: "Bu sırada" }
+                ]
+            },
+            
+            "Öbek Fiiller": {
+                1: [
+                    { en: "Call off", tr: "İptal etmek" }, { en: "Put off", tr: "Ertelemek" },
+                    { en: "Look into", tr: "İncelemek" }, { en: "Carry out", tr: "Yürütmek, Yapmak" },
+                    { en: "Take up", tr: "Başlamak (hobi), Yer kaplamak" }, { en: "Find out", tr: "Öğrenmek, Bulmak" }
+                ],
+                2: [
+                    { en: "Set up", tr: "Kurmak, Oluşturmak" }, { en: "Break down", tr: "Bozulmak, Parçalamak" },
+                    { en: "Come up with", tr: "Fikir bulmak, Ortaya atmak" }, { en: "Go through", tr: "Yaşamak, Deneyimlemek" },
+                    { en: "Run into", tr: "Karşılaşmak" }, { en: "Turn down", tr: "Reddetmek" }
+                ]
+            },
+            
+            "Akademik Zarflar": {
+                1: [
+                    { en: "Significantly", tr: "Önemli ölçüde" }, { en: "Consequently", tr: "Sonuçsal olarak" },
+                    { en: "Primarily", tr: "Öncelikle, Başlıca" }, { en: "Subsequently", tr: "Daha sonra, Ardından" },
+                    { en: "Necessarily", tr: "Mutlaka, Zorunlu olarak" }, { en: "Conversely", tr: "Aksine, Tersine" }
+                ],
+                2: [
+                    { en: "Explicitly", tr: "Açıkça" }, { en: "Implicitly", tr: "Zımnen, Dolaylı olarak" },
+                    { en: "Tentatively", tr: "Geçici olarak, Deneme amaçlı" }, { en: "Vaguely", tr: "Bulanık bir şekilde, Belirsizce" }
+                ]
+            },
+            
+            "En Çok Kullanılan İsimler": {
+                1: [
+                    { en: "Environment", tr: "Çevre" }, { en: "Issue", tr: "Mesele, Konu" },
+                    { en: "Impact", tr: "Etki" }, { en: "Source", tr: "Kaynak" },
+                    { en: "Method", tr: "Yöntem" }, { en: "Target", tr: "Hedef" }
                 ]
             }
         };
@@ -590,11 +654,16 @@
         for (const category in realWordData) {
             for (const unit in realWordData[category]) {
                 realWordData[category][unit].forEach(word => {
-                    globalTranslationPool.push(word.tr);
+                    // Pool'a sadece benzersiz ve küçük harfli çevirileri ekleyelim
+                    if (!globalTranslationPool.includes(word.tr.toLowerCase())) {
+                       globalTranslationPool.push(word.tr.toLowerCase());
+                    }
                 });
             }
         }
-        const dummyWordsTurkish = ["gelişimsel", "kavramsal", "farkındalık", "etkileşim", "değişim", "kapsamlı", "uygulama", "yöntem", "çıkarım", "kuramsal", "karmaşık", "basitçe", "genellikle", "önemli", "zorluk", "çözüm", "tanıtım", "işlev", "başlangıç", "teorik", "bağlam", "sonuç", "görünür"];
+        // Sahte kelime havuzu artık quiz seçenekleri için kullanılmıyor, ancak fallback olarak tutulabilir.
+        const dummyWordsTurkish = ["gelişimsel", "kavramsal", "farkındalık", "etkileşim", "değişim", "kapsamlı", "uygulama", "yöntem", "çıkarım", "kuramsal", "karmaşık", "basitçe", "genellikle", "önemli", "zorluk", "çözüm", "tanıtım", "işlev", "başlangıç", "teorik", "bağlam", "sonuç", "görünür", "uzlaşma", "sınırlama", "yansıtmak", "belirleme", "kullanım", "kaldıraç", "kapsam"];
+
 
         function generateAllData() {
             const categories = [
@@ -611,10 +680,9 @@
             categories.forEach(category => {
                 let maxUnits = 20; // Varsayılan 20 ünite
                 if (realWordData[category]) {
-                    // Eğer gerçek veri varsa, o kategorideki en yüksek ünite numarasını bul
                     const unitKeys = Object.keys(realWordData[category]).map(Number);
                     if (unitKeys.length > 0) {
-                        maxUnits = Math.max(...unitKeys, 20); // En az 20 ünite olsun
+                        maxUnits = Math.max(...unitKeys, 20); 
                     }
                 }
 
@@ -624,16 +692,17 @@
                     if (realWordData[category] && realWordData[category][unitNum]) {
                         words = realWordData[category][unitNum];
                     } else {
+                        // Sahte kelime üretimi
                         const numWords = Math.floor(Math.random() * 7) + 4;
                         const shuffledPool = shuffleArray([...globalTranslationPool]);
                         words = Array(numWords).fill(0).map((__, wIndex) => {
                             let dummyTR = shuffledPool.length > 0 ? shuffledPool[(unitNum * wIndex) % shuffledPool.length] : dummyWordsTurkish[Math.floor(Math.random() * dummyWordsTurkish.length)];
                             const baseWord = category.split(' ')[0].substring(0, 3).toUpperCase();
-                            return { en: `${baseWord}_U${unitNum}_W${wIndex + 1}`, tr: dummyTR };
+                            const enWord = `${baseWord}_U${unitNum}_W${wIndex + 1}`;
+                            return { en: enWord, tr: dummyTR.charAt(0).toUpperCase() + dummyTR.slice(1) }; // Başlık durumu için
                         });
                     }
                     
-                    // Kelime detayları sadece örnek cümleleri içerecek şekilde güncellendi
                     words = words.map(w => ({
                         ...w,
                         exampleEN: generateExampleSentence(w.en),
@@ -641,13 +710,12 @@
                     }));
 
                     let learnedWords = 0;
-                    // Başlangıçta bazı üniteleri dolu göster
                     if (unitNum === 1 && (category === "Akademik Fiiller" || category === "İleri Düzey Akademik Fiiller")) learnedWords = Math.min(words.length, 5);
                     else if (unitNum === 2 && category === "Akademik Fiiller") learnedWords = Math.min(words.length, 5);
                     else if (unitNum === 3 && category === "İleri Düzey Akademik Fiiller") learnedWords = Math.min(words.length, 2);
                     else if (category === "En Çok Kullanılan İsimler" && unitNum === 1) learnedWords = Math.min(words.length, 8);
                     
-                    if (learnedWords === 0 && Math.random() > 0.8) learnedWords = Math.floor(Math.random() * 3); // Bazılarına rastgele ilerleme ekle
+                    if (learnedWords === 0 && Math.random() > 0.8) learnedWords = Math.floor(Math.random() * 3); 
 
                     return { unit: unitNum, totalWords: words.length, learnedWords: learnedWords, words: words, colorClass: 'u' + ((unitNum - 1) % 20 + 1) };
                 });
@@ -667,7 +735,11 @@
                 "Acquire": "Students **acquire** new vocabulary through consistent practice.",
                 "Basis": "Evidence is the **basis** of any scientific argument.",
                 "Context": "Always consider the **context** of a quote.",
-                "Agreeable": "The new manager has a very **agreeable** personality.",
+                "Cohesive": "The policy should be **cohesive** to ensure success.",
+                "However": "The initial results were promising; **however**, further testing is needed.",
+                "Call off": "Due to the storm, the event had to be **call off** at the last minute.",
+                "Significantly": "The new treatment has **significantly** reduced the symptoms.",
+                "Environment": "Protecting the natural **environment** is crucial for our future.",
             };
             return examples[word] || `The study attempts to highlight how to properly use the term **${word.toUpperCase()}** in academic writing.`;
         }
@@ -676,14 +748,19 @@
             const examplesTR = {
                 "Analiz Etmek": "Araştırma ekibi, sonuca varmadan önce verileri dikkatlice analiz etmelidir.",
                 "Tanımlamak, Belirlemek": "Sorunun temel nedenlerini belirlemeliyiz.",
-                "Belirlemek": "Komite, performansa göre son notu belirleyecek.",
-                "Formüle Etmek": "Proje için yeni bir strateji formüle etmeye yardımcı oldu.",
+                "Saptamak, Karar Vermek": "Komite, performansa göre son notu belirleyecek.",
+                "Formüle Etmek, Geliştirmek": "Proje için yeni bir strateji formüle etmeye yardımcı oldu.",
                 "Edinmek, Kazanmak": "Öğrenciler düzenli pratikle yeni kelimeler edinir.",
                 "Temel, Dayanak": "Kanıt, herhangi bir bilimsel argümanın temelidir.",
                 "Bağlam": "Her zaman bir alıntının bağlamını göz önünde bulundurun.",
-                "hoş, uyumlu, uygun": "Yeni yöneticinin çok uyumlu bir kişiliği var.",
+                "Uyumlu, Yapışkan": "Başarıyı garantilemek için politika uyumlu olmalıdır.",
+                "Ancak, Yine de": "İlk sonuçlar umut vericiydi; ancak, daha fazla test gerekiyor.",
+                "İptal etmek": "Fırtına nedeniyle etkinlik son dakikada iptal edilmek zorunda kaldı.",
+                "Önemli ölçüde": "Yeni tedavi, semptomları önemli ölçüde azalttı.",
+                "Çevre": "Doğal çevreyi korumak geleceğimiz için çok önemlidir.",
             };
-            return examplesTR[wordTR] || `Çalışma, ${wordTR} teriminin akademik yazımda nasıl doğru kullanılacağını vurgulamaya çalışmaktadır.`;
+            // Sahte çevirileri de küçük harf yap
+            return examplesTR[wordTR] || `Çalışma, ${wordTR.toLowerCase()} teriminin akademik yazımda nasıl doğru kullanılacağını vurgulamaya çalışmaktadır.`;
         }
 
         function updateHomePageCards() {
@@ -737,6 +814,7 @@
                 backButton.style.display = 'none';
                 headerTitle.textContent = 'EnglishBox';
                 navigationStack = [];
+                navigationStack.push({ id: targetPageId, level: level, title: title }); // Home'u da stack'e ekle
             } else {
                 backButton.style.display = 'inline-flex';
                 backButton.setAttribute('data-page-level', level);
@@ -744,7 +822,8 @@
                 headerTitle.style.marginLeft = '0'; 
                 
                 const lastState = navigationStack[navigationStack.length - 1];
-                if (!lastState || lastState.id !== targetPageId) {
+                if (!lastState || lastState.id !== targetPageId || lastState.title !== title) {
+                    // Aynı sayfaya farklı bir başlık veya içerikle gidiliyorsa (örn. farklı ünitelere), stack'e ekle
                     navigationStack.push({ id: targetPageId, level: level, title: title });
                 }
             }
@@ -767,16 +846,19 @@
                     headerTitle.textContent = 'EnglishBox';
                 }
                 
-                if (document.querySelector('.quiz-results')) {
-                    document.querySelector('.quiz-results').remove();
+                // Quiz sonuçlarını geri dönerken temizle
+                if (document.querySelector('#quiz-page .quiz-results')) { // Sadece quiz sayfasındaki sonuçları hedefle
+                    document.querySelector('#quiz-page .quiz-results').remove();
                     document.querySelector('.quiz-header-word').style.display = 'flex';
                 }
                 
-                if (prevPage.id === 'detail-page' && currentUnitNumber) {
+                // Detay sayfasına (L1) geri dönülüyorsa, ünitenin seçili kalması için timeline'ı yeniden yükle
+                if (prevPage.id === 'detail-page' && currentUnitNumber && currentCategoryTitle) {
                     loadTimeline(cardUnitData[currentCategoryTitle], currentCategoryTitle);
                 }
 
             } else if (navigationStack.length === 1 && navigationStack[0].id !== 'home-page') {
+                // Sadece home'a dönüş varsa, stack'i temizle ve home'a git
                 navigationStack.pop();
                 navigateTo('home-page', 0, 'EnglishBox');
             }
@@ -788,18 +870,15 @@
             const categoryTitle = card.querySelector('h3').textContent;
             const continueButton = card.querySelector('.btn-continue');
             
-            continueButton.addEventListener('click', (e) => {
-                e.stopPropagation();
+            const clickHandler = (e) => {
+                if(e && e.stopPropagation) e.stopPropagation();
                 currentCategoryTitle = categoryTitle;
                 loadDetailPage(categoryTitle);
                 navigateTo('detail-page', 1, categoryTitle);
-            });
+            };
 
-            card.addEventListener('click', () => {
-                currentCategoryTitle = categoryTitle;
-                loadDetailPage(categoryTitle);
-                navigateTo('detail-page', 1, categoryTitle);
-            });
+            continueButton.addEventListener('click', clickHandler);
+            card.addEventListener('click', clickHandler); // Tüm kart alanına tıklandığında da çalışsın
         });
 
         // === DETAY SAYFASI VE ÜNİTE LİSTESİ YÖNETİMİ ===
@@ -837,7 +916,7 @@
                 wordItem.innerHTML = `
                     <div class="word-icon-placeholder"><i class="fas fa-cube"></i></div> 
                     <div class="word-text-group">
-                        <span class="word-english">${word.en.toLowerCase()}</span>
+                        <span class="word-english">${word.en}</span>
                         <span class="word-turkish">${word.tr.toLowerCase()}</span>
                     </div>
                 `;
@@ -846,6 +925,8 @@
                 });
                 wordListContainer.appendChild(wordItem);
             });
+            
+             // Bu fonksiyon çağrıldıktan sonra navigasyon yapılırsa stack'e doğru bilgi eklenir.
         }
         
         function loadWordDetailPage(wordData) {
@@ -871,6 +952,7 @@
                     </div>
                 `;
                 
+                // Geri dönüldüğünde en son seçili üniteyi işaretle
                 if (currentUnitNumber === unit.unit && currentCategoryTitle === categoryTitle) {
                     unitItem.classList.add('selected');
                 }
@@ -890,15 +972,23 @@
         function generateQuiz(words, numOptions = 4) {
             const shuffledWords = shuffleArray([...words]);
             const quiz = [];
+            
+            // globalTranslationPool'u kullanarak yanlış cevaplar için havuz oluştur
+            const allTranslations = globalTranslationPool;
+
             shuffledWords.forEach(correctWord => {
-                const allTranslations = globalTranslationPool.filter(tr => tr !== correctWord.tr);
-                let wrongOptions = shuffleArray(allTranslations).slice(0, numOptions - 1);
-                while (wrongOptions.length < numOptions - 1) {
-                    const dummy = dummyWordsTurkish[Math.floor(Math.random() * dummyWordsTurkish.length)];
-                    if (!wrongOptions.includes(dummy) && dummy !== correctWord.tr) wrongOptions.push(dummy);
-                }
-                wrongOptions = wrongOptions.filter((option, index, self) => self.indexOf(option) === index && option !== correctWord.tr).slice(0, numOptions - 1);
-                const options = shuffleArray([correctWord.tr, ...wrongOptions]);
+                const correctAnswerLowercase = correctWord.tr.toLowerCase();
+                
+                // Doğru çeviriyi havuzdan hariç tut
+                const distractorPool = allTranslations.filter(tr => tr !== correctAnswerLowercase);
+                
+                // Yanlış cevapları seç
+                let wrongOptions = shuffleArray(distractorPool)
+                    .slice(0, numOptions - 1);
+                
+                // Seçenekleri oluştururken doğru cevabın orijinal büyük/küçük halini kullan
+                const options = shuffleArray([correctWord.tr, ...wrongOptions.map(tr => tr.charAt(0).toUpperCase() + tr.slice(1))]);
+
                 quiz.push({ question: correctWord.en, correctAnswer: correctWord.tr, options: options });
             });
             return quiz;
@@ -906,7 +996,12 @@
 
         function startQuiz() {
             const selectedUnitData = cardUnitData[currentCategoryTitle].find(u => u.unit === currentUnitNumber);
-            if (!selectedUnitData || selectedUnitData.words.length === 0) { alert("Quiz başlatılamadı: Bu ünitede kelime bulunmamaktadır."); return; }
+            if (!selectedUnitData || selectedUnitData.words.length < 4) { 
+                 if (!selectedUnitData || selectedUnitData.words.length < 4) {
+                    alert("Yetersiz kelime sayısı nedeniyle quiz başlatılamıyor. Lütfen en az 4 kelimelik bir ünite seçin.");
+                    return;
+                }
+            }
             currentQuiz = generateQuiz(selectedUnitData.words);
             currentQuestionIndex = 0;
             score = 0; totalQuestions = currentQuiz.length;
@@ -920,15 +1015,16 @@
         function displayQuestion() {
             if (currentQuestionIndex >= totalQuestions) { showResults(); return; }
             const questionData = currentQuiz[currentQuestionIndex];
-            quizQuestionText.textContent = questionData.question.toLowerCase();
+            quizQuestionText.textContent = questionData.question; // İngilizce kelime
             quizQuestionCounter.textContent = `${currentQuestionIndex + 1} / ${totalQuestions}`;
             quizOptionsContainer.innerHTML = '';
             quizOptionsContainer.classList.remove('answered');
             questionData.options.forEach(optionText => {
                 const option = document.createElement('div');
                 option.className = 'quiz-option';
-                option.textContent = optionText.toLowerCase(); 
-                option.addEventListener('click', () => checkAnswer(option, optionText, questionData.correctAnswer));
+                option.textContent = optionText.toLowerCase(); // Çeviri küçük harf gösteriliyor
+                // checkAnswer'a orijinal (büyük/küçük harfli) çeviri gönderiliyor
+                option.addEventListener('click', () => checkAnswer(option, questionData.correctAnswer)); 
                 quizOptionsContainer.appendChild(option);
             });
         }
@@ -937,13 +1033,16 @@
         const quizQuestionCounter = document.getElementById('quiz-question-counter');
         const quizOptionsContainer = document.getElementById('quiz-options');
 
-        function checkAnswer(selectedOption, selectedAnswer, correctAnswer) {
+        function checkAnswer(selectedOption, correctAnswer) {
             quizOptionsContainer.classList.add('answered');
-            if (selectedAnswer === correctAnswer) {
+            
+            // KRİTİK DÜZELTME: Kullanıcının tıkladığı küçük harfli metin ile doğru cevabın küçük harfli halini karşılaştır
+            if (selectedOption.textContent === correctAnswer.toLowerCase()) {
                 selectedOption.classList.add('correct');
                 score++;
             } else {
                 selectedOption.classList.add('incorrect');
+                // Doğru cevabı bul ve işaretle (displayed text is lowercased, so we must lowercase the correct answer too)
                 document.querySelectorAll('.quiz-option').forEach(option => {
                     if (option.textContent === correctAnswer.toLowerCase()) option.classList.add('correct');
                 });
