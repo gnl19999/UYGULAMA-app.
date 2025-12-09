@@ -335,37 +335,36 @@
             display: block;
             margin-top: 5px;
         }
-        
-        /* GÜNCELLENMİŞ ÖRNEK CÜMLE BÖLÜMÜ STİLİ */
-        .example-sentences-container { 
-            padding: 15px 20px; 
+        .example-section {
+            background-color: var(--bg-light-gray);
+            padding: 15px;
+            border-radius: 12px;
             width: 100%;
             text-align: left;
             margin-bottom: 20px;
-            border-top: 1px solid var(--color-light-gray);
-            border-bottom: 1px solid var(--color-light-gray);
+            border-left: 5px solid var(--color-yellow);
         }
-
-        .example-sentence-en { 
-            font-style: italic;
+        .example-section h4 {
             font-size: 16px;
-            line-height: 1.5;
             color: var(--color-dark);
-            margin-bottom: 8px;
-            background-color: var(--bg-light-gray); 
-            padding: 10px;
-            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .example-sentence-tr { 
+        .example-sentence-en { /* class güncellendi */
+            font-style: italic;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        .example-sentence-tr { /* class güncellendi */
             font-size: 14px;
             line-height: 1.5;
-            color: #888;
-            padding: 5px 10px;
-            border-left: 3px solid var(--color-primary); 
-            margin-top: 10px;
+            color: #999;
+            margin-top: -5px;
         }
-        /* GÜNCELLEME BİTİŞİ */
-        
         .speaker-icon-small {
             color: var(--color-dark);
             cursor: pointer;
@@ -458,10 +457,14 @@
                     <span id="detail-turkish-word"></span>
                 </div>
                 
-                <div class="example-sentences-container">
+                <div class="example-section">
+              
+                <h4><i class="fas fa-lightbulb"></i> Örnek Cümle</h4>
+                
                     <p id="example-sentence-en" class="example-sentence-en"></p>
                     <p id="example-sentence-tr" class="example-sentence-tr"></p>
                 </div>
+                
                 </div>
 
             <div class="bottom-actions">
