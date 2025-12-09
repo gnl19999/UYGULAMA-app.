@@ -612,6 +612,9 @@
         </header>
 
         <div id="home-page" class="page active">
+            <div class="card"><div 
+                class="card-content"><div class="card-icon-wrapper icon-verb"><i class="fas fa-book-open"></i></div><div class="card-info"><h3>İleri Düzey Akademik Fiiller</h3><p>435 kelimeden 21 tanesi öğrenildi.</p><div class="progress-bar"><div class="progress-fill" style="width: 5%"></div></div></div></div><button class="btn-continue" data-card-title="İleri Düzey Akademik Fiiller">DEVAM ET</button></div>
+
             <div class="card"><div class="card-content"><div class="card-icon-wrapper icon-adj"><i class="fas fa-star"></i></div><div class="card-info"><h3>Akademik Sıfatlar</h3><p>300 kelimeden 0 tanesi öğrenildi.</p><div class="progress-bar"><div class="progress-fill" style="width: 0%"></div></div></div></div><button class="btn-continue" 
                 data-card-title="Akademik Sıfatlar">DEVAM ET</button></div>
             <div class="card"><div 
@@ -698,7 +701,56 @@
 
         const realWordData = {
            
-            // İLERİ DÜZEY AKADEMİK FİİLLER VERİSİ KALDIRILDI
+            // İLERİ DÜZEY AKADEMİK FİİLLER VERİSİ GERİ EKLENDİ
+            "İleri Düzey Akademik Fiiller": {
+                1: [
+                    { en: "Analyze", tr: "Analiz Etmek" }, { en: "Identify", tr: "Tanımlamak, Belirlemek" },
+                    { en: "Determine", tr: "Belirlemek" }, { en: "Formulate", tr: "Formüle Etmek" },
+                    { en: "Hypothesize", tr: "Varsaymak" }, { en: "Integrate", tr: "Bütünleştirmek" },
+                    { en: "Validate", tr: "Doğrulamak" }, { en: "Illustrate", tr: "Örneklemek, Açıklamak" },
+                    { en: "Modify", tr: "Değiştirmek" }, { en: "Infer", tr: "Çıkarım Yapmak" },
+                    { en: "Establish", tr: "Kurmak, Oluşturmak, Saptamak" },
+                    { en: "Investigate", tr: "Araştırmak, İncelemek" },
+                    { en: "Demonstrate", tr: "Göstermek, Kanıtlamak" },
+                    { en: "Evaluate", tr: "Değerlendirmek" },
+                    { en: "Synthesize", tr: "Sentezlemek" },
+                    { en: "Define", tr: "Tanımlamak" },
+                    { en: "Compare", tr: "Karşılaştırmak" },
+                    { en: "Contrast", tr: "Karşıtlık Kurmak, Farklılıkları Belirtmek" },
+                    { en: "Argue", tr: "Tartışmak, İddia Etmek" },
+                    { en: "Support", tr: "Desteklemek" },
+                    { en: "Challenge", tr: "Sorgulamak, Meydan Okumak" },
+                ],
+                2: [
+                    { en: "Structure", tr: "Yapılandırmak" }, { en: "Interpret", tr: "Yorumlamak" },
+                    { en: "Derive", tr: "Türetmek, Elde Etmek" },
+                    { en: "Indicate", tr: "İşaret Etmek, Göstermek" },
+                    { en: "Suggest", tr: "Öne Sürmek, Önermek" },
+                    { en: "Conclude", tr: "Sonuçlandırmak" },
+                    { en: "Perceive", tr: "Algılamak" },
+                    { en: "Propose", tr: "Teklif Etmek, Önermek" },
+                    { en: "Observe", tr: "Gözlemlemek" },
+                    { en: "Examine", tr: "İncelemek, Muayene Etmek" },
+                    { en: "Apply", tr: "Uygulamak" },
+                    { en: "Implement", tr: "Uygulamaya Koymak" },
+                    { en: "Reflect", tr: "Yansıtmak, Düşünmek" },
+                    { en: "Relate", tr: "İlişkilendirmek" },
+                    { en: "Discuss", tr: "Tartışmak" },
+                    { en: "Differentiate", tr: "Ayırt Etmek, Farklılaştırmak" },
+                    { en: "Validate", tr: "Doğrulamak, Onaylamak" },
+                    { en: "Generate", tr: "Üretmek, Oluşturmak" },
+                    { en: "Evolve", tr: "Gelişmek, Evrilmek" },
+                    { en: "Comprise", tr: "İçermek, Kapsamak" },
+                    { en: "Precede", tr: "Önce Gelmek" },
+                    { en: "Succeed", tr: "Başarılı Olmak, Yerine Geçmek" },
+                ],
+                3: [
+                    { en: "Agreeable", tr: "hoş, uyumlu, uygun" },
+                    { en: "Intentional", tr: "kasti, planlı" },
+                    { en: "Distinct", tr: "farklı, belirgin, açık" },
+                    { en: "Excessive", tr: "aşırı" }
+                ]
+            },
             "Akademik İsimler": {
                 1: [
                     { en: "Basis", tr: "Temel, Dayanak" },
@@ -775,6 +827,12 @@
         // SAHTE ÖRNEK CÜMLELER ÜRETME FONKSİYONLARI (Mocking)
         function generateExampleSentence(word) {
             const examples = {
+                // Fiiller için örnekler geri eklendi
+                "Analyze": "The research team needs to **analyze** the data carefully before concluding.",
+                "Identify": "We must **identify** the root causes of the problem.",
+                "Determine": "The committee will **determine** the final grade based on performance.",
+                "Formulate": "She helped **formulate** a new strategy for the project.",
+                "Acquire": "Students **acquire** new vocabulary through consistent practice.",
                 "Basis": "Evidence is the **basis** of any scientific argument.",
                 "Context": "Always consider the **context** of a quote.",
                 "Agreeable": "The new manager has a very **agreeable** personality.", 
@@ -783,6 +841,12 @@
         }
         function generateExampleSentenceTR(wordTR) {
             const examplesTR = {
+                 // Fiiller için çeviri örnekleri geri eklendi
+                "Analiz Etmek": "Araştırma ekibi, sonuca varmadan önce verileri dikkatlice analiz etmelidir.",
+                "Tanımlamak, Belirlemek": "Sorunun temel nedenlerini belirlemeliyiz.",
+                "Belirlemek": "Komite, performansa göre son notu belirleyecek.",
+                "Formüle Etmek": "Proje için yeni bir strateji formüle etmeye yardımcı oldu.",
+                "Edinmek, Kazanmak": "Öğrenciler düzenli pratikle yeni kelimeler edinir.",
                 "Temel, Dayanak": "Kanıt, herhangi bir bilimsel argümanın temelidir.",
                 "Bağlam": "Her zaman bir alıntının bağlamını göz önünde bulundurun.",
                 "hoş, uyumlu, uygun": "Yeni yöneticinin çok uyumlu bir kişiliği var.",
@@ -792,7 +856,9 @@
 
 
         function generateAllData() {
+            // İleri Düzey Akademik Fiiller kategori listesine geri eklendi
             const categories = [
+                "İleri Düzey Akademik Fiiller", 
                 "Akademik Sıfatlar",
                 "Akademik İsimler",
                 "Akademik Bağlaçlar",
@@ -809,7 +875,7 @@
                     const dummyWordsCount = Math.floor(Math.random() * 5) + 15;
                     const words = shuffleArray(realWords.length > 0 ? realWords : Array(dummyWordsCount).fill(0).map((_, i) => ({ en: `dummy_word_${unitNum}_${i}`, tr: `sahte_kelime_${unitNum}_${i}` })));
 
-                    // Düzeltme: `forEach` kullanarak örnek cümle verilerini kelime objesine atama
+                    // Hata düzeltmesi: Örnek cümle verileri kelime objesine doğru şekilde atanıyor.
                     words.forEach(w => {
                         w.exampleEN = generateExampleSentence(w.en);
                         w.exampleTR = generateExampleSentenceTR(w.tr);
@@ -817,11 +883,12 @@
 
                     let learnedWords = 0;
                     
-                    if (category === "En Çok Kullanılan İsimler" && unitNum === 1) {
-                        learnedWords = Math.min(words.length, 8); // Başlangıç öğrenme oranı korundu
-                    }
+                    // İleri Düzey Akademik Fiiller için öğrenme mantığı geri eklendi
+                    if (unitNum === 1 && category === "İleri Düzey Akademik Fiiller") learnedWords = Math.min(words.length, 5);
+                    else if (unitNum === 3 && category === "İleri Düzey Akademik Fiiller") learnedWords = Math.min(words.length, 2);
+                    else if (category === "En Çok Kullanılan İsimler" && unitNum === 1) learnedWords = Math.min(words.length, 8);
                     
-                    if (learnedWords === 0) learnedWords = Math.floor(Math.random() * 4); // Diğer üniteler için rastgele öğrenme
+                    if (learnedWords === 0) learnedWords = Math.floor(Math.random() * 4); 
 
                     return {
                         unit: unitNum,
@@ -854,9 +921,8 @@
                     cardInfo.querySelector('p').textContent = `${totalWords} kelimeden ${totalLearned} tanesi öğrenildi.`;
                     cardInfo.querySelector('.progress-fill').style.width = `${percentage.toFixed(0)}%`;
                     
-                    // Başlangıç kart metinlerinin güncellenmesi (HTML'deki eski değerleri ezer)
-                    if (title === "Akademik Sıfatlar") card.querySelector('p').textContent = `${totalWords} kelimeden ${totalLearned} tanesi öğrenildi.`;
-                    if (title === "En Çok Kullanılan İsimler") card.querySelector('p').textContent = `${totalWords} kelimeden ${totalLearned} tanesi öğrenildi.`;
+                    // Başlangıç kart metinlerinin güncellenmesi 
+                    card.querySelector('p').textContent = `${totalWords} kelimeden ${totalLearned} tanesi öğrenildi.`;
 
                 }
             });
@@ -963,7 +1029,7 @@
                 totalLearned += unit.learnedWords;
             });
 
-            // Yüzdelik hesaplama (Toplamda 20 ünite olduğu varsayımıyla %10 öğrenme hızı üzerinden hesaplanmıştır.)
+            // Yüzdelik hesaplama
             const learnedRate = totalWords > 0 ? ((totalLearned / totalWords) * 100).toFixed(0) : 0;
             const correctRate = Math.min(100, (Number(learnedRate) * 1.5)).toFixed(0);
 
@@ -1004,7 +1070,6 @@
         }
 
         function loadWordDetailPage(wordData) {
-            // Düzeltme: Artık wordData.exampleEN ve wordData.exampleTR verileri generateAllData() içinde doğru atanmaktadır.
             document.getElementById('word-icon-main').innerHTML = '<i class="fas fa-cube"></i>';
             document.getElementById('detail-english-word').textContent = wordData.en;
             document.getElementById('detail-turkish-word').textContent = wordData.tr;
