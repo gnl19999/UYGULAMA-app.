@@ -385,89 +385,361 @@
     </div>
 
     <script>
-  
+        // === DÜZELTİLMİŞ VE TAMAMLANMIŞ JAVASCRIPT BÖLÜMÜ ===
+
+        // Global Değişkenler
+        let currentCategory = '';
+        let currentUnitId = 0;
+        let currentUnitData = [];
+        let currentWordList = [];
+        let quizQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let totalQuestions = 0;
+        
+        // DOM Elementleri
+        const headerTitle = document.querySelector('header h1');
+        const backButton = document.getElementById('back-button');
+        const pages = document.querySelectorAll('.page');
+        const homePage = document.getElementById('home-page');
+        const detailPage = document.getElementById('detail-page');
+        const unitDetailPage = document.getElementById('unit-detail-page');
+        const wordDetailPage = document.getElementById('word-detail-page');
+        const quizPage = document.getElementById('quiz-page');
+        const unitListContainer = document.querySelector('.timeline');
+        const wordListContainer = document.getElementById('word-list-container');
+        const quizOptionsContainer = document.getElementById('quiz-options');
+
         // === GÜNCEL VE ZENGİNLEŞTİRİLMİŞ VERİ BÖLÜMÜ ===
 
         const realWordData = {
             "İleri Düzey Akademik Fiiller": {
                 1: [
                     { en: "Analyze", tr: "Analiz Etmek" }, { en: "Identify", tr: "Tanımlamak, Belirlemek" },
-          
                     { en: "Determine", tr: "Saptamak, Karar Vermek" }, { en: "Establish", tr: "Kurmak, Oluşturmak, Saptamak" },
                     { en: "Investigate", tr: "Araştırmak, İncelemek" }, { en: "Illustrate", tr: "Örneklemek, Açıklamak" },
                     { en: "Demonstrate", tr: "Göstermek, Kanıtlamak" }, { en: "Evaluate", tr: "Değerlendirmek" },
-          
                     { en: "Synthesize", tr: "Sentezlemek" }, { en: "Formulate", tr: "Formüle Etmek, Geliştirmek" },
                     { en: "Define", tr: "Tanımlamak" }, { en: "Compare", tr: "Karşılaştırmak" },
                     { en: "Contrast", tr: "Karşıtlık Kurmak, Farklılıkları Belirtmek" }, { en: "Argue", tr: "Tartışmak, İddia Etmek" },
-          
                     { en: "Support", tr: "Desteklemek" }, { en: "Challenge", tr: "Sorgulamak, Meydan Okumak" },
                     { en: "Derive", tr: "Türetmek, Elde Etmek" }, { en: "Indicate", tr: "İşaret Etmek, Göstermek" },
                     { en: "Suggest", tr: "Öne Sürmek, Önermek" }, { en: "Conclude", tr: "Sonuçlandırmak" }
-         
                 ],
                 2: [
                     { en: "Perceive", tr: "Algılamak" }, { en: "Propose", tr: "Teklif Etmek, Önermek" },
                     { en: "Observe", tr: "Gözlemlemek" }, { en: "Examine", tr: "İncelemek, Muayene Etmek" },
-          
                     { en: "Apply", tr: "Uygulamak" }, { en: "Implement", tr: "Uygulamaya Koymak" },
                     { en: "Reflect", tr: "Yansıtmak, Düşünmek" }, { en: "Relate", tr: "İlişkilendirmek" },
                     { en: "Discuss", tr: "Tartışmak" }, { en: "Differentiate", tr: "Ayırt Etmek, Farklılaştırmak" },
-             
-                { en: "Validate", tr: "Doğrulamak, Onaylamak" }, { en: "Generate", tr: "Üretmek, Oluşturmak" },
+                    { en: "Validate", tr: "Doğrulamak, Onaylamak" }, { en: "Generate", tr: "Üretmek, Oluşturmak" },
                     { en: "Evolve", tr: "Gelişmek, Evrilmek" }, { en: "Comprise", tr: "İçermek, Kapsamak" },
                     { en: "Precede", tr: "Önce Gelmek" }, { en: "Succeed", tr: "Başarılı Olmak, Yerine Geçmek" },
-            
                     { en: "Cite", tr: "Alıntı Yapmak" }, { en: "Integrate", tr: "Bütünleştirmek" },
                     { en: "Modify", tr: "Değiştirmek, Uyarlamak" }, { en: "Replicate", tr: "Tekrarlamak, Çoğaltmak" }
                 ],
                 3: [
-              
-                { en: "Signify", tr: "İfade Etmek, Anlamına Gelmek" }, { en: "Account for", tr: "Açıklamak, Sorumlu Olmak" },
+                    { en: "Signify", tr: "İfade Etmek, Anlamına Gelmek" }, { en: "Account for", tr: "Açıklamak, Sorumlu Olmak" },
                     { en: "Assess", tr: "Değer Biçmek, Değerlendirmek" }, { en: "Contribute", tr: "Katkıda Bulunmak" },
                     { en: "Correlate", tr: "İlişkilendirmek, Korelasyon Kurmak" }, { en: "Emphasize", tr: "Vurgulamak" },
-          
                     { en: "Extract", tr: "Çıkarmak, Özütlemek" }, { en: "Hypothesize", tr: "Hipotez Kurmak" },
                     { en: "Justify", tr: "Gerekçelendirmek" }, { en: "Reveal", tr: "Ortaya Çıkarmak, Açığa Vurmak" },
                     { en: "Envisage", tr: "Öngörmek, Zihninde Canlandırmak" }, { en: "Exclude", tr: "Hariç tutmak, Dışlamak" },
-        
                     { en: "Expend", tr: "Harcamak, Tüketmek (kaynak, zaman)" }, { en: "Facilitate", tr: "Kolaylaştırmak" },
                     { en: "Fluctuate", tr: "Dalgalanmak, İnip çıkmak" }, { en: "Foster", tr: "Geliştirmek, Teşvik etmek, Beslemek" },
                     { en: "Globalize", tr: "Küreselleştirmek" }, { en: "Guarantee", tr: "Garanti etmek" },
-      
                     { en: "Hinder", tr: "Engellemek, Önlemek" }, { en: "Imply", tr: "Kastetmek, İma etmek, Çıkarım Yapmak" }
                 ],
-                // ... (Diğer İleri Düzey Fiiller üniteleri olduğu gibi bırakıldı)
                 4: [
-            
-                { en: "Incur", tr: "Maruz kalmak, Uğramak (masraf, zarar)" }, { en: "Infer", tr: "Çıkarım yapmak, Sonuç çıkarmak" },
+                    { en: "Incur", tr: "Maruz kalmak, Uğramak (masraf, zarar)" }, { en: "Infer", tr: "Çıkarım yapmak, Sonuç çıkarmak" },
                     { en: "Inhibit", tr: "Engellemek, Ket vurmak" }, { en: "Initiate", tr: "Başlatmak, Girişimde bulunmak" },
                     { en: "Innovate", tr: "Yenilik yapmak" }, { en: "Insert", tr: "Eklemek, Sokmak, Araya koymak" },
-    
                     { en: "Intervene", tr: "Müdahale etmek, Araya girmek" }, { en: "Isolate", tr: "İzole etmek, Ayırmak" },
                     { en: "Liberate", tr: "Serbest bırakmak, Özgürleştirmek" }, { en: "Maximize", tr: "En üst düzeye çıkarmak" },
-                    { en: "Mediate", tr: "Arabuluculuk yapmak" }, { en: "Merge", tr: "Birleştirmek, 
-                Kaynaşmak" },
+                    { en: "Mediate", tr: "Arabuluculuk yapmak" }, { en: "Merge", tr: "Birleştirmek, Kaynaşmak" },
                     { en: "Minimize", tr: "Asgariye indirmek, Küçültmek" }, { en: "Negate", tr: "Yadsımak, Geçersiz kılmak" },
                     { en: "Negotiate", tr: "Müzakere etmek, Görüşmek" }, { en: "Obtain", tr: "Elde etmek, Edinmek" },
-                    { en: "Occur", tr: "Meydana gelmek, Oluşmak" }, { 
-                en: "Omit", tr: "Atlamak, Hariç bırakmak" },
+                    { en: "Occur", tr: "Meydana gelmek, Oluşmak" }, { en: "Omit", tr: "Atlamak, Hariç bırakmak" },
                     { en: "Oversee", tr: "Denetlemek, Gözetmek" }, { en: "Parallel", tr: "Paralellik kurmak" }
                 ],
+                // HATA DÜZELTİLDİ: 5. Ünite verisi doğru şekilde kapatıldı.
                 5: [
-                    { en: "Participate", tr: "Katılmak" }, { en: 
-                "Permit", tr: "İzin vermek" },
+                    { en: "Participate", tr: "Katılmak" }, { en: "Permit", tr: "İzin vermek" },
                     { en: "Pertain", tr: "İlişkili olmak, Ait olmak" }, { en: "Phase", tr: "Aşamalara ayırmak" },
                     { en: "Postulate", tr: "Varsaymak, Öncül olarak kabul etmek" }, { en: "Precede", tr: "Önce gelmek" },
-                    { en: "Predict", tr: "Tahmin 
-                etmek, Yordamak" }, { en: "Prescribe", tr: "Önermek, Reçetelemek, Emretmek" },
+                    { en: "Predict", tr: "Tahmin etmek, Yordamak" }, { en: "Prescribe", tr: "Önermek, Reçetelemek, Emretmek" },
                     { en: "Presume", tr: "Varsaymak, Sanmak" }, { en: "Prevail", tr: "Üstün gelmek, Yaygın olmak" },
                     { en: "Prioritize", tr: "Önceliklendirmek" }, { en: "Proceed", tr: "Devam etmek, İlerlemek" },
-                    { en: 
-                "Prohibit", tr: "Yasaklamak" }, { en: "Project", tr: "Yansıtmak, Tahmin etmek (gelecek)" },
+                    { en: "Prohibit", tr: "Yasaklamak" }, { en: "Project", tr: "Yansıtmak, Tahmin etmek (gelecek)" },
                     { en: "Promote", tr: "Teşvik etmek, Desteklemek" }, { en: "Pursue", tr: "Peşinden koşmak, Takip etmek (amaç)" },
                     { en: "Qualify", tr: "Nitelemek, Şartlı kabul etmek, Yeterli olmak" }, { en: "Quantify", tr: "Nicelendirmek, Miktarını Belirtmek" },
-             
-                { en: "Recapitulate", tr: "Özetlemek, Tekr...
+                    { en: "Recapitulate", tr: "Özetlemek, Tekrarlamak" } // Eksik kalan veri tamamlanıp obje kapatıldı
+                ],
+            },
+            "Akademik Fiiller": { 1: [], 2: [], 3: [] },
+            "Akademik Sıfatlar": { 1: [], 2: [] },
+            "Akademik İsimler": { 1: [], 2: [] },
+            "Akademik Bağlaçlar": { 1: [] },
+            "Öbek Fiiller": { 1: [] },
+            "Akademik Zarflar": { 1: [] },
+            "En Çok Kullanılan İsimler": { 1: [] }
+        };
 
-// ... (Kalan tüm JavaScript içeriği olduğu gibi korunmuştur)
+        // KELİME ÖRNEKLERİ (Test amaçlı dolduruldu)
+        const wordExamples = {
+            "Analyze": {
+                en: "We need to analyze the data carefully before drawing a conclusion.",
+                tr: "Bir sonuca varmadan önce verileri dikkatlice analiz etmeliyiz.",
+            },
+            "Identify": {
+                en: "The researchers managed to identify the source of the pollution.",
+                tr: "Araştırmacılar kirliliğin kaynağını belirlemeyi başardı.",
+            },
+        };
+
+        // === TEMEL FONKSİYONLAR ===
+
+        function navigateTo(pageId, level) {
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            backButton.dataset.pageLevel = level;
+            backButton.style.display = level > 0 ? 'flex' : 'none';
+            headerTitle.textContent = level === 0 ? 'EnglishBox' : currentCategory;
+            
+            if (pageId === 'home-page') {
+                headerTitle.textContent = 'EnglishBox';
+            } else if (pageId === 'detail-page') {
+                headerTitle.textContent = currentCategory;
+            } else if (pageId === 'unit-detail-page' || pageId === 'word-detail-page' || pageId === 'quiz-page') {
+                // Header'ı koru veya ünite numarasını ekle
+                headerTitle.textContent = `${currentCategory} (Ünite ${currentUnitId})`;
+            }
+            
+            // Quiz sayfasından geri gelindiğinde temizlik
+            if (pageId !== 'quiz-page') {
+                const results = document.querySelector('.quiz-results');
+                if (results) results.remove();
+                const quizHeader = document.querySelector('.quiz-header-word');
+                if (quizHeader) quizHeader.style.display = 'flex';
+            }
+        }
+
+        function goBack() {
+            const currentLevel = parseInt(backButton.dataset.pageLevel);
+            let targetPage = 'home-page';
+            let targetLevel = 0;
+
+            if (currentLevel === 3) {
+                targetPage = 'unit-detail-page'; 
+                targetLevel = 2;
+            } else if (currentLevel === 2) {
+                targetPage = 'detail-page'; 
+                targetLevel = 1;
+            } else if (currentLevel === 1) {
+                targetPage = 'home-page'; 
+                targetLevel = 0;
+            }
+            navigateTo(targetPage, targetLevel);
+        }
+
+        // Event Listener'lar
+        document.querySelectorAll('.btn-continue').forEach(button => {
+            button.addEventListener('click', function() {
+                currentCategory = this.dataset.cardTitle;
+                loadUnits(currentCategory);
+            });
+        });
+
+        backButton.addEventListener('click', goBack);
+
+        function loadUnits(category) {
+            currentUnitData = realWordData[category];
+            unitListContainer.innerHTML = '';
+            
+            if (!currentUnitData) return navigateTo('home-page', 0); // Kategori bulunamazsa
+
+            Object.keys(currentUnitData).forEach(unitId => {
+                const words = currentUnitData[unitId];
+                const totalWords = words.length;
+                
+                const unitItem = document.createElement('div');
+                unitItem.className = 'unit-item';
+                unitItem.innerHTML = `
+                    <div class="unit-circle u${unitId}">${unitId}</div>
+                    <div class="unit-content">
+                        <div class="unit-title">Ünite ${unitId}</div>
+                        <div class="unit-subtitle">${totalWords} Kelime</div>
+                    </div>
+                `;
+                unitItem.addEventListener('click', () => {
+                    showUnitDetail(category, parseInt(unitId), words);
+                });
+                unitListContainer.appendChild(unitItem);
+            });
+            navigateTo('detail-page', 1);
+        }
+
+        function showUnitDetail(category, unitId, words) {
+            currentCategory = category;
+            currentUnitId = unitId;
+            currentWordList = words; 
+            
+            document.getElementById('detail-unit-circle').textContent = unitId;
+            document.getElementById('detail-unit-progress').textContent = `${words.length} kelime`;
+            
+            wordListContainer.innerHTML = '';
+            words.forEach(word => {
+                const item = document.createElement('div');
+                item.className = 'word-item';
+                item.innerHTML = `
+                    <div class="word-icon-placeholder"><i class="fas fa-cube"></i></div>
+                    <div class="word-text-group">
+                        <span class="word-english">${word.en}</span>
+                        <span class="word-turkish">${word.tr}</span>
+                    </div>
+                `;
+                item.addEventListener('click', () => showWordDetail(word.en));
+                wordListContainer.appendChild(item);
+            });
+            
+            navigateTo('unit-detail-page', 2);
+        }
+
+        function showWordDetail(wordEn) {
+            const word = currentWordList.find(w => w.en === wordEn);
+            if (!word) return goBack();
+
+            document.getElementById('detail-english-word').textContent = word.en;
+            document.getElementById('detail-turkish-word').textContent = word.tr;
+            
+            const firstLetter = wordEn.charAt(0).toUpperCase();
+            const icon = `<i class="fas fa-graduation-cap"></i>`; // Örnek bir ikon
+            document.getElementById('word-icon-main').innerHTML = icon;
+
+            // Örnek cümle verisi
+            const exampleData = wordExamples[wordEn] || {
+                en: "Example sentence not available.",
+                tr: "Örnek cümle mevcut değil."
+            };
+            document.getElementById('example-sentence-en').textContent = exampleData.en;
+            document.getElementById('example-sentence-tr').textContent = exampleData.tr;
+            
+            navigateTo('word-detail-page', 3);
+        }
+
+        // QUIZ LOGIC
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function generateQuizQuestions() {
+            quizQuestions = [];
+            const allWords = Object.values(realWordData).flatMap(cat => Object.values(cat)).flat();
+            
+            currentWordList.forEach(word => {
+                const incorrectOptions = allWords
+                    .filter(w => w.en !== word.en && w.tr !== word.tr) // Doğru kelimeyi ve çevirisini hariç tut
+                    .map(w => w.tr); // Sadece çevirileri al
+
+                shuffleArray(incorrectOptions);
+                
+                // En fazla 3 yanlış cevap al
+                const options = [word.tr, ...incorrectOptions.slice(0, 3)];
+                shuffleArray(options);
+
+                quizQuestions.push({
+                    en: word.en,
+                    tr: word.tr,
+                    options: options
+                });
+            });
+            shuffleArray(quizQuestions);
+            totalQuestions = quizQuestions.length;
+        }
+
+        function startQuiz() {
+            score = 0;
+            currentQuestionIndex = 0;
+            generateQuizQuestions();
+            navigateTo('quiz-page', 3);
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            if (currentQuestionIndex >= totalQuestions) {
+                showResults();
+                return;
+            }
+            
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            document.getElementById('quiz-question-text').textContent = currentQuestion.en;
+            document.getElementById('quiz-question-counter').textContent = `${currentQuestionIndex + 1} / ${totalQuestions}`;
+            
+            quizOptionsContainer.innerHTML = '';
+            quizOptionsContainer.classList.remove('answered');
+
+            currentQuestion.options.forEach(optionText => {
+                const option = document.createElement('div');
+                option.className = 'quiz-option';
+                option.textContent = optionText;
+                option.onclick = () => checkAnswer(option);
+                quizOptionsContainer.appendChild(option);
+            });
+        }
+
+        function checkAnswer(selectedOption) {
+            if (quizOptionsContainer.classList.contains('answered')) return;
+
+            quizOptionsContainer.classList.add('answered');
+            const selectedAnswer = selectedOption.textContent;
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            const correctAnswer = currentQuestion.tr;
+
+            if (selectedAnswer === correctAnswer) {
+                score++;
+                selectedOption.classList.add('correct');
+            } else {
+                selectedOption.classList.add('incorrect');
+            }
+
+            // HATA DÜZELTİLDİ: Tüm seçenekler arasında doğru cevabı (Türkçe çeviri) bul ve vurgula.
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                if (option.textContent === correctAnswer) { 
+                    option.classList.add('correct');
+                }
+            });
+
+            setTimeout(() => { 
+                currentQuestionIndex++; 
+                displayQuestion(); 
+            }, 1200);
+        }
+
+        function showResults() {
+            quizOptionsContainer.innerHTML = '';
+            const percentage = totalQuestions > 0 ? ((score / totalQuestions) * 100).toFixed(0) : 0;
+            const resultText = percentage >= 70 ? "Tebrikler, başarılı bir sonuç!" : "Daha fazla tekrar gerekiyor.";
+            const resultsHtml = `
+                <div class="quiz-results">
+                    <h2>Quiz Tamamlandı!</h2> 
+                    <p>${resultText}</p>
+                    <div class="results-score-circle" style="background-color: ${percentage >= 70 ? 'var(--color-green)' : 'var(--color-red)'};">%${percentage}</div>
+                    <p>Doğru: ${score}</p>
+                    <p>Toplam Soru: ${totalQuestions}</p>
+                    <button class="action-button btn-back-to-list" onclick="goBack()" style="margin-top: 20px;"><i class="fas fa-home"></i> Üniteye Geri Dön</button>
+                </div>
+            `;
+            const quizPageContent = document.getElementById('quiz-page');
+            document.querySelector('.quiz-header-word').style.display = 'none';
+            quizPageContent.insertAdjacentHTML('beforeend', resultsHtml);
+        }
+
+        navigateTo('home-page', 0); // Uygulamayı Başlat
+    </script>
+</body>
+</html>
