@@ -851,7 +851,7 @@
             navigateTo('quiz-page', 3, `Quiz - Ünite ${currentUnitNumber}`);
         }
         
-        // YENİ KARMA TEKRAR FONKSİYONU
+        // KARMA TEKRAR FONKSİYONU
         function startMixedReviewQuiz() {
             if (!currentCategoryTitle || !cardUnitData[currentCategoryTitle]) {
                 alert("Lütfen önce bir kategori seçin (Hata: Kategori başlığı mevcut değil).");
@@ -895,7 +895,7 @@
             // 3. Quiz sayfasına geçiş yap
             navigateTo('quiz-page', 2, `${currentCategoryTitle} - Karışık Tekrar`);
         }
-        // YENİ KARMA TEKRAR FONKSİYONU SONU
+        // KARMA TEKRAR FONKSİYONU SONU
 
         function displayQuestion() {
             const quizQuestionText = document.getElementById('quiz-question-text');
@@ -946,7 +946,8 @@
         }
 
         function showResults() {
-            const quizOptionsContainer = document.getElementById('quiz-options');
+            // HATA DÜZELTME: quizOptionsContainer tanımlanıyor.
+            const quizOptionsContainer = document.getElementById('quiz-options'); 
             quizOptionsContainer.innerHTML = '';
             const percentage = totalQuestions > 0 ? ((score / totalQuestions) * 100).toFixed(0) : 0;
             const resultText = percentage >= 70 ? "Tebrikler, başarılı bir sonuç!" : "Daha fazla tekrar gerekiyor.";
