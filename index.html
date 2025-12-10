@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelime Uygulaması v3 (Güncellenmiş)</title>
+    <title>Kelime Uygulaması v4</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         /* --- TEMEL AYARLAR --- */
@@ -76,15 +76,19 @@
         .main-word-row { display: flex; align-items: center; justify-content: center; gap: 10px; }
         .main-word { font-size: 38px; font-weight: 900; color: #2c3e50; margin: 0; letter-spacing: -1px; }
         .main-meaning { color: #7f8c8d; font-size: 20px; margin-top: 5px; font-weight: 400; }
-        .speaker-icon { font-size: 24px; cursor: pointer; filter: grayscale(100%); transition: 0.2s; }
-        .speaker-icon:hover { filter: grayscale(0%); }
+        .speaker-icon { 
+            font-size: 30px; /* Hoparlör ikonu büyütüldü */
+            color: #f1c40f; /* Görseldeki sarı/turuncu renk */
+            cursor: pointer; 
+            margin-right: 10px; /* Kelimeye yaklaştırıldı */
+        }
 
         .card-image-container {
             width: 100%; height: 260px;
             margin: 10px 0 20px 0; border-radius: 16px; overflow: hidden;
             position: relative; background-color: #f0f0f0;
         }
-        .card-image-container img { width: 100%; height: 100%; object-fit: cover; }
+        .card-image-container img { width: 100%; height: 100%; object-fit: contain; } /* 'contain' kullanıldı */
         .lightning-icon {
             position: absolute; right: 15px; bottom: 15px;
             color: #f1c40f; font-size: 24px; background: rgba(255,255,255,0.8);
@@ -98,11 +102,13 @@
             position: relative; margin-top: auto; margin-bottom: 40px; box-sizing: border-box;
         }
         .or-label {
-            position: absolute; left: 20px; top: -12px; background: #fff; padding: 0 5px;
-            color: #f39c12; font-weight: bold; font-size: 14px; border: 1px solid #eee; border-radius: 4px;
+            /* Görseldeki "Ör." stilini taklit etmek için sol tarafa alındı */
+            position: absolute; left: 10px; top: 20px;
+            color: #f39c12; font-weight: bold; font-size: 14px;
         }
         .highlight-word { color: #27ae60; font-weight: bold; background: #e8f5e9; padding: 0 2px; border-radius: 3px; }
         .divider { height: 1px; background-color: #eee; margin: 12px 0; }
+        .ex-sentence-content { padding-left: 20px; } /* Ör. yazısı için boşluk */
     </style>
 </head>
 <body>
@@ -131,7 +137,7 @@
             <div class="card-content">
                 <div class="word-header">
                     <div class="main-word-row">
-                        <span class="speaker-icon" id="card-speaker-icon">🔊</span>
+                        <span class="speaker-icon">🔊</span>
                         <h1 id="card-word" class="main-word">...</h1>
                     </div>
                     <p id="card-meaning" class="main-meaning">...</p>
@@ -143,8 +149,8 @@
                 </div>
 
                 <div class="example-box">
-                    <span class="or-label">Örnek</span>
-                    <div>
+                    <span class="or-label">Ör.</span>
+                    <div class="ex-sentence-content">
                         <p id="card-sentence-en" style="color:#455a64; margin:0 0 5px 0; font-size:16px; line-height:1.4;"></p>
                         <div class="divider"></div>
                         <p id="card-sentence-tr" style="color:#90a4ae; margin:0; font-size:14px;"></p>
@@ -156,39 +162,18 @@
 
     <script>
         // ======================================================
-        // 1. VERİ YÖNETİMİ (HER ÜNİTE AYRI AYRI BURADA)
+        // 1. VERİ YÖNETİMİ (1. ÜNİTE GÜNCELLENDİ)
         // ======================================================
         
         const unitDatabase = {
-            // Ünite 1: Temel Fiiller ve Akademik Kelimeler
+            // Ünite 1: Temel Fiiller (Yeni kelimeler eklendi)
             1: [
-                ["hide", "saklamak"],
+                ["hide", "gizlemek, saklamak"],
                 ["run", "koşmak"],
-                ["eat", "yemek yemek"],
-                ["drink", "içmek"],
                 ["sleep", "uyumak"],
-                // EK İSTENEN KELİMELER BAŞLANGIÇ
-                ["analyze", "Analiz Etmek"], 
-                ["identify", "Tanımlamak, Belirlemek"],
-                ["determine", "Saptamak, Karar Vermek"], 
-                ["establish", "Kurmak, Oluşturmak, Saptamak"],
-                ["investigate", "Araştırmak, İncelemek"], 
-                ["illustrate", "Örneklemek, Açıklamak"],
-                ["demonstrate", "Göstermek, Kanıtlamak"], 
-                ["evaluate", "Değerlendirmek"],
-                ["synthesize", "Sentezlemek"], 
-                ["formulate", "Formüle Etmek, Geliştirmek"],
-                ["define", "Tanımlamak"], 
-                ["compare", "Karşılaştırmak"],
-                ["contrast", "Karşıtlık Kurmak, Farklılıkları Belirtmek"], 
-                ["argue", "Tartışmak, İddia Etmek"],
-                ["support", "Desteklemek"], 
-                ["challenge", "Sorgulamak, Meydan Okumak"],
-                ["derive", "Türetmek, Elde Etmek"], 
-                ["indicate", "İşaret Etmek, Göstermek"],
-                ["suggest", "Öne Sürmek, Önermek"], 
-                ["conclude", "Sonuçlandırmak"]
-                // EK İSTENEN KELİMELER BİTİŞ
+                ["fly", "uçmak"],
+                ["swim", "yüzmek"],
+                ["walk", "yürümek"]
             ],
             // Ünite 2: Doğa
             2: [
@@ -198,77 +183,51 @@
                 ["flower", "çiçek"],
                 ["rain", "yağmur"]
             ],
-            // Ünite 3: Ev Eşyaları
-            3: [
-                ["chair", "sandalye"],
-                ["table", "masa"],
-                ["bed", "yatak"],
-                ["lamp", "lamba"],
-                ["window", "pencere"]
-            ],
-            // Ünite 4: Teknoloji
-            4: [
-                ["computer", "bilgisayar"],
-                ["phone", "telefon"],
-                ["camera", "kamera"],
-                ["robot", "robot"],
-                ["screen", "ekran"]
-            ]
-            // Ünite 5'ten 20'ye kadar aşağıda otomatik dolduruyoruz (Demo için)
+            // Diğer üniteler...
+            3: [ ["chair", "sandalye"], ["table", "masa"], ["bed", "yatak"], ["lamp", "lamba"] ],
+            4: [ ["computer", "bilgisayar"], ["phone", "telefon"], ["camera", "kamera"] ],
         };
 
-        // Demo Amaçlı: Boş üniteleri sahte veriyle dolduralım ki liste dolu görünsün
+        // Demo Amaçlı: 5'ten 20'ye kadar boş üniteleri sahte veriyle dolduralım
         for (let i = 5; i <= 20; i++) {
-            unitDatabase[i] = [
-                ["example", "örnek"],
-                ["test", "deneme"],
-                ["word", "kelime"]
-            ];
+            unitDatabase[i] = [ ["example", "örnek"], ["test", "deneme"] ];
         }
 
         // ======================================================
-        // 2. OTOMATİK İÇERİK OLUŞTURUCU (AI & ŞABLONLAR)
+        // 2. OTOMATİK İÇERİK OLUŞTURUCU (CÜMLE VE GÖRSEL DÜZELTİLDİ)
         // ======================================================
         
         function processWordData(word, meaning) {
-            // A. Otomatik Görsel (Pollinations AI)
-            const imgUrl = `https://image.pollinations.ai/prompt/minimalist%20flat%20vector%20art%20of%20${word}%20isolated%20white%20background?width=400&height=300&nologo=true`;
-
-            // B. Otomatik Cümle Şablonları
-            const templates = [
-                { en: "I can see the {word}.", tr: "Şu {meaning}ı görebiliyorum." },
-                { en: "Do not forget the {word}.", tr: "{meaning}ı unutma." },
-                { en: "This {word} is very nice.", tr: "Bu {meaning} çok güzel." },
-                { en: "Where is the {word}?", tr: "{meaning} nerede?" },
-                { en: "I need a {word}.", tr: "Bir {meaning}a ihtiyacım var." },
-                { en: "Please {word} this document.", tr: "Lütfen bu belgeyi {meaning}." },
-                { en: "We must {word} the cause.", tr: "Sebebi {meaning} zorundayız." }
-            ];
-
-            // Kelimenin uzunluğuna göre sabit bir cümle seç (her açışta aynı olsun diye)
-            const tIndex = word.length % templates.length;
-            const t = templates[tIndex];
-
-            // Çoğu akademik kelime için özel şablon kullanabiliriz
-            let finalEn = t.en.replace("{word}", `{${word}}`); 
-            let finalTr = t.tr.replace("{meaning}", meaning);
             
-            // Eğer anlamda virgül varsa, anlamın ilk kısmını al (daha kısa cümleler için)
-            const primaryMeaning = meaning.split(',')[0];
-            
-            // Eğer kelime akademik kelimelerden biriyse, daha uygun bir şablon kullan
-            const academicWords = ["analyze", "identify", "determine", "establish", "investigate", "illustrate", "demonstrate", "evaluate", "synthesize", "formulate", "define", "compare", "contrast", "argue", "support", "challenge", "derive", "indicate", "suggest", "conclude"];
-            if (academicWords.includes(word)) {
-                 const academicTemplates = [
-                    { en: "You need to {word} the data carefully.", tr: "Verileri dikkatlice {meaning} gerekiyor." },
-                    { en: "Can you {word} this hypothesis?", tr: "Bu hipotezi {meaning} misin?" },
-                    { en: "The report will {word} the main findings.", tr: "Rapor, ana bulguları {meaning}." }
-                 ];
-                 const aIndex = word.length % academicTemplates.length;
-                 const at = academicTemplates[aIndex];
-                 
-                 finalEn = at.en.replace("{word}", `{${word}}`);
-                 finalTr = at.tr.replace("{meaning}", primaryMeaning.toLowerCase());
+            let imgUrl = `https://image.pollinations.ai/prompt/cartoon%20doodle%20of%20${word}%20on%20a%20white%20background?width=400&height=300&nologo=true&seed=${word.length}`;
+            let sentenceEn;
+            let sentenceTr;
+
+            // ÖZEL DURUM: HIDE kelimesi için özel görsel ve cümle
+            if (word === "hide") {
+                // Görseldeki sahneyi yansıtan özel prompt
+                imgUrl = `https://image.pollinations.ai/prompt/cartoon%20child%20hiding%20in%20a%20bush%20and%20a%20box%20and%20a%20trash%20can%20on%20a%20white%20background%20doodle%20style?width=400&height=300&nologo=true&seed=999`;
+                
+                // Gönderilen görseldeki cümlenin birebir çevirisi
+                sentenceEn = "He was accused of trying to {hide} evidence from the police.";
+                sentenceTr = "Polisten delil gizlemeye çalışmakla suçlandı.";
+            } 
+            // DİĞER KELİMELER İÇİN GENEL ŞABLON
+            else {
+                const templates = [
+                    { en: "I often {word} in the morning.", tr: "Sabahları sık sık {meaning} yaparım." },
+                    { en: "It is important to {word} safely.", tr: "Güvenli bir şekilde {meaning} önemlidir." },
+                    { en: "The bird can {word} very high.", tr: "Kuş çok yükseğe {meaning} bilir." },
+                    { en: "We need to {word} for the project.", tr: "Proje için {meaning} yapmalıyız." },
+                    { en: "Please {word} carefully.", tr: "Lütfen dikkatli bir şekilde {meaning}." }
+                ];
+                
+                const tIndex = word.length % templates.length;
+                const t = templates[tIndex];
+
+                // Cümledeki kelimeyi yerine koy ve anlamını da çeviriye yerleştir
+                sentenceEn = t.en.replace("{word}", `{${word}}`); 
+                sentenceTr = t.tr.replace("{meaning}", meaning);
             }
 
 
@@ -276,26 +235,13 @@
                 word: word,
                 meaning: meaning,
                 image: imgUrl,
-                sentenceEn: finalEn, 
-                sentenceTr: finalTr
+                sentenceEn: sentenceEn,
+                sentenceTr: sentenceTr
             };
         }
 
-        // --- SESLENDİRME FONKSİYONU ---
-        function speakWord(word) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(word);
-                // İngilizce için 'en-US' ayarı
-                utterance.lang = 'en-US'; 
-                window.speechSynthesis.speak(utterance);
-            } else {
-                console.warn('Tarayıcı seslendirmeyi desteklemiyor.');
-            }
-        }
-
-
         // ======================================================
-        // 3. ARAYÜZ FONKSİYONLARI
+        // 3. ARAYÜZ FONKSİYONLARI (ÖNCEKİ KODDAN ALINMIŞTIR)
         // ======================================================
 
         const listScreen = document.getElementById('list-screen');
@@ -311,7 +257,6 @@
             setTimeout(() => screen.classList.add('active'), 10);
         }
 
-        // --- Ünite Listesini Oluştur ---
         function initUnitList() {
             const container = document.getElementById('units-container');
             const totalUnits = 20;
@@ -335,7 +280,6 @@
             }
         }
 
-        // --- Ünite Detayını Aç ---
         function openUnit(unitId) {
             document.getElementById('detail-unit-title').innerText = `Ünite ${unitId} Kelimeleri`;
             const listContainer = document.getElementById('unit-word-list');
@@ -350,24 +294,12 @@
                 emptyMsg.style.display = 'none';
                 
                 rawWords.forEach(pair => {
-                    // Kelime verisini anlık olarak oluşturuyoruz
                     const wordData = processWordData(pair[0], pair[1]);
                     
                     const li = document.createElement('li');
                     li.className = 'word-item';
+                    li.onclick = () => openCard(wordData);
                     
-                    // Veriyi data attribute'lerine sakla (Kart açıldığında kullanılacak)
-                    li.dataset.word = pair[0];
-                    li.dataset.meaning = pair[1];
-                    
-                    // Tıklama olayını basit data alacak şekilde güncelle
-                    li.onclick = function() {
-                        const w = this.dataset.word;
-                        const m = this.dataset.meaning;
-                        openCard(processWordData(w, m));
-                    };
-                    
-                    // Kelimenin baş harfini ikon yap
                     const initial = wordData.word.charAt(0).toUpperCase();
                     
                     li.innerHTML = `
@@ -384,22 +316,16 @@
             switchScreen(detailScreen);
         }
 
-        // --- Kartı Aç ---
         function openCard(data) {
             document.getElementById('card-word').innerText = data.word;
             document.getElementById('card-meaning').innerText = data.meaning;
             
-            // Cümleyi işle ve renklendir
             const formattedEn = data.sentenceEn.replace(/{(\w+)}/g, '<span class="highlight-word">$1</span>');
             document.getElementById('card-sentence-en').innerHTML = formattedEn;
             document.getElementById('card-sentence-tr').innerText = data.sentenceTr;
             
-            // Görseli yükle
             const img = document.getElementById('card-image');
             img.src = data.image;
-
-            // Seslendirme ikonuna tıklama olayını ekle
-            document.getElementById('card-speaker-icon').onclick = () => speakWord(data.word);
 
             switchScreen(cardScreen);
         }
@@ -407,9 +333,7 @@
         function showListScreen() { switchScreen(listScreen); }
         function closeCardScreen() { switchScreen(detailScreen); }
 
-        // Uygulamayı Başlat
         initUnitList();
-
     </script>
 </body>
 </html>
