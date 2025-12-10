@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İngilizce Kelime Tahmin Oyunu (Mobil Uyumlu)</title>
+    <title>İngilizce Kelime Arama Bulmacası</title>
     <style>
         /* CSS BAŞLANGICI */
         body {
@@ -11,245 +11,146 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             min-height: 100vh;
             background-color: #f0f4f8;
-            margin: 0;
-            flex-direction: column;
-            padding: 20px; /* Kenar boşluğu ekle */
+            padding: 10px;
         }
 
-        .container {
-            background: #ffffff;
-            padding: 30px 20px; /* Mobil için yatay dolguyu azalt */
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-            width: 100%; /* Mobil cihazlarda tam genişlik kullan */
+        .main-container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 420px;
+            width: 100%;
+            padding: 15px;
             box-sizing: border-box;
         }
 
-        h1 {
+        /* Başlık Alanı (Yeşil Kısım) */
+        .header-top {
+            background-color: #4CAF50; /* Yeşil */
+            color: white;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: -15px -15px 15px -15px; /* Ana konteyner kenarlarına yapışsın */
+        }
+
+        /* Kelime Listesi Alanı */
+        .word-list {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .word-list span {
+            display: inline-block;
+            margin: 5px 10px;
+            padding: 5px 8px;
+            color: #6a5acd; /* Mor renk */
+            font-weight: bold;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: color 0.3s;
+            /* İşaretlendiğinde kullanılacak sınıf: .found */
+        }
+
+        .word-list span.found {
+            color: #28a745; /* Yeşil */
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        
+        /* Bulmaca Izgarası */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr); /* 10x10 ızgara */
+            grid-gap: 2px;
+            user-select: none;
+            background-color: #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .cell {
+            background-color: #ffffff;
             color: #333;
-            margin-bottom: 5px;
-            font-size: 1.8em; /* Başlık boyutunu ayarla */
-        }
-
-        p {
-            color: #666;
-            margin-bottom: 20px;
-            font-size: 1em;
-        }
-
-        #word-display {
-            font-size: 28px; /* Kelime boyutunu küçült */
-            font-weight: bold;
-            letter-spacing: 10px; /* Harf aralığını küçült */
-            margin-bottom: 20px;
-            color: #007bff;
-            /* Kelime çok uzunsa kelimeyi sarma (zorunlu değil ama iyi uygulama) */
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            line-height: 1.5; 
-        }
-
-        #guesses-left {
-            font-size: 16px;
-            color: #dc3545;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-
-        #message {
-            margin-top: 15px;
-            font-size: 16px;
-            font-weight: bold;
-            min-height: 20px;
-        }
-
-        /* Girdi ve Butonların hizalanması */
-        .input-group {
+            aspect-ratio: 1 / 1; /* Kare hücreler */
             display: flex;
             justify-content: center;
             align-items: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: default;
+            transition: background-color 0.1s;
         }
-
-        input[type="text"] {
-            padding: 10px;
-            width: 40px; /* Giriş kutusunu daralt */
-            height: 40px; /* Yüksekliğini artır (dokunmatik uyumluluk) */
-            text-align: center;
-            font-size: 20px;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            margin-right: 10px;
-            text-transform: uppercase;
-        }
-
-        button {
-            padding: 10px 15px;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            background-color: #28a745;
+        
+        /* İşaretleme Stilleri */
+        /* Tıklama ile renk değiştirebilmek için bu sınıfları manuel ekleyeceksiniz. */
+        .highlight-pink {
+            background-color: #ffb6c1; /* Pembe işaretleme */
             color: white;
-            transition: background-color 0.3s;
         }
 
-        button:hover {
-            background-color: #218838;
+        .highlight-blue {
+            background-color: #add8e6; /* Mavi işaretleme */
+            color: white;
         }
 
-        .reset-button {
-            background-color: #007bff;
-            margin-top: 20px;
-            width: 100%; /* Mobil tam genişlik butonu */
-            padding: 15px;
-            font-size: 18px;
+        .highlight-green {
+            background-color: #90ee90; /* Yeşil işaretleme */
+            color: white;
         }
-
-        .reset-button:hover {
-            background-color: #0056b3;
-        }
-
-        /* Medya Sorgusu (Daha büyük tablet ve masaüstü ekranlar için) */
-        @media (min-width: 600px) {
-            .container {
-                padding: 40px;
-                max-width: 450px;
-            }
-            #word-display {
-                font-size: 32px;
-                letter-spacing: 15px;
-            }
-            .reset-button {
-                width: auto;
-                padding: 10px 20px;
-            }
-            h1 {
-                font-size: 2em;
-            }
-        }
-        /* CSS SONU */
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>İngilizce Kelime Tahmin Oyunu</h1>
-    <p>Gizli İngilizce kelimeyi bulmak için bir harf tahmin edin.</p>
-
-    <div id="word-display"></div>
-
-    <div id="guesses-left">Kalan Hak: 6</div>
-
-    <div class="input-group">
-        <input type="text" id="guess-input" maxlength="1" placeholder="Harf">
-        <button onclick="checkGuess()">Tahmin Et</button>
+<div class="main-container">
+    
+    <div class="header-top">
+        AKADEMİK KELİME BULMACA
     </div>
 
-    <div id="message"></div>
+    <div class="word-list">
+        <span data-word="ANALYZE">ANALYZE</span>
+        <span data-word="EVALUATE">EVALUATE</span>
+        <span data-word="DEFINE">DEFINE</span>
+        <span data-word="FORMULA">FORMULA</span>
+        <span data-word="CONTEXT">CONTEXT</span>
+        <span data-word="THEORY">THEORY</span>
+        <span data-word="OBSERVE">OBSERVE</span>
+        <span data-word="IMPACT">IMPACT</span>
+    </div>
 
-    <button class="reset-button" onclick="initGame()">Yeni Kelime</button>
+    <div class="grid-container" id="word-search-grid">
+        <script>
+            // Bu sadece bir örnek ızgaradır. Kelimelerinizi manuel olarak buraya yerleştirmelisiniz.
+            // Örnek kelimeler: A N A L Y Z E (Yatay/Dikey/Çapraz)
+            
+            const letters = "ANALYZEFGHJIEVALUATEKLDDEFINEPQSTUVWFORMULAXYZABCCONTEXHMNOPQRSTHEORYVABCDIMPACTGHEFJKLOBSERVEPQRSUVWX YZ1234567890"
+                           .replace(/ /g, '').slice(0, 100); // Toplam 100 harf
+
+            let gridHTML = "";
+            for (let i = 0; i < 100; i++) {
+                gridHTML += `<div class="cell" data-index="${i}">${letters[i]}</div>`;
+            }
+            document.getElementById('word-search-grid').innerHTML = gridHTML;
+            
+            // Tıklama İşlemi (Çok Basit İşaretleme)
+            document.querySelectorAll('.cell').forEach(cell => {
+                cell.addEventListener('click', () => {
+                    // Tıklanan hücrenin işaretleme durumunu değiştir (Örnek: Pembe)
+                    cell.classList.toggle('highlight-pink');
+                });
+            });
+
+            // NOT: Gerçek kelime bulma mantığı (seçilen harflerin bir kelime oluşturup oluşturmadığı) 
+            // çok gelişmiş JavaScript gerektirir. Bu kod sadece görsel ve temel etkileşimi sağlar.
+        </script>
+    </div>
+
 </div>
 
-<script>
-    // JavaScript kısmı aynı kalmıştır.
-    const words = ["DEVELOP", "ANALYZE", "RESEARCH", "CONCEPT", "STUDY", "CREATE", "DESIGN", "THEORY", "PROJECT", "FACTOR"]; 
-    let targetWord = "";
-    let guessedWord = [];
-    let lives = 6;
-    let guessedLetters = [];
-
-    const wordDisplay = document.getElementById('word-display');
-    const guessesLeft = document.getElementById('guesses-left');
-    const message = document.getElementById('message');
-    const guessInput = document.getElementById('guess-input');
-    const guessButton = document.querySelector('button:not(.reset-button)');
-
-    // Oyunu Başlatma Fonksiyonu
-    function initGame() {
-        targetWord = words[Math.floor(Math.random() * words.length)];
-        
-        lives = 6;
-        guessedLetters = [];
-        guessedWord = Array(targetWord.length).fill('_');
-
-        updateDisplay();
-        message.textContent = "Başlayalım! Bir harf girin.";
-        message.style.color = '#666'; // Mesaj rengini varsayılana çek
-        guessInput.value = '';
-        guessInput.disabled = false;
-        guessButton.disabled = false;
-        guessInput.focus(); // Mobil klavyesini açmak için odaklanma
-    }
-
-    // Ekran Görüntüsünü Güncelleme Fonksiyonu
-    function updateDisplay() {
-        wordDisplay.textContent = guessedWord.join(' ');
-        guessesLeft.textContent = `Kalan Hak: ${lives} (Tahmin Edilenler: ${guessedLetters.join(', ')})`;
-    }
-
-    // Tahmini Kontrol Etme Fonksiyonu
-    function checkGuess() {
-        const guess = guessInput.value.toUpperCase();
-        guessInput.value = ''; // Girdiyi temizle
-        guessInput.focus(); // Tahmin sonrası tekrar odaklan
-
-        if (!/^[A-Z]$/.test(guess)) {
-            message.textContent = "Lütfen sadece geçerli bir harf girin (A-Z).";
-            message.style.color = '#dc3545';
-            return;
-        }
-
-        if (guessedLetters.includes(guess)) {
-            message.textContent = `"${guess}" harfini daha önce denediniz.`;
-            message.style.color = '#ffc107';
-            return;
-        }
-
-        guessedLetters.push(guess);
-        message.style.color = '#666'; // Mesaj rengini sıfırla
-
-        if (targetWord.includes(guess)) {
-            // Doğru Tahmin
-            message.textContent = `Tebrikler! "${guess}" doğru bir harf.`;
-            
-            for (let i = 0; i < targetWord.length; i++) {
-                if (targetWord[i] === guess) {
-                    guessedWord[i] = guess;
-                }
-            }
-
-            // Kazanma Kontrolü
-            if (!guessedWord.includes('_')) {
-                message.textContent = `🎉 Kazandınız! Kelime: ${targetWord}`;
-                endGame(true);
-            }
-        } else {
-            // Yanlış Tahmin
-            lives--;
-            message.textContent = `Maalesef, "${guess}" kelimede yok.`;
-
-            // Kaybetme Kontrolü
-            if (lives <= 0) {
-                message.textContent = `😭 Kaybettiniz! Kelime şuydu: ${targetWord}`;
-                endGame(false);
-            }
-        }
-        updateDisplay();
-    }
-
-    // Oyun Sonu Fonksiyonu
-    function endGame(win) {
-        guessInput.disabled = true;
-        guessButton.disabled = true;
-        message.style.color = win ? '#28a745' : '#dc3545';
-    }
-
-    // Sayfa yüklendiğinde oyunu başlat
-    window.onload = initGame;
-</script>
 </body>
 </html>
