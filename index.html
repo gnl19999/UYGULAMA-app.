@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelime Uygulaması v4 (Tüm Görseller Tamamlandı)</title>
+    <title>Kelime Uygulaması v4 (Ünite 3 Güncellendi)</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         /* --- TEMEL AYARLAR --- */
@@ -222,6 +222,32 @@
             "https://png.pngtree.com/png-clipart/20250305/original/pngtree-cartoon-scientist-in-laboratory-with-flasks-png-image_20575712.png" // Replicate
         ];
 
+        // ======================================================
+        // ÜNİTE 3 KELİMELERİ (Yeni Eklenen Veri)
+        // ======================================================
+        const unit3Words = [
+            { "en_verb": "Signify", "tr_verb": "İfade Etmek, Anlamına Gelmek", "en_sentence": "His constant yawning might {signify} that he is extremely tired after the long flight.", "tr_sentence": "Onun sürekli esnemesi, uzun uçuştan sonra aşırı yorgun olduğu anlamına gelebilir.", "image_url": "https://via.placeholder.com/400x300?text=Signify" },
+            { "en_verb": "Account for", "tr_verb": "Açıklamak, Sorumlu Olmak", "en_sentence": "Can you {account for} the missing $50 from the petty cash box?", "tr_sentence": "Küçük kasadaki eksik 50 doları açıklayabilir misin (nerede olduğunu söyleyebilir misin)?", "image_url": "https://via.placeholder.com/400x300?text=Account+for" },
+            { "en_verb": "Assess", "tr_verb": "Değer Biçmek, Değerlendirmek", "en_sentence": "We need to {assess} the damage to the car before calling the insurance company.", "tr_sentence": "Sigorta şirketini aramadan önce arabadaki hasarı değerlendirmemiz gerekiyor.", "image_url": "https://via.placeholder.com/400x300?text=Assess" },
+            { "en_verb": "Contribute", "tr_verb": "Katkıda Bulunmak", "en_sentence": "Everyone should {contribute} an item to the potluck dinner next weekend.", "tr_sentence": "Gelecek hafta sonu yapılacak ortak yemeğe herkes bir şeyler getirerek katkıda bulunmalı.", "image_url": "https://via.placeholder.com/400x300?text=Contribute" },
+            { "en_verb": "Correlate", "tr_verb": "İlişkilendirmek, Korelasyon Kurmak", "en_sentence": "We noticed that his mood often {correlate}s with how much sleep he got the previous night.", "tr_sentence": "Ruh halinin, sıklıkla bir önceki gece ne kadar uyuduğuyla ilişkili olduğunu fark ettik.", "image_url": "https://via.placeholder.com/400x300?text=Correlate" },
+            { "en_verb": "Emphasize", "tr_verb": "Vurgulamak", "en_sentence": "My mother always {emphasize}s the importance of eating breakfast every morning.", "tr_sentence": "Annem her sabah kahvaltı yapmanın önemini daima vurgular.", "image_url": "https://via.placeholder.com/400x300?text=Emphasize" },
+            { "en_verb": "Extract", "tr_verb": "Çıkarmak, Özütlemek", "en_sentence": "I need to {extract} all the necessary files from this huge zip folder before I can start working.", "tr_sentence": "Çalışmaya başlamadan önce bu büyük zip klasöründen gerekli tüm dosyaları çıkarmam gerekiyor.", "image_url": "https://via.placeholder.com/400x300?text=Extract" },
+            { "en_verb": "Hypothesize", "tr_verb": "Hipotez Kurmak", "en_sentence": "I {hypothesize} that if we leave the window open, the room will cool down faster.", "tr_sentence": "Eğer pencereyi açık bırakırsak odanın daha hızlı soğuyacağı hipotezini kuruyorum (varsayıyorum).", "image_url": "https://via.placeholder.com/400x300?text=Hypothesize" },
+            { "en_verb": "Justify", "tr_verb": "Gerekçelendirmek", "en_sentence": "You must {justify} the extra money you spent on the vacation to your parents.", "tr_sentence": "Tatilde harcadığın ekstra parayı ailene gerekçelendirmelisin (açıklamalısın).", "image_url": "https://via.placeholder.com/400x300?text=Justify" },
+            { "en_verb": "Reveal", "tr_verb": "Ortaya Çıkarmak, Açığa Vurmak", "en_sentence": "The old diary pages {reveal} a long-kept family secret after all these years.", "tr_sentence": "Eski günlük sayfaları, bunca yıl sonra uzun süredir saklanan bir aile sırrını ortaya çıkarıyor.", "image_url": "https://via.placeholder.com/400x300?text=Reveal" },
+            { "en_verb": "Envisage", "tr_verb": "Öngörmek, Zihninde Canlandırmak", "en_sentence": "I can't quite {envisage} what the living room will look like after we paint the walls dark blue.", "tr_sentence": "Duvarları koyu maviye boyadıktan sonra oturma odasının nasıl görüneceğini tam olarak öngöremiyorum (zihnimde canlandıramıyorum).", "image_url": "https://via.placeholder.com/400x300?text=Envisage" },
+            { "en_verb": "Exclude", "tr_verb": "Hariç Tutmak, Dışlamak", "en_sentence": "The new gym membership package seems to {exclude} access to the swimming pool.", "tr_sentence": "Yeni spor salonu üyeliği paketi, yüzme havuzuna erişimi hariç tutuyor (dışlıyor) gibi görünüyor.", "image_url": "https://via.placeholder.com/400x300?text=Exclude" },
+            { "en_verb": "Expend", "tr_verb": "Harcamak, Tüketmek (kaynak, zaman)", "en_sentence": "We had to {expend} most of our remaining energy just climbing the last hill.", "tr_sentence": "Kalan enerjimizin çoğunu sadece son tepeye tırmanmak için harcamak zorunda kaldık.", "image_url": "https://via.placeholder.com/400x300?text=Expend" },
+            { "en_verb": "Facilitate", "tr_verb": "Kolaylaştırmak", "en_sentence": "The new app feature will {facilitate} much faster communication between neighbors.", "tr_sentence": "Yeni uygulama özelliği, komşular arasındaki iletişimi çok daha hızlı kolaylaştıracak.", "image_url": "https://via.placeholder.com/400x300?text=Facilitate" },
+            { "en_verb": "Fluctuate", "tr_verb": "Dalgalanmak, İnip Çıkmak", "en_sentence": "The gas prices at the station {fluctuate} almost daily depending on the time of the week.", "tr_sentence": "İstasyondaki benzin fiyatları, haftanın gününe bağlı olarak neredeyse her gün dalgalanıyor.", "image_url": "https://via.placeholder.com/400x300?text=Fluctuate" },
+            { "en_verb": "Foster", "tr_verb": "Geliştirmek, Teşvik etmek, Beslemek", "en_sentence": "My parents always tried to {foster} a love of reading in us by taking us to the library.", "tr_sentence": "Ailem, bizi kütüphaneye götürerek bizde daima okuma sevgisini geliştirmeye (veya beslemeye) çalıştı.", "image_url": "https://via.placeholder.com/400x300?text=Foster" },
+            { "en_verb": "Globalize", "tr_verb": "Küreselleştirmek", "en_sentence": "The Internet continues to {globalize} trends in fashion and music more quickly than ever before.", "tr_sentence": "İnternet, moda ve müzik trendlerini daha önce hiç olmadığı kadar hızlı bir şekilde küreselleştirmeye devam ediyor.", "image_url": "https://via.placeholder.com/400x300?text=Globalize" },
+            { "en_verb": "Guarantee", "tr_verb": "Garanti Etmek", "en_sentence": "The mechanic can't {guarantee} that the old car will pass the inspection without several major repairs.", "tr_sentence": "Tamirci, eski arabanın birkaç büyük onarım olmadan muayeneden geçeceğini garanti edemez.", "image_url": "https://via.placeholder.com/400x300?text=Guarantee" },
+            { "en_verb": "Hinder", "tr_verb": "Engellemek, Önlemek", "en_sentence": "Heavy traffic and poor weather will certainly {hinder} our arrival time this evening.", "tr_sentence": "Yoğun trafik ve kötü hava, bu akşamki varış saatimizi kesinlikle engelleyecektir (veya önleyecektir).", "image_url": "https://via.placeholder.com/400x300?text=Hinder" },
+            { "en_verb": "Imply", "tr_verb": "Kastetmek, İma Etmek, Çıkarım Yapmak", "en_sentence": "His silence when I asked about the broken vase seemed to {imply} he was the one responsible.", "tr_sentence": "Kırık vazo hakkında sorduğumdaki sessizliği, sorumlu kişinin kendisi olduğunu ima ediyor gibiydi.", "image_url": "https://via.placeholder.com/400x300?text=Imply" }
+        ];
+
         // Kelimeler ve Cümleler, şimdi görsel URL'leri ile eşleştiriliyor.
 
         const baseVerbs = [
@@ -256,7 +282,7 @@
         ];
         
         // ======================================================
-        // ÜNİTE 2 KELİMELERİ (Yeni Görsellerle Eşleştirildi)
+        // ÜNİTE 2 KELİMELERİ (Güncel)
         // ======================================================
         const unit2Words = [
              { en_verb: "Perceive", tr_verb: "Algılamak", en_sentence: "The study investigates how students {perceive} the fairness of the new grading system.", tr_sentence: "Çalışma, öğrencilerin yeni notlandırma sisteminin adilliğini nasıl algıladığını araştırmaktadır.", image_url: customImageUrlsUnit2[0] },
@@ -283,23 +309,25 @@
 
 
         // Tüm kelime verilerini tek bir yerde toplama
-        const allWordsData = [...baseVerbs, ...academicWordsUnit1, ...unit2Words];
+        const allWordsData = [...baseVerbs, ...academicWordsUnit1, ...unit2Words, ...unit3Words];
 
         const unitDatabase = {
             1: [...baseVerbs, ...academicWordsUnit1].map(item => [item.en_verb, item.tr_verb]),
             2: unit2Words.map(item => [item.en_verb, item.tr_verb]), 
+            3: unit3Words.map(item => [item.en_verb, item.tr_verb]), // Yeni Ünite 3
             // Diğer demo üniteler ve sahte veriler korunmuştur.
-            3: [["chair", "sandalye"], ["table", "masa"], ["bed", "yatak"], ["lamp", "lamba"], ["window", "pencere"]],
-            4: [["computer", "bilgisayar"], ["phone", "telefon"], ["camera", "kamera"], ["robot", "robot"], ["screen", "ekran"]]
+            4: [["computer", "bilgisayar"], ["phone", "telefon"], ["camera", "kamera"], ["robot", "robot"], ["screen", "ekran"]],
         };
 
         // Demo Amaçlı: Boş üniteleri sahte veriyle dolduralım ki liste dolu görünsün
-        for (let i = 5; i <= 20; i++) {
-            unitDatabase[i] = [
-                ["example", "örnek"],
-                ["test", "deneme"],
-                ["word", "kelime"]
-            ];
+        for (let i = 4; i <= 20; i++) { // 4'ten başlayarak demo verisi ekliyoruz
+            if (!unitDatabase[i]) {
+                unitDatabase[i] = [
+                    ["example", "örnek"],
+                    ["test", "deneme"],
+                    ["word", "kelime"]
+                ];
+            }
         }
         
         // Veri kaynağından kelimenin tam obje formatını getirme fonksiyonu
@@ -312,7 +340,7 @@
                 const found = unitDatabase[unitId].find(pair => pair[0] === word);
                 if (found) {
                     // Sahte kelimeler için de bir image_url tanımlayalım
-                    return { en_verb: found[0], tr_verb: found[1], en_sentence: `This is an example sentence for {${found[0]}}.`, tr_sentence: `Bu, {${found[0]}} kelimesi için bir örnektir.`, image_url: "https://via.placeholder.com/100x100?text=DEMO" };
+                    return { en_verb: found[0], tr_verb: found[1], en_sentence: `This is an example sentence for {${found[0]}}.`, tr_sentence: `Bu, {${found[0]}} kelimesi için bir örnektir.`, image_url: "https://via.placeholder.com/400x300?text=DEMO" };
                 }
             }
             return null;
