@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelime Uygulaması v3 (Akademik Cümleler)</title>
+    <title>Kelime Uygulaması v3 (Görselli Liste)</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         /* --- TEMEL AYARLAR --- */
@@ -14,19 +14,17 @@
             display: flex; justify-content: center;
             min-height: 100vh;
         }
-
         .container {
             width: 100%; max-width: 450px;
             background-color: #fff; min-height: 100vh;
             position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05);
             overflow-x: hidden;
         }
-
         /* --- EKRAN GEÇİŞLERİ --- */
         .screen { display: none; padding: 20px; animation: fadeIn 0.3s; }
         .screen.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
+        
         /* --- ÜNİTE KARTLARI --- */
         .unit-card {
             background-color: white; border-radius: 12px; padding: 15px; margin-bottom: 15px;
@@ -51,16 +49,26 @@
         .detail-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
         .back-button { font-size: 24px; color: #333; cursor: pointer; margin-right: 15px; }
         .word-item {
-            background-color: white; border-radius: 10px; padding: 15px; margin-bottom: 10px;
+            background-color: white; border-radius: 10px; padding: 10px 15px; margin-bottom: 10px; /* Padding ayarlandı */
             display: flex; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             border: 1px solid #eee; cursor: pointer; transition: background 0.2s;
         }
         .word-item:active { background-color: #f5f5f5; }
-        .word-icon {
-            width: 40px; height: 40px; margin-right: 15px; border-radius: 8px;
-            background-color: #f0f2f5; color: #555; display: flex;
-            align-items: center; justify-content: center; font-size: 18px; font-weight: bold;
+        
+        /* Yeni: Küçük Görsel Alanı */
+        .word-thumbnail {
+            width: 50px; height: 50px; 
+            margin-right: 15px; border-radius: 8px; 
+            background-color: #f0f2f5; 
+            overflow: hidden;
+            flex-shrink: 0;
         }
+        .word-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* Eski word-icon kaldırıldı, yerine thumbnail kullanılacak */
 
         /* --- KELİME KARTI --- */
         #card-screen { padding: 0; height: 100vh; background-color: white; display: flex; flex-direction: column; }
@@ -234,9 +242,15 @@
         
         // Veri kaynağından kelimenin tam obje formatını getirme fonksiyonu (yeni)
         function getWordFullData(word) {
-            // Sadece Ünite 1'deki tam veriye ihtiyacımız var, diğerleri otomatiktir
-            if (unit1Words.find(item => item.en_verb === word)) {
-                return unit1Words.find(item => item.en_verb === word);
+            const result = unit1Words.find(item => item.en_verb === word);
+            if (result) return result;
+            
+            // Diğer ünitelerdeki kelimeler için basit bir obje döndür (Sadece listeleme için)
+            for (const unitId in unitDatabase) {
+                const found = unitDatabase[unitId].find(pair => pair[0] === word);
+                if (found) {
+                    return { en_verb: found[0], tr_verb: found[1], en_sentence: `This is an example sentence for {${found[0]}}.`, tr_sentence: `Bu, {${found[0]}} kelimesi için bir örnektir.` };
+                }
             }
             return null;
         }
@@ -246,7 +260,8 @@
         // 2. OTOMATİK İÇERİK OLUŞTURUCU (AI & ŞABLONLAR)        
         // ======================================================                
 
-        function processWordData(word, meaning) {
+        // NOT: Bu fonksiyon artık kelime kartı açılırken DEĞİL, liste oluşturulurken çağrılacak.
+        function getWordCardData(word, meaning) {
             
             // 1. TAM VERİ KONTROLÜ: Eğer manuel girilmiş özel cümle varsa, onu kullan.
             const fullData = getWordFullData(word);
@@ -266,21 +281,28 @@
                 promptSuffix = "%20abstract%20graphic%20design%20data%20analysis";
             }
             
-            const imgUrl = `https://image.pollinations.ai/prompt/${promptBase}${word}${promptSuffix}?width=400&height=300&nologo=true`;
+            // Daha küçük görseller için çözünürlüğü düşürerek yüklenme hızını artırabiliriz.
+            const imgUrl = `https://image.pollinations.ai/prompt/${promptBase}${word}${promptSuffix}?width=100&height=100&nologo=true`;
 
             // -----------------------------------------------------
             // B. Cümle İşleme (Kelimeyi vurgulama)
             // -----------------------------------------------------
 
-            // Eğer cümleler otomatikten gelmediyse (yani fullData'dan geldiyse)
             if (fullData) {
                 // Özel cümlede kelimeyi bulup {} içine alarak highlight'a hazırla
-                // Örneğin "The research aims to analyze..." -> "The research aims to {analyze}..."
+                // Not: Kelime vurgusunu doğru yapmak için orijinal cümleyi değiştirmesi gerekiyor.
                 const regex = new RegExp(`\\b${word}\\b`, 'i'); 
-                finalEn = finalEn.replace(regex, `{${word}}`);
-            } else {
-                 // Otomatik oluşturulan kelimeler için (Şu anki yapıda sadece 5'ten sonrası)
-                 finalEn = finalEn.replace("{word}", `{${word}}`);
+                // Cümledeki kelimeyi {kelime} formatına getir
+                let processedEn = fullData.en_sentence.replace(regex, `{${word}}`);
+
+                // Eğer kelime bulunamazsa (örneğin Illustrates yerine Illustrate arandığı için)
+                if (processedEn === fullData.en_sentence && fullData.en_sentence.includes(word)) {
+                    // Cümlenin içinde sadece kelimenin kendisini vurgulayan daha esnek bir regex deneriz
+                    const flexibleRegex = new RegExp(`(\\b)${word}(\\b)`, 'i');
+                    processedEn = fullData.en_sentence.replace(flexibleRegex, `$1{${word}}$2`);
+                }
+
+                finalEn = processedEn;
             }
 
 
@@ -358,21 +380,33 @@
             } else {                
                 emptyMsg.style.display = 'none';                                
                 rawWords.forEach(pair => {                    
+                    const word = pair[0];
+                    const meaning = pair[1];
+                    // !!! BURASI GÜNCELLENDİ: Görsel URL'sini almak için fonksiyon çağrıldı !!!
+                    const wordData = getWordCardData(word, meaning); 
+
                     const li = document.createElement('li');                    
                     li.className = 'word-item';                                        
-                    li.dataset.word = pair[0];                    
-                    li.dataset.meaning = pair[1];                                        
+                    li.dataset.word = word;                    
+                    li.dataset.meaning = meaning;                                        
+                    
                     li.onclick = function() {                        
-                        const w = this.dataset.word;                        
-                        const m = this.dataset.meaning;                        
-                        openCard(processWordData(w, m));                    
+                        // Kartı açarken, tekrar tüm datayı oluşturmak yerine, cached datayı kullanabiliriz.
+                        // Ancak sade kalması için, tıklamada tekrar oluşturuyoruz (getWordCardData'nın içindeki image resolution'u bu yüzden 400x300'e geri çevireceğiz).
+                        const cardData = getWordCardData(this.dataset.word, this.dataset.meaning);
+                        // Kart görseli için daha büyük bir görsel URL'si üret
+                        cardData.image = cardData.image.replace("width=100&height=100", "width=400&height=300");
+
+                        openCard(cardData);                    
                     };                                        
-                    const initial = pair[0].charAt(0).toUpperCase();                                        
+                    
                     li.innerHTML = `                        
-                        <div class="word-icon">${initial}</div>                        
+                        <div class="word-thumbnail">
+                            <img src="${wordData.image}" alt="${word}">
+                        </div>
                         <div style="flex-grow:1">                            
-                            <div style="font-weight:bold; color:#333; font-size:16px;">${pair[0]}</div>                            
-                            <div style="font-size:14px; color:#777;">${pair[1]}</div>                        
+                            <div style="font-weight:bold; color:#333; font-size:16px;">${word}</div>                            
+                            <div style="font-size:14px; color:#777;">${meaning}</div>                        
                         </div>                        
                         <span style="color:#ddd;">&#10095;</span>                    
                     `;                    
@@ -381,7 +415,7 @@
             }            
             switchScreen(detailScreen);        
         }
-        
+
         // --- Kartı Aç ---        
         function openCard(data) {            
             document.getElementById('card-word').innerText = data.word;            
@@ -393,6 +427,7 @@
             document.getElementById('card-sentence-tr').innerText = data.sentenceTr;                        
             
             const img = document.getElementById('card-image');            
+            // Karttaki görselin boyutunu 400x300 olarak ayarla (openUnit içinde ayarlanmıştı)
             img.src = data.image;
             
             document.getElementById('card-speaker-icon').onclick = () => speakWord(data.word);
