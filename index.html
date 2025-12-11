@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelime Uygulaması v4 (Ünite 3 Güncellendi)</title>
+    <title>Kelime Uygulaması v4 (Ünite 4 Güncellendi)</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         /* --- TEMEL AYARLAR --- */
@@ -241,7 +241,8 @@
         const unitList = [
             { id: 1, title: "Ünite 1: Temel Fiiller", count: 20 },
             { id: 2, title: "Ünite 2: Analiz ve Değerlendirme Fiilleri", count: 20 },
-            { id: 3, title: "Ünite 3: Çıkarım ve Kolaylaştırma Fiilleri", count: 20 }
+            { id: 3, title: "Ünite 3: Çıkarım ve Kolaylaştırma Fiilleri", count: 20 },
+            { id: 4, title: "Ünite 4: Yönetim ve İletişim Fiilleri", count: 20 } // Yeni eklenen ünite
         ];
 
         // Ünite 1 kelimeleri (örnek veri)
@@ -345,7 +346,7 @@
         ];
 
         // ======================================================
-        // ÜNİTE 3 KELİMELERİ (Yeni Eklenen Veri)
+        // ÜNİTE 3 KELİMELERİ
         // ======================================================
         const unit3Words = [
             { "en_verb": "Signify", "tr_verb": "İfade Etmek, Anlamına Gelmek", "en_sentence": "His constant yawning might {signify} that he is extremely tired after the long flight.", "tr_sentence": "Onun sürekli esnemesi, uzun uçuştan sonra aşırı yorgun olduğu anlamına gelebilir.", "image_url": customImageUrlsUnit3[0] },
@@ -370,11 +371,38 @@
             { "en_verb": "Imply", "tr_verb": "Kastetmek, İma Etmek, Çıkarım Yapmak", "en_sentence": "His silence when I asked about the broken vase seemed to {imply} he was the one responsible.", "tr_sentence": "Kırık vazo hakkında sorduğumdaki sessizliği, sorumlu kişinin kendisi olduğunu ima ediyor gibiydi.", "image_url": customImageUrlsUnit3[19] }
         ];
 
+        // ======================================================
+        // ÜNİTE 4 KELİMELERİ (Yeni Eklenen Veri)
+        // ======================================================
+        const unit4Words = [
+            { "en_verb": "Incur", "tr_verb": "Maruz kalmak, Uğramak (masraf, zarar)", "en_sentence": "We will {incur} heavy fines if we fail to file the tax report on time.", "tr_sentence": "Vergi raporunu zamanında dosyalamazsak ağır para cezalarına maruz kalacağız.", "image_url": "https://png.pngtree.com/png-vector/20240723/ourmid/pngtree-money-fine-penalty-png-image_13010724.png" },
+            { "en_verb": "Infer", "tr_verb": "Çıkarım yapmak, Sonuç çıkarmak", "en_sentence": "From his nervousness, I {infer} that he is not telling us the whole truth.", "tr_sentence": "Onun gerginliğinden, bize tüm gerçeği söylemediği çıkarımını yapıyorum.", "image_url": "https://png.pngtree.com/png-vector/20240402/ourmid/pngtree-thought-cloud-vector-png-image_11942183.png" },
+            { "en_verb": "Inhibit", "tr_verb": "Engellemek, Ket vurmak", "en_sentence": "Fear of failure can often {inhibit} creativity and risk-taking.", "tr_sentence": "Başarısızlık korkusu, çoğu zaman yaratıcılığı ve risk almayı engelleyebilir.", "image_url": "https://png.pngtree.com/png-vector/20240723/ourmid/pngtree-stop-sign-hand-png-image_13010722.png" },
+            { "en_verb": "Initiate", "tr_verb": "Başlatmak, Girişimde bulunmak", "en_sentence": "She decided to {initiate} a conversation with her boss about the promotion.", "tr_sentence": "Terfi hakkında patronuyla bir konuşma başlatmaya karar verdi.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-start-launch-rocket-png-image_13036494.png" },
+            { "en_verb": "Innovate", "tr_verb": "Yenilik yapmak", "en_sentence": "Companies must constantly {innovate} to stay competitive in the market.", "tr_sentence": "Şirketler piyasada rekabetçi kalmak için sürekli yenilik yapmak zorundadır.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-light-bulb-idea-innovation-png-image_13038309.png" },
+            { "en_verb": "Insert", "tr_verb": "Eklemek, Sokmak, Araya koymak", "en_sentence": "Please {insert} the correct key into the ignition to start the engine.", "tr_sentence": "Motoru çalıştırmak için lütfen doğru anahtarı kontağa sokun (yerleştirin).", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-key-and-lock-png-image_13036491.png" },
+            { "en_verb": "Intervene", "tr_verb": "Müdahale etmek, Araya girmek", "en_sentence": "The teacher had to {intervene} when the two students started arguing loudly.", "tr_sentence": "İki öğrenci yüksek sesle tartışmaya başlayınca öğretmen müdahale etmek zorunda kaldı.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-two-people-talking-conflict-png-image_13036489.png" },
+            { "en_verb": "Isolate", "tr_verb": "İzole etmek, Ayırmak", "en_sentence": "They had to {isolate} the patient to prevent the disease from spreading.", "tr_sentence": "Hastalığın yayılmasını önlemek için hastayı izole etmek zorunda kaldılar.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-quarantine-isolation-vector-png-image_13038319.png" },
+            { "en_verb": "Liberate", "tr_verb": "Serbest bırakmak, Özgürleştirmek", "en_sentence": "The goal of the mission was to {liberate} the prisoners of war.", "tr_sentence": "Görevin amacı, savaş esirlerini serbest bırakmaktı.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-dove-bird-peace-png-image_13036496.png" },
+            { "en_verb": "Maximize", "tr_verb": "En üst düzeye çıkarmak", "en_sentence": "We should {maximize} the use of natural light to save on electricity.", "tr_sentence": "Elektrikten tasarruf etmek için doğal ışık kullanımını en üst düzeye çıkarmalıyız.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-increase-growth-up-arrow-png-image_13036488.png" },
+            { "en_verb": "Mediate", "tr_verb": "Arabuluculuk yapmak", "en_sentence": "A third-party lawyer was called in to {mediate} the disagreement between the partners.", "tr_sentence": "Ortaklar arasındaki anlaşmazlığa arabuluculuk yapması için üçüncü taraf bir avukat çağrıldı.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-handshake-deal-agreement-png-image_13036490.png" },
+            { "en_verb": "Merge", "tr_verb": "Birleştirmek, Kaynaşmak", "en_sentence": "The two small companies decided to {merge} to compete with the larger firms.", "tr_sentence": "İki küçük şirket, daha büyük firmalarla rekabet edebilmek için birleşmeye karar verdi.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-merging-arrows-vector-png-image_13036492.png" },
+            { "en_verb": "Minimize", "tr_verb": "Asgariye indirmek, Küçültmek", "en_sentence": "We must {minimize} the amount of waste we produce daily.", "tr_sentence": "Günlük ürettiğimiz atık miktarını asgariye indirmeliyiz.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-trash-can-recycle-png-image_13036493.png" },
+            { "en_verb": "Negate", "tr_verb": "Yadsımak, Geçersiz kılmak", "en_sentence": "The new evidence seemed to {negate} his previous testimony completely.", "tr_sentence": "Yeni kanıt, önceki ifadesini tamamen geçersiz kılıyor gibiydi.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-x-mark-cross-symbol-png-image_13038315.png" },
+            { "en_verb": "Negotiate", "tr_verb": "Müzakere etmek, Görüşmek", "en_sentence": "They will {negotiate} the final price of the house next week.", "tr_sentence": "Önümüzdeki hafta evin son fiyatını müzakere edecekler.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-people-talking-discussion-png-image_13038317.png" },
+            { "en_verb": "Obtain", "tr_verb": "Elde etmek, Edinmek", "en_sentence": "We need to {obtain} explicit consent before sharing any user data.", "tr_sentence": "Herhangi bir kullanıcı verisini paylaşmadan önce açık onay almamız gerekiyor.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-document-with-check-mark-png-image_13036487.png" },
+            { "en_verb": "Occur", "tr_verb": "Meydana gelmek, Oluşmak", "en_sentence": "The solar eclipse is expected to {occur} around noon tomorrow.", "tr_sentence": "Güneş tutulmasının yarın öğle saatlerinde meydana gelmesi bekleniyor.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-solar-eclipse-sun-moon-png-image_13038313.png" },
+            { "en_verb": "Omit", "tr_verb": "Atlamak, Hariç bırakmak", "en_sentence": "Be careful not to {omit} any details when writing the summary report.", "tr_sentence": "Özet raporu yazarken herhangi bir ayrıntıyı atlamamaya dikkat edin.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-miss-error-wrong-png-image_13038312.png" },
+            { "en_verb": "Oversee", "tr_verb": "Denetlemek, Gözetmek", "en_sentence": "The director will {oversee} the entire construction process from start to finish.", "tr_sentence": "Direktör, tüm inşaat sürecini baştan sona denetleyecek.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-eyes-watching-monitoring-png-image_13038311.png" },
+            { "en_verb": "Parallel", "tr_verb": "Paralellik kurmak", "en_sentence": "It is possible to {parallel} the company's growth with the economic boom of the 90s.", "tr_sentence": "Şirketin büyümesi ile 90'lardaki ekonomik patlama arasında paralellik kurmak mümkündür.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-two-parallel-lines-png-image_13038310.png" }
+        ];
+
         // --- KELİME VERİLERİNİ BİRLEŞTİRME VE DÜZENLEME ---
         const allWords = {
             1: unit1Words,
             2: unit2Words,
-            3: unit3Words
+            3: unit3Words,
+            4: unit4Words // Yeni eklenen ünite
         };
 
         // --- SESLENDİRME İŞLEVİ ---
