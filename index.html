@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelime Uygulaması v5 (Tüm Kelimeler ve Quiz Eklendi)</title>
+    <title>Kelime Uygulaması v4 (Ünite 3 Güncellendi)</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         /* --- TEMEL AYARLAR --- */
@@ -15,8 +15,7 @@
             min-height: 100vh;
         }
         .container {
-            width: 100%;
-            max-width: 450px;
+            width: 100%; max-width: 450px;
             background-color: #fff; min-height: 100vh;
             position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05);
             overflow-x: hidden;
@@ -28,11 +27,9 @@
         
         /* --- ÜNİTE KARTLARI --- */
         .unit-card {
-            background-color: white;
-            border-radius: 12px; padding: 15px; margin-bottom: 15px;
+            background-color: white; border-radius: 12px; padding: 15px; margin-bottom: 15px;
             display: flex; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border: 1px solid #f0f0f0;
-            cursor: pointer; transition: transform 0.2s;
+            border: 1px solid #f0f0f0; cursor: pointer; transition: transform 0.2s;
         }
         .unit-card:hover { transform: translateY(-2px); }
         .circle {
@@ -41,10 +38,8 @@
             font-weight: bold; font-size: 18px; margin-right: 15px; flex-shrink: 0;
         }
         /* Renkler */
-        .bg-1 { background-color: #ff6b6b; } 
-        .bg-2 { background-color: #4ecdc4; }
-        .bg-3 { background-color: #1a535c; } 
-        .bg-4 { background-color: #f7fff7; border: 1px solid #ccc; color:#333 !important; } 
+        .bg-1 { background-color: #ff6b6b; } .bg-2 { background-color: #4ecdc4; }
+        .bg-3 { background-color: #1a535c; } .bg-4 { background-color: #f7fff7; border: 1px solid #ccc; color:#333 !important; } 
         .bg-5 { background-color: #ffe66d; color:#333 !important; }
 
         .info h3 { margin: 0; font-size: 16px; color: #333; }
@@ -54,21 +49,25 @@
         .detail-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
         .back-button { font-size: 24px; color: #333; cursor: pointer; margin-right: 15px; }
         .word-item {
-            background-color: white;
-            border-radius: 10px; padding: 10px 15px; margin-bottom: 10px; 
+            background-color: white; border-radius: 10px; padding: 10px 15px; margin-bottom: 10px; 
             display: flex; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            border: 1px solid #eee;
-            cursor: pointer; transition: background 0.2s;
+            border: 1px solid #eee; cursor: pointer; transition: background 0.2s;
         }
         .word-item:active { background-color: #f5f5f5; }
         
+        /* Yeni: Küçük Görsel Alanı */
         .word-thumbnail {
             width: 50px; height: 50px; 
             margin-right: 15px; border-radius: 8px; 
             background-color: #f0f2f5; 
-            overflow: hidden; flex-shrink: 0;
+            overflow: hidden;
+            flex-shrink: 0;
         }
-        .word-thumbnail img { width: 100%; height: 100%; object-fit: cover; }
+        .word-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
         /* --- KELİME KARTI --- */
         #card-screen { padding: 0; height: 100vh; background-color: white; display: flex; flex-direction: column; }
@@ -76,8 +75,7 @@
         .card-close-btn { font-size: 28px; color: #b0bec5; cursor: pointer; padding: 10px; }
 
         .card-content {
-            padding: 0 20px 30px 20px;
-            flex-grow: 1; display: flex;
+            padding: 0 20px 30px 20px; flex-grow: 1; display: flex;
             flex-direction: column; align-items: center;
         }
 
@@ -104,83 +102,14 @@
         .example-box {
             width: 100%; background-color: #fafafa; border: 1px solid #eee;
             border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            position: relative; margin-top: auto;
-            margin-bottom: 40px; box-sizing: border-box;
+            position: relative; margin-top: auto; margin-bottom: 40px; box-sizing: border-box;
         }
         .or-label {
             position: absolute; left: 20px; top: -12px; background: #fff; padding: 0 5px;
-            color: #f39c12; font-weight: bold; font-size: 14px; border: 1px solid #eee;
-            border-radius: 4px;
+            color: #f39c12; font-weight: bold; font-size: 14px; border: 1px solid #eee; border-radius: 4px;
         }
         .highlight-word { color: #27ae60; font-weight: bold; background: #e8f5e9; padding: 0 2px; border-radius: 3px; }
         .divider { height: 1px; background-color: #eee; margin: 12px 0; }
-
-        /* --- QUIZ STİLLERİ --- */
-        .fixed-quiz-btn-container {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: white; padding: 15px 20px;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
-            display: flex; justify-content: center; z-index: 100;
-            box-sizing: border-box;
-            /* Konteyner içinde container genişliğini aşmamak için */
-            left: 50%; transform: translateX(-50%); max-width: 450px;
-        }
-        .start-quiz-btn {
-            width: 100%;
-            background-color: #8cc63f; /* Görseldeki yeşil tonu */
-            color: white;
-            border: none; padding: 15px; border-radius: 30px; /* Daha yuvarlak */
-            font-size: 18px; font-weight: bold; cursor: pointer;
-            transition: background 0.2s;
-            box-shadow: 0 4px 10px rgba(140, 198, 63, 0.4);
-        }
-        .start-quiz-btn:active { transform: scale(0.98); }
-
-        /* Quiz Soruları */
-        .quiz-header-text {
-            display: flex; justify-content: space-between; align-items: center;
-            font-weight: bold; color: #888; font-size: 14px; margin-top: 10px;
-        }
-        .quiz-progress {
-            height: 6px; background: #eee; border-radius: 3px;
-            margin: 10px 0 30px 0; overflow: hidden;
-        }
-        .quiz-progress-bar {
-            height: 100%; background: #4ecdc4; width: 0%; transition: width 0.3s;
-        }
-        .quiz-word {
-            text-align: center; font-size: 36px; font-weight: 900;
-            color: #2c3e50; margin: 30px 0 50px 0;
-        }
-        .quiz-options { list-style: none; padding: 0; }
-        .quiz-option {
-            background: #fff; border: 1px solid #eee;
-            padding: 18px; margin-bottom: 12px; border-radius: 50px; /* Tam yuvarlak buton */
-            text-align: center; color: #555; font-size: 16px; font-weight: 500;
-            cursor: pointer; position: relative; transition: all 0.2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-        }
-        
-        /* Doğru/Yanlış Renkleri */
-        .quiz-option.correct {
-            background-color: #8cc63f; border-color: #8cc63f; color: white;
-        }
-        .quiz-option.wrong {
-            background-color: #ff6b6b; border-color: #ff6b6b; color: white;
-        }
-
-        /* Sonuç Ekranı */
-        .result-circle {
-            width: 140px; height: 140px; border-radius: 50%;
-            background: #4ecdc4; color: white;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            margin: 20px auto 30px auto;
-            box-shadow: 0 10px 20px rgba(78, 205, 196, 0.3);
-        }
-        .result-score { font-size: 48px; font-weight: 900; }
-        .result-label { font-size: 16px; opacity: 0.9; }
-
     </style>
 </head>
 <body>
@@ -209,7 +138,7 @@
             <div class="card-content">
                 <div class="word-header">
                     <div class="main-word-row">
-                        <span class="speaker-icon" id="card-speaker-icon">🔊</span>
+                        <span class="speaker-icon" id="card-speaker-icon">??</span>
                         <h1 id="card-word" class="main-word">...</h1>
                     </div>
                     <p id="card-meaning" class="main-meaning">...</p>
@@ -217,7 +146,7 @@
 
                 <div class="card-image-container">
                     <img id="card-image" src="" alt="Görsel">
-                    <div class="lightning-icon">⚡</div>
+                    <div class="lightning-icon">?</div>
                 </div>
 
                 <div class="example-box">
@@ -230,343 +159,330 @@
                 </div>
             </div>
         </div>
-
-        <div id="quiz-screen" class="screen">
-            <div class="card-top-bar">
-                <span class="card-close-btn" onclick="closeQuiz()">&#10005;</span>
-            </div>
-            
-            <div class="quiz-header-text">
-                <span>SORU <span id="q-current">1</span>/<span id="q-total">0</span></span>
-                <span>QUIZ</span>
-            </div>
-            
-            <div class="quiz-progress">
-                <div id="quiz-bar" class="quiz-progress-bar"></div>
-            </div>
-            
-            <h1 id="quiz-word-display" class="quiz-word">...</h1>
-            
-            <ul id="quiz-options-list" class="quiz-options">
-                </ul>
-        </div>
-
-        <div id="result-screen" class="screen" style="text-align:center; padding-top:20px;">
-            <div class="result-circle">
-                <span id="result-score-val" class="result-score">0</span>
-                <span class="result-label">Doğru</span>
-            </div>
-            <h2 style="color:#333; margin-bottom:10px;">Tebrikler!</h2>
-            <p style="color:#777; margin-bottom:40px;">Üniteyi başarıyla tamamladın.</p>
-            
-            <div style="padding:0 20px;">
-                <button class="start-quiz-btn" onclick="closeQuiz()">Üniteye Dön</button>
-                <br><br>
-                <button onclick="restartQuiz()" style="background:none; border:none; color:#999; text-decoration:underline; cursor:pointer; font-size:14px;">Tekrar Çöz</button>
-            </div>
-        </div>
-
     </div>
 
     <script>
+        // ======================================================
+        // 1. VERİ YÖNETİMİ (Kelimeler, Anlamlar ve Özel Cümleler)
+        // ======================================================
         
-        // ======================================================
-        // 1. VERİ TANIMLAMA (Ünite 3 Görselleri Eklendi)
-        // ======================================================
-
-        // --- GÖRSEL URL'leri ---
-
+        // Ünite 1 için sağladığınız özel görsel URL'leri listesi (önceki ve yeni görseller dahil)
         const customImageUrlsUnit1 = [
             // Temel fiiller (5 adet)
-            "https://png.pngtree.com/thumb_back/fh260/background/20241013/pngtree-backyard-garden-trees-terrace-with-wooden-fences-cartoon-image_16384701.jpg", // 1. hide
-            "https://media.istockphoto.com/id/1277525745/tr/vekt%C3%B6r/otob%C3%BCsten-inen-insanlar-karikat%C3%BCr-ill%C3%BCstrasyon-beyaz-arka-plan-%C3%BCzerinde-izole-nesne-vekt%C3%B6r.jpg?s=612x612&w=0&k=20&c=Wl68TfH5BU4kudtZD-acxnKkcalMCOrDvzX0SNxc8KQ=", // 2. run
-            "https://png.pngtree.com/png-clipart/20240528/original/pngtree-a-3d-vector-illustration-of-pizza-png-image_15192871.png", // 3. eat
-            "https://png.pngtree.com/png-vector/20250119/ourmid/pngtree-boy-drinking-water-clipart-hd-png-image_15270285.png", // 4. drink
-            "https://png.pngtree.com/thumb_back/fh260/background/20250903/pngtree-person-sleeping-in-bed-with-cityscape-background-image_16776254.jpg", // 5. sleep
+            "https://png.pngtree.com/thumb_back/fh260/background/20241013/pngtree-backyard-garden-trees-terrace-with-wooden-fences-cartoon-image_16384701.jpg", // hide
+            "https://media.istockphoto.com/id/1277525745/tr/vekt%C3%B6r/otob%C3%BCsten-inen-insanlar-karikat%C3%BCr-ill%C3%BCstrasyon-beyaz-arka-plan-%C3%BCzerinde-izole-nesne-vekt%C3%B6r.jpg?s=612x612&w=0&k=20&c=Wl68TfH5BU4kudtZD-acxnKkcalMCOrDvzX0SNxc8KQ=", // run
+            "https://png.pngtree.com/png-clipart/20240528/original/pngtree-a-3d-vector-illustration-of-pizza-png-image_15192871.png", // eat
+            "https://png.pngtree.com/png-vector/20250119/ourmid/pngtree-boy-drinking-water-clipart-hd-png-image_15270285.png", // drink
+            "https://png.pngtree.com/thumb_back/fh260/background/20250903/pngtree-person-sleeping-in-bed-with-cityscape-background-image_16776254.jpg", // sleep
             // Akademik fiiller - İlk 12 (12 adet)
-            "https://png.pngtree.com/png-vector/20250221/ourmid/pngtree-amazon-rainforest-conservation-protecting-tropical-biodiversity-png-image_15552028.png", // 6. Analyze
-            "https://png.pngtree.com/png-vector/20250531/ourmid/pngtree-boy-using-phone-cartoon-illustration-png-image_16431770.png", // 7. Identify
-            "https://png.pngtree.com/png-vector/20250904/ourlarge/pngtree-3d-business-analytics-and-reporting-icon-png-image_17363432.webp", // 8. Determine
-            "https://png.pngtree.com/png-clipart/20240502/original/pngtree-trendy-ratio-analysis-png-image_14993144.png", // 9. Establish
-            "https://png.pngtree.com/png-vector/20250708/ourmid/pngtree-physics-atom-3d-icon-png-image_16616949.webp", // 10. Investigate
-            "https://png.pngtree.com/png-vector/20250122/ourmid/pngtree-d-colorful-bar-graph-with-a-rising-red-arrow-indicating-growth-png-image_15294751.png", // 11. Illustrate
-            "https://png.pngtree.com/png-clipart/20231001/original/pngtree-3d-illustration-of-business-growth-report-png-image_13029745.png", // 12. Demonstrate
-            "https://png.pngtree.com/png-clipart/20240312/original/pngtree-3d-business-meeting-png-image_14573009.png", // 13. Evaluate
-            "https://media.istockphoto.com/id/1327040559/tr/vekt%C3%B6r/sending-and-receiving-payment-using-electronic-invoice-person-preparing-invoice-on-laptop.jpg?s=612x612&w=0&k=20&c=v2amgNVQGs8kWeNDRCUNwLaFupE9ek3UI5Ml-naJdcY=", // 14. Synthesize
-            "https://png.pngtree.com/png-clipart/20240309/original/pngtree-3d-illustration-of-charts-and-graph-with-analysis-business-financial-data-png-image_14549648.png", // 15. Formulate
-            "https://png.pngtree.com/png-vector/20190629/ourmid/pngtree-reports-icon-for-your-project-png-image_1522218.jpg", // 16. Define
-            "https://png.pngtree.com/png-vector/20230823/ourmid/pngtree-people-talking-in-front-of-a-screen-vector-png-image_6912863.png", // 17. Compare
+            "https://png.pngtree.com/png-vector/20250221/ourmid/pngtree-amazon-rainforest-conservation-protecting-tropical-biodiversity-png-image_15552028.png", // Analyze
+            "https://png.pngtree.com/png-vector/20250531/ourmid/pngtree-boy-using-phone-cartoon-illustration-png-image_16431770.png", // Identify
+            "https://png.pngtree.com/png-vector/20250904/ourlarge/pngtree-3d-business-analytics-and-reporting-icon-png-image_17363432.webp", // Determine
+            "https://png.pngtree.com/png-clipart/20240502/original/pngtree-trendy-ratio-analysis-png-image_14993144.png", // Establish
+            "https://png.pngtree.com/png-vector/20250708/ourmid/pngtree-physics-atom-3d-icon-png-image_16616949.webp", // Investigate
+            "https://png.pngtree.com/png-vector/20250122/ourmid/pngtree-d-colorful-bar-graph-with-a-rising-red-arrow-indicating-growth-png-image_15294751.png", // Illustrate
+            "https://png.pngtree.com/png-clipart/20231001/original/pngtree-3d-illustration-of-business-growth-report-png-image_13029745.png", // Demonstrate
+            "https://png.pngtree.com/png-clipart/20240312/original/pngtree-3d-business-meeting-png-image_14573009.png", // Evaluate
+            "https://media.istockphoto.com/id/1327040559/tr/vekt%C3%B6r/sending-and-receiving-payment-using-electronic-invoice-person-preparing-invoice-on-laptop.jpg?s=612x612&w=0&k=20&c=v2amgNVQGs8kWeNDRCUNwLaFupE9ek3UI5Ml-naJdcY=", // Synthesize
+            "https://png.pngtree.com/png-clipart/20240309/original/pngtree-d-illustration-of-charts-and-graph-with-analysis-business-financial-data-png-image_14549648.png", // Formulate
+            "https://png.pngtree.com/png-vector/20190629/ourmid/pngtree-reports-icon-for-your-project-png-image_1522218.jpg", // Define
+            "https://png.pngtree.com/png-vector/20230823/ourmid/pngtree-people-talking-in-front-of-a-screen-vector-png-image_6912863.png", // Compare
             // Akademik fiiller - Son 8 (8 adet)
-            "https://png.pngtree.com/png-vector/20240406/ourmid/pngtree-economic-crisis-vector-icon-png-image_12269105.png", // 18. Contrast
-            "https://png.pngtree.com/png-vector/20230728/ourmid/pngtree-claim-clipart-cartoon-guy-looking-through-a-magnifying-glass-vector-png-image_6809134.png", // 19. Argue
-            "https://png.pngtree.com/png-vector/20240914/ourmid/pngtree-brain-bulb-cartoon-pictures-png-image_12910015.png", // 20. Support
-            "https://png.pngtree.com/thumb_back/fh260/background/20240429/pngtree-d-render-culture-woman-dressed-in-robes-sculpture-marble-pink-green-image_15721877.jpg", // 21. Challenge
-            "https://img.pikbest.com/wp/202346/tool-symbol-cartoon-style-3d-rendered-illustration-of-a-set-mathematical-symbols-on-background_9722866.jpg!bw700", // 22. Derive
-            "https://img.freepik.com/premium-vektor/d-stock-crypto-investment-trading-analysis-banner-growing-candlestick-chart-window_684471-168.jpg?semt=ais_hybrid&w=740&q=80", // 23. Indicate
-            "https://png.pngtree.com/png-clipart/20240502/original/pngtree-trendy-ratio-analysis-png-image_14993144.png", // 24. Suggest
-            "https://png.pngtree.com/png-vector/20240122/ourmid/pngtree-d-minimal-trading-charts-stock-market-rising-stock-market-analysis-stock-png-image_11455231.png" // 25. Conclude
+            "https://png.pngtree.com/png-vector/20240406/ourmid/pngtree-economic-crisis-vector-icon-png-image_12269105.png", // Contrast
+            "https://png.pngtree.com/png-vector/20230728/ourmid/pngtree-claim-clipart-cartoon-guy-looking-through-a-magnifying-glass-vector-png-image_6809134.png", // Argue
+            "https://png.pngtree.com/png-vector/20240914/ourmid/pngtree-brain-bulb-cartoon-pictures-png-image_12910015.png", // Support
+            "https://png.pngtree.com/thumb_back/fh260/background/20240429/pngtree-d-render-culture-woman-dressed-in-robes-sculpture-marble-pink-green-image_15721877.jpg", // Challenge
+            "https://img.pikbest.com/wp/202346/tool-symbol-cartoon-style-3d-rendered-illustration-of-a-set-mathematical-symbols-on-background_9722866.jpg!bw700", // Derive
+            "https://img.freepik.com/premium-vector/d-stock-crypto-investment-trading-analysis-banner-growing-candlestick-chart-window_684471-168.jpg?semt=ais_hybrid&w=740&q=80", // Indicate
+            "https://png.pngtree.com/png-clipart/20240502/original/pngtree-trendy-ratio-analysis-png-image_14993144.png", // Suggest
+            "https://png.pngtree.com/png-vector/20240122/ourmid/pngtree-d-minimal-trading-charts-stock-market-rising-stock-market-analysis-stock-png-image_11455231.png" // Conclude
         ];
 
+        // Ünite 2 için sağladığınız yeni özel görsel URL'leri listesi (20 adet)
         const customImageUrlsUnit2 = [
-            "https://e7.pngegg.com/pngimages/860/592/png-clipart-business-analytics-data-analysis-predictive-analytics-business-intelligence-business-people-business.png", // 1. Perceive
-            "https://png.pngtree.com/png-clipart/20231206/original/pngtree-visible-social-media-icon-3d-render-illustration-white-background-png-image_13781410.png", // 2. Emerge
-            "https://png.pngtree.com/thumb_back/fw800/background/20250710/pngtree-financial-data-analysis-with-magnifying-glass-image_17607850.webp", // 3. Hypothesize
-            "https://png.pngtree.com/png-vector/20190119/ourmid/pngtree-analytics-on-screen-line-filled-icon-png-image_325333.jpg", // 4. Imply
-            "https://img.freepik.com/ucretsiz-vektor/grafiklerle-is-performansi-analizi_53876-59915.jpg?semt=ais_se_enriched&w=740&q=80", // 5. Infer
-            "https://png.pngtree.com/png-vector/20240615/ourmid/pngtree-analyzing-financial-data-png-image_12774900.png", // 6. Validate
-            "https://png.pngtree.com/png-clipart/20231005/original/pngtree-vector-illustration-of-customers-completing-a-flat-survey-form-vector-png-image_12965943.png", // 7. Survey
-            "https://www.epcredit.ng/wp-content/uploads/2024/01/p1-copyright.png", // 8. Justify
-            "https://png.pngtree.com/png-vector/20250816/ourlarge/pngtree-3d-glossy-magnifying-glass-over-book-research-study-png-image_17002924.webp", // 9. Propose
-            "https://png.pngtree.com/png-clipart/20240309/original/pngtree-d-illustration-of-charts-and-graph-with-analysis-business-financial-data-png-image_14549648.png", // 10. Correlate
-            "https://img.freepik.com/ucretsiz-vektor/grafiklerle-is-performansi-analizi_53876-59915.jpg?semt=ais_se_enriched&w=740&q=80", // 11. Interpret (Yeniden kullanılıyor)
-            "https://png.pngtree.com/png-vector/20251001/ourmid/pngtree-ultra-hd-infographic-and-data-visualization-icons-set-charts-graphs-arrows-png-image_17650129.webp", // 12. Distinguish
-            "https://e7.pngegg.com/pngimages/576/642/png-clipart-data-analysis-analytics-management-big-data-data-processing-business-template-text.png", // 13. Refer
-            "https://img.pikbest.com/illustration/20251009/business-team-presentation-vector-with-charts-graphs-data-analysis-and-teamwork_11925317.jpg!w700wp", // 14. Contrast (Tekrar Kullanım)
-            "https://cbx-prod.b-cdn.net/COLOURBOX67668799.jpg?width=800&height=800&quality=70", // 15. Vary
-            "https://img.freepik.com/premium-photo/curious-scientist-3d-cartoon-character-transparent-background-ai_894067-14624.jpg", // 16. Research
-            "https://media.istockphoto.com/id/1049718624/tr/vekt%C3%B6r/k%C3%BCt%C3%BCphane-illlustration.jpg?s=170667a&w=0&k=20&c=OSM2nrhcx44bnvUB5ZhHMSg5Q429uuRk8WcTM4eGvQ=", // 17. Abstract
-            "https://png.pngtree.com/png-vector/20250321/ourmid/pngtree-businessman-analyzing-stock-market-trends-on-multiple-monitors-png-image_15809875.png", // 18. Predict
-            "https://png.pngtree.com/thumb_back/fw800/background/20250710/pngtree-financial-data-analysis-with-magnifying-glass-image_17607850.webp", // 19. Confirm (Yeniden kullanılıyor)
-            "https://png.pngtree.com/png-clipart/20250305/original/pngtree-cartoon-scientist-in-laboratory-with-flasks-png-image_20575712.png" // 20. Examine
+            "https://e7.pngegg.com/pngimages/860/592/png-clipart-business-analytics-data-analysis-predictive-analytics-business-intelligence-business-people-business.png", // Perceive
+            "https://png.pngtree.com/png-clipart/20231206/original/pngtree-visible-social-media-icon-3d-render-illustration-white-background-png-image_13781410.png", // Propose
+            "https://png.pngtree.com/thumb_back/fw800/background/20250710/pngtree-financial-data-analysis-with-magnifying-glass-image_17607850.webp", // Observe
+            "https://png.pngtree.com/png-vector/20190119/ourmid/pngtree-analytics-on-screen-line-filled-icon-png-image_325333.jpg", // Examine
+            "https://img.freepik.com/ucretsiz-vektor/grafiklerle-is-performansi-analizi_53876-59915.jpg?semt=ais_se_enriched&w=740&q=80", // Apply
+            "https://png.pngtree.com/png-vector/20240615/ourmid/pngtree-analyzing-financial-data-png-image_12774900.png", // Implement
+            "https://png.pngtree.com/png-clipart/20231005/original/pngtree-vector-illustration-of-customers-completing-a-flat-survey-form-vector-png-image_12965943.png", // Reflect
+            "https://www.epcredit.ng/wp-content/uploads/2024/01/p1-copyright.png", // Relate
+            "https://png.pngtree.com/png-vector/20250816/ourlarge/pngtree-3d-glossy-magnifying-glass-over-book-research-study-png-image_17002924.webp", // Discuss
+            "https://png.pngtree.com/png-clipart/20240309/original/pngtree-d-illustration-of-charts-and-graph-with-analysis-business-financial-data-png-image_14549648.png", // Differentiate
+            "https://img.freepik.com/premium-vektor/veri-analitigi-gosteren-tablet-ile-3d-izometrik-infografik-is-konsepti_281653-3458.jpg", // Validate
+            "https://png.pngtree.com/png-vector/20251001/ourmid/pngtree-ultra-hd-infographic-and-data-visualization-icons-set-charts-graphs-arrows-png-image_17650129.webp", // Generate
+            "https://e7.pngegg.com/pngimages/576/642/png-clipart-data-analysis-analytics-management-big-data-data-processing-business-template-text.png", // Evolve
+            "https://img.pikbest.com/illustration/20251009/business-team-presentation-vector-with-charts-graphs-data-analysis-and-teamwork_11925317.jpg!w700wp", // Comprise
+            "https://cbx-prod.b-cdn.net/COLOURBOX67668799.jpg?width=800&height=800&quality=70", // Precede
+            "https://img.freepik.com/premium-photo/curious-scientist-3d-cartoon-character-transparent-background-ai_894067-14624.jpg", // Succeed
+            "https://media.istockphoto.com/id/1049718624/tr/vekt%C3%B6r/k%C3%BCt%C3%BCphane-illlustration.jpg?s=170667a&w=0&k=20&c=OSM2nrhcx44bnvUB5ZhHMSg5Q429uuRk8WcTM4eWGVQ=", // Cite
+            "https://png.pngtree.com/png-vector/20250321/ourmid/pngtree-businessman-analyzing-stock-market-trends-on-multiple-monitors-png-image_15809875.png", // Integrate
+            "https://png.pngtree.com/thumb_back/fw800/background/20250710/pngtree-financial-data-analysis-with-magnifying-glass-image_17607850.webp", // Modify
+            "https://png.pngtree.com/png-clipart/20250305/original/pngtree-cartoon-scientist-in-laboratory-with-flasks-png-image_20575712.png" // Replicate
         ];
 
-        // Ünite 3 Görsel URL'leri
-        const customImageUrlsUnit3 = [
-            "https://png.pngtree.com/png-vector/20240603/ourmid/pngtree-sleepy-yawning-boy-cartoon-png-image_12611488.png", // 1. Signify (Esneyen çocuk yorgunluk ifade eder)
-            "https://png.pngtree.com/png-vector/20250209/ourmid/pngtree-safe-full-of-gold-bars-png-image_15429890.png", // 2. Account for (Kaybolan parayı açıklamak)
-            "https://png.pngtree.com/png-vector/20241016/ourmid/pngtree-crushed-car-vector-broken-illustration-png-image_14090444.png", // 3. Assess (Hasarı değerlendirmek)
-            "https://png.pngtree.com/png-vector/20230728/ourlarge/pngtree-banquet-clipart-isometric-vector-family-dinner-cartoon-png-image_6798634.png", // 4. Assume (Yemeği bitirdiğini varsaymak)
-            "https://media.istockphoto.com/id/1153827146/tr/vekt%C3%B6r/k%C4%B1z-yatakta-a%C3%A7%C4%B1k-kitap-ile-geceleri-uyuyan.jpg?s=612x612&w=0&k=20&c=eKspsCo5Qb3x4e70oiNDacOgtc6Fremhqi2RKqSAPAk=", // 5. Deduce (Kitaplardan çıkarım yapmak)
-            "https://png.pngtree.com/png-vector/20240604/ourmid/pngtree-teapot-breakfast-flat-free-png-image_12620643.png", // 6. Illustrate (Örneklemek, göstermek)
-            "https://media.istockphoto.com/id/1314418031/vector/file-transfer-concept-yellow-folder-with-document-on-computer-monitor-3d-vector-illustration.jpg?s=612x612&w=0&k=20&c=8H3HIg4h8pH9WYSj-89c6MEAWK8P_TfaNDBozlSKlx8=", // 7. Incorporate (Dosya/Veri dahil etmek)
-            "https://media.istockphoto.com/id/162238979/tr/vekt%C3%B6r/open-window.jpg?s=612x612&w=0&k=20&c=qdjyHeID6qCKPkNlPe3ouwD8Hb6K7TOMb1vMTtG1Lbk=", // 8. Monitor (Gözlemlemek, pencereden izlemek)
-            "https://png.pngtree.com/thumb_back/fh260/background/20220219/pngtree-stacked-flying-dollar-banknotes-rich-consumer-flowing-photo-image_15993028.jpg", // 9. Omit (Detay atlamak, hariç bırakmak)
-            "https://png.pngtree.com/png-vector/20250506/ourmid/pngtree-opened-old-book-with-blank-pages-on-isolated-png-image_16203659.png", // 10. Persist (Okumaya/işe devam etmek)
-            "https://png.pngtree.com/thumb_back/fh260/background/20230717/pngtree-sleek-memphis-inspired-interior-featuring-a-bold-deep-blue-wall-and-image_3895210.jpg", // 11. Precede (Önce gelmek)
-            "https://img.freepik.com/premium-vektor/egzersiz-yapan-insan-grubu_18591-46577.jpg?semt=ais_hybrid&w=740&q=80", // 12. Retain (Formu korumak/Bilgiyi muhafaza etmek)
-            "https://png.pngtree.com/png-vector/20210810/ourmid/pngtree-mountain-climbing-concept-illustration-three-people-cooperate-to-climb-to-the-png-image_3789297.jpg", // 13. Specify (Hedefi belirlemek)
-            "https://media.istockphoto.com/id/824045360/tr/vekt%C3%B6r/kom%C5%9Fular.jpg?s=612x612&w=0&k=20&c=543zvIyX7OOhch_6UQaO508sR2XaHOvH-okTglaiZ0M=", // 14. Substantiate (Komşuluk ilişkilerini kanıtlamak)
-            "https://media.istockphoto.com/id/1061070196/tr/foto%C4%9Fraf/benzin-istasyonu-beyaz-bir-arka-plan-%C3%BCzerinde-izole-3d-%C3%A7izim.jpg?s=170667a&w=0&k=20&c=kQ9yLJ_EwlZK6sNPYDaGilXqO4_eojE3CE2YE5cl0Gw=", // 15. Undergo (Yakıt alım sürecinden geçmek)
-            "https://media.istockphoto.com/id/1082295530/tr/vekt%C3%B6r/%C3%A7ocuk-kitapl%C4%B1%C4%9F%C4%B1nda.jpg?s=170667a&w=0&k=20&c=MHa0i8Dv7HthlUD6nYC3L300RSUAEFMJzz2-6eXFIcA=", // 16. Utilize (Kitapları/kaynakları kullanmak)
-            "https://media.istockphoto.com/id/1486891519/vector/sound-elements-with-explosion-effect-3d-vector-mobile-application-icon-with-notification.jpg?s=612x612&w=0&k=20&c=lu9tRyWR6_9hDpryAj-A68mHV7W0V46BiItrTSh8QDo=", // 17. Constitute (Temel ilkeleri oluşturmak)
-            "https://png.pngtree.com/png-clipart/20240625/original/pngtree-vintage-blue-car-3d-png-image_15408209.png", // 18. Execute (Planı uygulamak)
-            "https://png.pngtree.com/png-clipart/20230914/original/pngtree-traffic-jam-vector-png-image_12146638.png", // 19. Integrate (Trafiğe/Sisteme entegre olmak)
-            "https://png.pngtree.com/png-vector/20240823/ourlarge/pngtree-an-old-vase-featuring-a-broken-piece-of-pottery-showcasing-its-png-image_13591223.png" // 20. Resolve (Çatışmayı/Problemi çözmek)
+        // ======================================================
+        // ÜNİTE 3 KELİMELERİ (Yeni Eklenen Veri)
+        // ======================================================
+        const unit3Words = [
+            { "en_verb": "Signify", "tr_verb": "İfade Etmek, Anlamına Gelmek", "en_sentence": "His constant yawning might {signify} that he is extremely tired after the long flight.", "tr_sentence": "Onun sürekli esnemesi, uzun uçuştan sonra aşırı yorgun olduğu anlamına gelebilir.", "image_url": "https://via.placeholder.com/400x300?text=Signify" },
+            { "en_verb": "Account for", "tr_verb": "Açıklamak, Sorumlu Olmak", "en_sentence": "Can you {account for} the missing $50 from the petty cash box?", "tr_sentence": "Küçük kasadaki eksik 50 doları açıklayabilir misin (nerede olduğunu söyleyebilir misin)?", "image_url": "https://via.placeholder.com/400x300?text=Account+for" },
+            { "en_verb": "Assess", "tr_verb": "Değer Biçmek, Değerlendirmek", "en_sentence": "We need to {assess} the damage to the car before calling the insurance company.", "tr_sentence": "Sigorta şirketini aramadan önce arabadaki hasarı değerlendirmemiz gerekiyor.", "image_url": "https://via.placeholder.com/400x300?text=Assess" },
+            { "en_verb": "Contribute", "tr_verb": "Katkıda Bulunmak", "en_sentence": "Everyone should {contribute} an item to the potluck dinner next weekend.", "tr_sentence": "Gelecek hafta sonu yapılacak ortak yemeğe herkes bir şeyler getirerek katkıda bulunmalı.", "image_url": "https://via.placeholder.com/400x300?text=Contribute" },
+            { "en_verb": "Correlate", "tr_verb": "İlişkilendirmek, Korelasyon Kurmak", "en_sentence": "We noticed that his mood often {correlate}s with how much sleep he got the previous night.", "tr_sentence": "Ruh halinin, sıklıkla bir önceki gece ne kadar uyuduğuyla ilişkili olduğunu fark ettik.", "image_url": "https://via.placeholder.com/400x300?text=Correlate" },
+            { "en_verb": "Emphasize", "tr_verb": "Vurgulamak", "en_sentence": "My mother always {emphasize}s the importance of eating breakfast every morning.", "tr_sentence": "Annem her sabah kahvaltı yapmanın önemini daima vurgular.", "image_url": "https://via.placeholder.com/400x300?text=Emphasize" },
+            { "en_verb": "Extract", "tr_verb": "Çıkarmak, Özütlemek", "en_sentence": "I need to {extract} all the necessary files from this huge zip folder before I can start working.", "tr_sentence": "Çalışmaya başlamadan önce bu büyük zip klasöründen gerekli tüm dosyaları çıkarmam gerekiyor.", "image_url": "https://via.placeholder.com/400x300?text=Extract" },
+            { "en_verb": "Hypothesize", "tr_verb": "Hipotez Kurmak", "en_sentence": "I {hypothesize} that if we leave the window open, the room will cool down faster.", "tr_sentence": "Eğer pencereyi açık bırakırsak odanın daha hızlı soğuyacağı hipotezini kuruyorum (varsayıyorum).", "image_url": "https://via.placeholder.com/400x300?text=Hypothesize" },
+            { "en_verb": "Justify", "tr_verb": "Gerekçelendirmek", "en_sentence": "You must {justify} the extra money you spent on the vacation to your parents.", "tr_sentence": "Tatilde harcadığın ekstra parayı ailene gerekçelendirmelisin (açıklamalısın).", "image_url": "https://via.placeholder.com/400x300?text=Justify" },
+            { "en_verb": "Reveal", "tr_verb": "Ortaya Çıkarmak, Açığa Vurmak", "en_sentence": "The old diary pages {reveal} a long-kept family secret after all these years.", "tr_sentence": "Eski günlük sayfaları, bunca yıl sonra uzun süredir saklanan bir aile sırrını ortaya çıkarıyor.", "image_url": "https://via.placeholder.com/400x300?text=Reveal" },
+            { "en_verb": "Envisage", "tr_verb": "Öngörmek, Zihninde Canlandırmak", "en_sentence": "I can't quite {envisage} what the living room will look like after we paint the walls dark blue.", "tr_sentence": "Duvarları koyu maviye boyadıktan sonra oturma odasının nasıl görüneceğini tam olarak öngöremiyorum (zihnimde canlandıramıyorum).", "image_url": "https://via.placeholder.com/400x300?text=Envisage" },
+            { "en_verb": "Exclude", "tr_verb": "Hariç Tutmak, Dışlamak", "en_sentence": "The new gym membership package seems to {exclude} access to the swimming pool.", "tr_sentence": "Yeni spor salonu üyeliği paketi, yüzme havuzuna erişimi hariç tutuyor (dışlıyor) gibi görünüyor.", "image_url": "https://via.placeholder.com/400x300?text=Exclude" },
+            { "en_verb": "Expend", "tr_verb": "Harcamak, Tüketmek (kaynak, zaman)", "en_sentence": "We had to {expend} most of our remaining energy just climbing the last hill.", "tr_sentence": "Kalan enerjimizin çoğunu sadece son tepeye tırmanmak için harcamak zorunda kaldık.", "image_url": "https://via.placeholder.com/400x300?text=Expend" },
+            { "en_verb": "Facilitate", "tr_verb": "Kolaylaştırmak", "en_sentence": "The new app feature will {facilitate} much faster communication between neighbors.", "tr_sentence": "Yeni uygulama özelliği, komşular arasındaki iletişimi çok daha hızlı kolaylaştıracak.", "image_url": "https://via.placeholder.com/400x300?text=Facilitate" },
+            { "en_verb": "Fluctuate", "tr_verb": "Dalgalanmak, İnip Çıkmak", "en_sentence": "The gas prices at the station {fluctuate} almost daily depending on the time of the week.", "tr_sentence": "İstasyondaki benzin fiyatları, haftanın gününe bağlı olarak neredeyse her gün dalgalanıyor.", "image_url": "https://via.placeholder.com/400x300?text=Fluctuate" },
+            { "en_verb": "Foster", "tr_verb": "Geliştirmek, Teşvik etmek, Beslemek", "en_sentence": "My parents always tried to {foster} a love of reading in us by taking us to the library.", "tr_sentence": "Ailem, bizi kütüphaneye götürerek bizde daima okuma sevgisini geliştirmeye (veya beslemeye) çalıştı.", "image_url": "https://via.placeholder.com/400x300?text=Foster" },
+            { "en_verb": "Globalize", "tr_verb": "Küreselleştirmek", "en_sentence": "The Internet continues to {globalize} trends in fashion and music more quickly than ever before.", "tr_sentence": "İnternet, moda ve müzik trendlerini daha önce hiç olmadığı kadar hızlı bir şekilde küreselleştirmeye devam ediyor.", "image_url": "https://via.placeholder.com/400x300?text=Globalize" },
+            { "en_verb": "Guarantee", "tr_verb": "Garanti Etmek", "en_sentence": "The mechanic can't {guarantee} that the old car will pass the inspection without several major repairs.", "tr_sentence": "Tamirci, eski arabanın birkaç büyük onarım olmadan muayeneden geçeceğini garanti edemez.", "image_url": "https://via.placeholder.com/400x300?text=Guarantee" },
+            { "en_verb": "Hinder", "tr_verb": "Engellemek, Önlemek", "en_sentence": "Heavy traffic and poor weather will certainly {hinder} our arrival time this evening.", "tr_sentence": "Yoğun trafik ve kötü hava, bu akşamki varış saatimizi kesinlikle engelleyecektir (veya önleyecektir).", "image_url": "https://via.placeholder.com/400x300?text=Hinder" },
+            { "en_verb": "Imply", "tr_verb": "Kastetmek, İma Etmek, Çıkarım Yapmak", "en_sentence": "His silence when I asked about the broken vase seemed to {imply} he was the one responsible.", "tr_sentence": "Kırık vazo hakkında sorduğumdaki sessizliği, sorumlu kişinin kendisi olduğunu ima ediyor gibiydi.", "image_url": "https://via.placeholder.com/400x300?text=Imply" }
         ];
 
-
-        // --- KELİME DATALARI (Toplam 65 kelime) ---
+        // Kelimeler ve Cümleler, şimdi görsel URL'leri ile eşleştiriliyor.
 
         const baseVerbs = [
-            { en_verb: "Hide", tr_verb: "Saklamak", en_sentence: "I like to {Hide} small things in the drawer.", tr_sentence: "Bahçeye küçük şeyler saklamayı severim.", image_url: customImageUrlsUnit1[0] },
-            { en_verb: "Run", tr_verb: "Koşmak", en_sentence: "We should {Run} faster to catch the bus.", tr_sentence: "Otobüse yetişmek için daha hızlı koşmalıyız.", image_url: customImageUrlsUnit1[1] },
-            { en_verb: "Eat", tr_verb: "Yemek yemek", en_sentence: "Do you want to {Eat} pizza for dinner?", tr_sentence: "Akşam yemeğinde pizza yemek ister misin?", image_url: customImageUrlsUnit1[2] },
-            { en_verb: "Drink", tr_verb: "İçmek", en_sentence: "She needs to {Drink} water after exercising.", tr_sentence: "Egzersizden sonra su içmesi gerekiyor.", image_url: customImageUrlsUnit1[3] },
-            { en_verb: "Sleep", tr_verb: "Uyumak", en_sentence: "I always {Sleep} late on weekends.", tr_sentence: "Hafta sonları her zaman geç uyurum.", image_url: customImageUrlsUnit1[4] }
+            { en_verb: "hide", tr_verb: "saklamak", en_sentence: "I like to {hide} small things in the garden.", tr_sentence: "Bahçeye küçük şeyler saklamayı severim.", image_url: customImageUrlsUnit1[0] },
+            { en_verb: "run", tr_verb: "koşmak", en_sentence: "We should {run} faster to catch the bus.", tr_sentence: "Otobüsü yakalamak için daha hızlı koşmalıyız.", image_url: customImageUrlsUnit1[1] },
+            { en_verb: "eat", tr_verb: "yemek yemek", en_sentence: "Do you want to {eat} pizza tonight?", tr_sentence: "Bu gece pizza yemek ister misin?", image_url: customImageUrlsUnit1[2] },
+            { en_verb: "drink", tr_verb: "içmek", en_sentence: "She needs to {drink} more water during the day.", tr_sentence: "Gündüzleri daha fazla su içmesi gerekiyor.", image_url: customImageUrlsUnit1[3] },
+            { en_verb: "sleep", tr_verb: "uyumak", en_sentence: "I always {sleep} late on weekends.", tr_sentence: "Hafta sonları her zaman geç uyurum.", image_url: customImageUrlsUnit1[4] }
         ];
 
         const academicWordsUnit1 = [
-             { en_verb: "Analyze", tr_verb: "Analiz Etmek", en_sentence: "The research aims to {Analyze} the data thoroughly.", tr_sentence: "Araştırma, veriyi kapsamlı bir şekilde analiz etmeyi amaçlar.", image_url: customImageUrlsUnit1[5] },
-             { en_verb: "Identify", tr_verb: "Tanımlamak", en_sentence: "We must {Identify} the root cause of the problem.", tr_sentence: "Sorunun temel nedenini tanımlamalıyız.", image_url: customImageUrlsUnit1[6] },
-             { en_verb: "Determine", tr_verb: "Belirlemek, Karar Vermek", en_sentence: "They need to {Determine} the best strategy.", tr_sentence: "En iyi stratejiyi belirlemeleri gerekiyor.", image_url: customImageUrlsUnit1[7] },
-             { en_verb: "Establish", tr_verb: "Kurmak, Oluşturmak", en_sentence: "We must {Establish} clear guidelines for the project.", tr_sentence: "Proje için net yönergeler oluşturmalıyız.", image_url: customImageUrlsUnit1[8] },
-             { en_verb: "Investigate", tr_verb: "Araştırmak, Soruşturmak", en_sentence: "The police will {Investigate} the crime scene.", tr_sentence: "Polis, suç mahalini soruşturacak.", image_url: customImageUrlsUnit1[9] },
-             { en_verb: "Illustrate", tr_verb: "Örneklemek, Resimlemek", en_sentence: "Can you {Illustrate} your point with an example?", tr_sentence: "Fikrinizi bir örnekle resimleyebilir misiniz?", image_url: customImageUrlsUnit1[10] },
-             { en_verb: "Demonstrate", tr_verb: "Gösteriyle Kanıtlamak", en_sentence: "The scientist will {Demonstrate} the new theory.", tr_sentence: "Bilim insanı yeni teoriyi kanıtlayacak.", image_url: customImageUrlsUnit1[11] },
-             { en_verb: "Evaluate", tr_verb: "Değer Biçmek, Değerlendirmek", en_sentence: "The managers will {Evaluate} the performance.", tr_sentence: "Yöneticiler performansı değerlendirecek.", image_url: customImageUrlsUnit1[12] },
-             { en_verb: "Synthesize", tr_verb: "Sentezlemek, Birleştirmek", en_sentence: "She was asked to {Synthesize} the findings.", tr_sentence: "Ondan bulguları sentezlemesi istendi.", image_url: customImageUrlsUnit1[13] },
-             { en_verb: "Formulate", tr_verb: "Formüle Etmek, Hazırlamak", en_sentence: "We need to {Formulate} a new plan immediately.", tr_sentence: "Hemen yeni bir plan hazırlamam gerekiyor.", image_url: customImageUrlsUnit1[14] },
-             { en_verb: "Define", tr_verb: "Tanımlamak", en_sentence: "You must {Define} the key terms clearly.", tr_sentence: "Anahtar terimleri net bir şekilde tanımlamalısınız.", image_url: customImageUrlsUnit1[15] },
-             { en_verb: "Compare", tr_verb: "Karşılaştırmak", en_sentence: "Please {Compare} the two reports.", tr_sentence: "Lütfen iki raporu karşılaştırın.", image_url: customImageUrlsUnit1[16] },
-             { en_verb: "Contrast", tr_verb: "Zıtlığını Göstermek", en_sentence: "The study will {Contrast} the two methods.", tr_sentence: "Çalışma, iki yöntemin zıtlığını gösterecek.", image_url: customImageUrlsUnit1[17] },
-             { en_verb: "Argue", tr_verb: "Tartışmak, İddia Etmek", en_sentence: "He will {Argue} his case in front of the board.", tr_sentence: "Yönetim kurulunun önünde davasını iddia edecek.", image_url: customImageUrlsUnit1[18] },
-             { en_verb: "Support", tr_verb: "Desteklemek, Kanıtlamak", en_sentence: "You must {Support} your argument with facts.", tr_sentence: "Argümanınızı gerçeklerle desteklemelisiniz.", image_url: customImageUrlsUnit1[19] },
-             { en_verb: "Challenge", tr_verb: "Meydan Okumak, İtiraz Etmek", en_sentence: "The team decided to {Challenge} the previous findings.", tr_sentence: "Ekip, önceki bulgulara itiraz etmeye karar verdi.", image_url: customImageUrlsUnit1[20] },
-             { en_verb: "Derive", tr_verb: "Türetmek, Elde Etmek", en_sentence: "She can {Derive} the formula from first principles.", tr_sentence: "Formülü ilkelerden türetebilir.", image_url: customImageUrlsUnit1[21] },
-             { en_verb: "Indicate", tr_verb: "Göstermek, İşaret Etmek", en_sentence: "The results {Indicate} a positive trend.", tr_sentence: "Sonuçlar pozitif bir eğilimi göstermektedir.", image_url: customImageUrlsUnit1[22] },
-             { en_verb: "Suggest", tr_verb: "Öne Sürmek, Tavsiye Etmek", en_sentence: "I {Suggest} we take a different approach.", tr_sentence: "Farklı bir yaklaşım izlememizi öne sürüyorum.", image_url: customImageUrlsUnit1[23] },
-             { en_verb: "Conclude", tr_verb: "Sonuçlandırmak, Bitirmek", en_sentence: "The speaker will {Conclude} the presentation soon.", tr_sentence: "Konuşmacı sunumu yakında sonuçlandıracak.", image_url: customImageUrlsUnit1[24] }
+            { en_verb: "Analyze", tr_verb: "Analiz Etmek", en_sentence: "The research aims to {analyze} the impact of climate change on coastal biodiversity over the last decade.", tr_sentence: "Araştırma, son on yılda iklim değişikliğinin kıyı biyoçeşitliliği üzerindeki etkisini analiz etmeyi amaçlamaktadır.", image_url: customImageUrlsUnit1[5] },
+            { en_verb: "Identify", tr_verb: "Tanımlamak, Belirlemek", en_sentence: "Researchers were able to {identify} a clear correlation between screen time and reduced attention spans in adolescents.", tr_sentence: "Araştırmacılar, ergenlerde ekran süresi ile azalan dikkat süreleri arasında açık bir korelasyonu tanımlayabildiler.", image_url: customImageUrlsUnit1[6] },
+            { en_verb: "Determine", tr_verb: "Saptamak, Karar Vermek", en_sentence: "A detailed regression model was employed to {determine} the primary factors influencing consumer behavior.", tr_sentence: "Tüketici davranışlarını etkileyen temel faktörleri saptamak için ayrıntılı bir regresyon modeli kullanıldı.", image_url: customImageUrlsUnit1[7] },
+            { en_verb: "Establish", tr_verb: "Kurmak, Oluşturmak, Saptamak", en_sentence: "The study sought to {establish} a causal link between the new policy and the increase in unemployment rates.", tr_sentence: "Çalışma, yeni politika ile artan işsizlik oranları arasında nedensel bir bağlantı kurmayı amaçladı.", image_url: customImageUrlsUnit1[8] },
+            { en_verb: "Investigate", tr_verb: "Araştırmak, İncelemek", en_sentence: "This paper will {investigate} the theoretical underpinnings of quantum entanglement in physics.", tr_sentence: "Bu makale, fizikteki kuantum dolanıklığının teorik temellerini araştırmaktadır.", image_url: customImageUrlsUnit1[9] },
+            { en_verb: "Illustrate", tr_verb: "Örneklemek, Açıklamak", en_sentence: "Figure 3 effectively {illustrate} the exponential growth curve observed in the experimental data.", tr_sentence: "Şekil 3, deneysel verilerde gözlemlenen üstel büyüme eğrisini etkili bir şekilde örneklemektedir.", image_url: customImageUrlsUnit1[10] },
+            { en_verb: "Demonstrate", tr_verb: "Göstermek, Kanıtlamak", en_sentence: "The results {demonstrate} that the novel therapeutic compound significantly inhibits viral replication.", tr_sentence: "Sonuçlar, yeni terapötik bileşiğin viral çoğalmayı önemli ölçüde engellediğini göstermektedir.", image_url: customImageUrlsUnit1[11] },
+            { en_verb: "Evaluate", tr_verb: "Değerlendirmek", en_sentence: "The committee must {evaluate} the long-term sustainability of the proposed infrastructure project.", tr_sentence: "Komite, önerilen altyapı projesinin uzun vadeli sürdürülebilirliğini değerlendirmelidir.", image_url: customImageUrlsUnit1[12] },
+            { en_verb: "Synthesize", tr_verb: "Sentezlemek", en_sentence: "The chapter attempts to {synthesize} disparate findings from various subfields into a coherent framework.", tr_sentence: "Bölüm, çeşitli alt alanlardan gelen farklı bulguları tutarlı bir çerçevede sentezlemeye çalışmaktadır.", image_url: customImageUrlsUnit1[13] },
+            { en_verb: "Formulate", tr_verb: "Formüle Etmek, Geliştirmek", en_sentence: "We need to {formulate} a robust hypothesis before commencing the data collection phase of the research.", tr_sentence: "Araştırmanın veri toplama aşamasına başlamadan önce sağlam bir hipotez formüle etmemiz gerekiyor.", image_url: customImageUrlsUnit1[14] },
+            { en_verb: "Define", tr_verb: "Tanımlamak", en_sentence: "The initial section of the thesis must clearly {define} the scope and key terminology used throughout the study.", tr_sentence: "Tezin ilk bölümü, çalışma boyunca kullanılan kapsamı ve temel terminolojiyi açıkça tanımlamalıdır.", image_url: customImageUrlsUnit1[15] },
+            { en_verb: "Compare", tr_verb: "Karşılaştırmak", en_sentence: "The methodology requires us to {compare} the performance of the traditional algorithm with the machine learning approach.", tr_sentence: "Metodoloji, geleneksel algoritmanın performansını makine öğrenimi yaklaşımıyla karşılaştırmamızı gerektirmektedir.", image_url: customImageUrlsUnit1[16] },
+            { en_verb: "Contrast", tr_verb: "Karşıtlık Kurmak, Farklılıkları Belirtmek", en_sentence: "This essay will {contrast} the economic policies of the two major political parties during the recent financial crisis.", tr_sentence: "Bu deneme, son mali kriz sırasındaki iki büyük siyasi partinin ekonomi politikalarını karşılaştırarak farklılıklarını belirtecektir.", image_url: customImageUrlsUnit1[17] },
+            { en_verb: "Argue", tr_verb: "Tartışmak, İddia Etmek", en_sentence: "The author of the journal article {argues} convincingly for a shift towards renewable energy sources.", tr_sentence: "Dergi makalesinin yazarı, yenilenebilir enerji kaynaklarına geçiş lehine ikna edici bir şekilde iddiaya etmektedir.", image_url: customImageUrlsUnit1[18] },
+            { en_verb: "Support", tr_verb: "Desteklemek", en_sentence: "Numerous empirical studies {support} the theory that early intervention improves educational outcomes.", tr_sentence: "Çok sayıda ampirik çalışma, erken müdahalenin eğitim sonuçlarını iyileştirdiği teorisini desteklemektedir.", image_url: customImageUrlsUnit1[19] },
+            { en_verb: "Challenge", tr_verb: "Sorgulamak, Meydan Okumak", en_sentence: "Recent archaeological findings {challenge} the long-held assumption regarding the timeline of the ancient civilization.", tr_sentence: "Son arkeolojik bulgular, kadim uygarlğın zaman çizelgesi hakkındaki köklü varsayımı sorgulamaktadır.", image_url: customImageUrlsUnit1[20] },
+            { en_verb: "Derive", tr_verb: "Türetmek, Elde Etmek", en_sentence: "The mathematical model allows us to {derive} an equation predicting the future state of the system.", tr_sentence: "Matematiksel model, sistemin gelecekteki durumunu tahmin eden bir denklemi türetmemizi sağlamaktadır.", image_url: customImageUrlsUnit1[21] },
+            { en_verb: "Indicate", tr_verb: "İşaret Etmek, Göstermek", en_sentence: "The preliminary data {indicate} a significant outlier that requires further examination.", tr_sentence: "Ön veriler, daha fazla inceleme gerektiren önemli bir aykırı değere işaret etmektedir.", image_url: customImageUrlsUnit1[22] },
+            { en_verb: "Suggest", tr_verb: "Öne Sürmek, Önermek", en_sentence: "Based on the qualitative interviews, the data {suggest} a correlation, though not a definitive causation.", tr_sentence: "Nitel görüşmelere dayanarak, veriler kesin bir nedensellik olmasa da bir korelasyon öne sürmektedir.", image_url: customImageUrlsUnit1[23] },
+            { en_verb: "Conclude", tr_verb: "Sonuçlandırmak", en_sentence: "In light of the evidence, the study must {conclude} that the intervention had a negligible effect.", tr_sentence: "Kanıtlar ışığında, çalışma müdahalenin ihmal edilebilir bir etkiye sahip olduğu sonucuna varmalıdır.", image_url: customImageUrlsUnit1[24] }
         ];
-
-        const unit2Words = [
-             { en_verb: "Perceive", tr_verb: "Algılamak", en_sentence: "How do you {Perceive} the situation?", tr_sentence: "Durumu nasıl algılıyorsun?", image_url: customImageUrlsUnit2[0] },
-             { en_verb: "Emerge", tr_verb: "Ortaya Çıkmak", en_sentence: "New evidence {Emerge}d during the trial.", tr_sentence: "Duruşma sırasında yeni kanıtlar ortaya çıktı.", image_url: customImageUrlsUnit2[1] },
-             { en_verb: "Hypothesize", tr_verb: "Varsayımda Bulunmak", en_sentence: "Scientists {Hypothesize} about the universe.", tr_sentence: "Bilim insanları evren hakkında varsayımda bulunurlar.", image_url: customImageUrlsUnit2[2] },
-             { en_verb: "Imply", tr_verb: "Kastetmek, İma Etmek", en_sentence: "His silence may {Imply} agreement.", tr_sentence: "Sessizliği anlaşmayı ima edebilir.", image_url: customImageUrlsUnit2[3] },
-             { en_verb: "Infer", tr_verb: "Çıkarım Yapmak", en_sentence: "We can {Infer} his meaning from the context.", tr_sentence: "Onun anlamını bağlamdan çıkarım yapabiliriz.", image_url: customImageUrlsUnit2[4] },
-             { en_verb: "Validate", tr_verb: "Doğrulamak, Onaylamak", en_sentence: "The data {Validate}s the study's findings.", tr_sentence: "Veriler, çalışmanın bulgularını doğrular.", image_url: customImageUrlsUnit2[5] },
-             { en_verb: "Survey", tr_verb: "Anket Yapmak, İncelemek", en_sentence: "They {Survey}ed 500 people for the research.", tr_sentence: "Araştırma için 500 kişiye anket yaptılar.", image_url: customImageUrlsUnit2[6] },
-             { en_verb: "Justify", tr_verb: "Haklı Çıkarmak", en_sentence: "Can you {Justify} your actions with facts?", tr_sentence: "Eylemlerinizi gerçeklerle haklı çıkarabilir misiniz?", image_url: customImageUrlsUnit2[7] },
-             { en_verb: "Propose", tr_verb: "Teklif Etmek, Önermek", en_sentence: "I {Propose} a new solution for the budget.", tr_sentence: "Bütçe için yeni bir çözüm öneriyorum.", image_url: customImageUrlsUnit2[8] },
-             { en_verb: "Correlate", tr_verb: "İlişkilendirmek", en_sentence: "Stress levels {Correlate} with work hours.", tr_sentence: "Stres seviyeleri çalışma saatleriyle ilişkilidir.", image_url: customImageUrlsUnit2[9] },
-             { en_verb: "Interpret", tr_verb: "Yorumlamak", en_sentence: "It's difficult to {Interpret} this abstract painting.", tr_sentence: "Bu soyut resmi yorumlamak zordur.", image_url: customImageUrlsUnit2[10] },
-             { en_verb: "Distinguish", tr_verb: "Ayırt Etmek", en_sentence: "Can you {Distinguish} between the two types?", tr_sentence: "İki tür arasındaki farkı ayırt edebilir misiniz?", image_url: customImageUrlsUnit2[11] },
-             { en_verb: "Refer", tr_verb: "Bahsetmek, Atıfta Bulunmak", en_sentence: "The professor {Refer}red to his previous book.", tr_sentence: "Profesör önceki kitabına atıfta bulundu.", image_url: customImageUrlsUnit2[12] },
-             { en_verb: "Contrast", tr_verb: "Karşıtlık Oluşturmak", en_sentence: "The new building {Contrast}s sharply with the old city.", tr_sentence: "Yeni bina eski şehirle keskin bir karşıtlık oluşturuyor.", image_url: customImageUrlsUnit2[13] },
-             { en_verb: "Vary", tr_verb: "Değişmek, Çeşitlenmek", en_sentence: "The prices {Vary} greatly depending on the season.", tr_sentence: "Fiyatlar mevsime bağlı olarak büyük ölçüde değişir.", image_url: customImageUrlsUnit2[14] },
-             { en_verb: "Research", tr_verb: "Araştırma Yapmak", en_sentence: "She will {Research} the topic for her thesis.", tr_sentence: "Tezi için konuyu araştıracak.", image_url: customImageUrlsUnit2[15] },
-             { en_verb: "Abstract", tr_verb: "Özetlemek, Soyutlamak", en_sentence: "He must {Abstract} the main points of the chapter.", tr_sentence: "Bölümün ana noktalarını özetlemeli.", image_url: customImageUrlsUnit2[16] },
-             { en_verb: "Predict", tr_verb: "Tahmin Etmek", en_sentence: "Experts {Predict} future market growth.", tr_sentence: "Uzmanlar gelecekteki pazar büyümesini tahmin ediyor.", image_url: customImageUrlsUnit2[17] },
-             { en_verb: "Confirm", tr_verb: "Onaylamak, Doğrulamak", en_sentence: "Please {Confirm} your reservation details.", tr_sentence: "Lütfen rezervasyon ayrıntılarınızı onaylayın.", image_url: customImageUrlsUnit2[18] },
-             { en_verb: "Examine", tr_verb: "İncelemek, Muayene Etmek", en_sentence: "The doctor will {Examine} the patient's condition.", tr_sentence: "Doktor hastanın durumunu muayene edecek.", image_url: customImageUrlsUnit2[19] }
-        ];
-
-        const unit3Words = [
-            { en_verb: "Signify", tr_verb: "İfade Etmek, Anlamına Gelmek", en_sentence: "His constant yawning might {Signify} that he is extremely tired.", tr_sentence: "Sürekli esnemesi, aşırı yorgun olduğu anlamına gelebilir.", image_url: customImageUrlsUnit3[0] },
-            { en_verb: "Account for", tr_verb: "Açıklamak", en_sentence: "Can you {Account for} the missing money?", tr_sentence: "Kayıp parayı açıklayabilir misin?", image_url: customImageUrlsUnit3[1] },
-            { en_verb: "Assess", tr_verb: "Değerlendirmek", en_sentence: "We need to {Assess} the damage after the storm.", tr_sentence: "Fırtınadan sonra hasarı değerlendirmemiz gerekiyor.", image_url: customImageUrlsUnit3[2] },
-            { en_verb: "Assume", tr_verb: "Varsaymak, Farz Etmek", en_sentence: "I {Assume} you have finished the work.", tr_sentence: "İşi bitirdiğinizi varsayıyorum.", image_url: customImageUrlsUnit3[3] },
-            { en_verb: "Deduce", tr_verb: "Sonuç Çıkarma", en_sentence: "We can {Deduce} the answer from the facts.", tr_sentence: "Cevabı gerçeklerden sonuç çıkarabiliriz.", image_url: customImageUrlsUnit3[4] },
-            { en_verb: "Illustrate", tr_verb: "Açıklamak, Örneklemek", en_sentence: "She used a chart to {Illustrate} her points.", tr_sentence: "Fikirlerini açıklamak için bir grafik kullandı.", image_url: customImageUrlsUnit3[5] },
-            { en_verb: "Incorporate", tr_verb: "Dahil Etmek, Katmak", en_sentence: "The report should {Incorporate} all new data.", tr_sentence: "Rapor tüm yeni verileri dahil etmeli.", image_url: customImageUrlsUnit3[6] },
-            { en_verb: "Monitor", tr_verb: "İzlemek, Gözlemlemek", en_sentence: "Please {Monitor} the system performance.", tr_sentence: "Lütfen sistem performansını izleyin.", image_url: customImageUrlsUnit3[7] },
-            { en_verb: "Omit", tr_verb: "Hariç Bırakmak, Atlamak", en_sentence: "Do not {Omit} any details in your summary.", tr_sentence: "Özetinizde hiçbir detayı atlamayın.", image_url: customImageUrlsUnit3[8] },
-            { en_verb: "Persist", tr_verb: "Devam Etmek, Israr Etmek", en_sentence: "The rain will {Persist} for another hour.", tr_sentence: "Yağmur bir saat daha devam edecek.", image_url: customImageUrlsUnit3[9] },
-            { en_verb: "Precede", tr_verb: "Önce Gelmek", en_sentence: "The introduction must {Precede} the main text.", tr_sentence: "Giriş, ana metinden önce gelmelidir.", image_url: customImageUrlsUnit3[10] },
-            { en_verb: "Retain", tr_verb: "Tutmak, Muhafaza Etmek", en_sentence: "Try to {Retain} the information from the lecture.", tr_sentence: "Dersteki bilgiyi muhafaza etmeye çalışın.", image_url: customImageUrlsUnit3[11] },
-            { en_verb: "Specify", tr_verb: "Belirtmek", en_sentence: "Please {Specify} the required quantity.", tr_sentence: "Lütfen gerekli miktarı belirtin.", image_url: customImageUrlsUnit3[12] },
-            { en_verb: "Substantiate", tr_verb: "Kanıtlamak, Doğrulamak", en_sentence: "You must {Substantiate} your claims with evidence.", tr_sentence: "İddialarınızı kanıtlarla doğrulamalısınız.", image_url: customImageUrlsUnit3[13] },
-            { en_verb: "Undergo", tr_verb: "Geçirmek, Yaşamak", en_sentence: "The device will {Undergo} rigorous testing.", tr_sentence: "Cihaz titiz testlerden geçecek.", image_url: customImageUrlsUnit3[14] },
-            { en_verb: "Utilize", tr_verb: "Kullanmak, Yararlanmak", en_sentence: "We should {Utilize} the new software.", tr_sentence: "Yeni yazılımı kullanmalıyız.", image_url: customImageUrlsUnit3[15] },
-            { en_verb: "Constitute", tr_verb: "Oluşturmak, Teşkil Etmek", en_sentence: "These rules {Constitute} the core principles.", tr_sentence: "Bu kurallar temel ilkeleri oluşturur.", image_url: customImageUrlsUnit3[16] },
-            { en_verb: "Execute", tr_verb: "Uygulamak, İcra Etmek", en_sentence: "The team will {Execute} the plan next week.", tr_sentence: "Ekip planı gelecek hafta uygulayacak.", image_url: customImageUrlsUnit3[17] },
-            { en_verb: "Integrate", tr_verb: "Bütünleştirmek", en_sentence: "We need to {Integrate} the new system.", tr_sentence: "Yeni sistemi bütünleştirmemiz gerekiyor.", image_url: customImageUrlsUnit3[18] },
-            { en_verb: "Resolve", tr_verb: "Çözmek", en_sentence: "The company must {Resolve} the conflict quickly.", tr_sentence: "Şirket çatışmayı hızla çözmeli.", image_url: customImageUrlsUnit3[19] }
-        ];
-
-        const allWordsData = [...baseVerbs, ...academicWordsUnit1, ...unit2Words, ...unit3Words];
         
-        // Kelime Sayıları Kontrol Edildi: Ünite 1: 5 + 20 = 25. Ünite 2: 20. Ünite 3: 20.
+        // ======================================================
+        // ÜNİTE 2 KELİMELERİ (Güncel)
+        // ======================================================
+        const unit2Words = [
+             { en_verb: "Perceive", tr_verb: "Algılamak", en_sentence: "The study investigates how students {perceive} the fairness of the new grading system.", tr_sentence: "Çalışma, öğrencilerin yeni notlandırma sisteminin adilliğini nasıl algıladığını araştırmaktadır.", image_url: customImageUrlsUnit2[0] },
+             { en_verb: "Propose", tr_verb: "Teklif Etmek, Önermek", en_sentence: "Chapter four will {propose} a novel framework for analyzing social media discourse.", tr_sentence: "Dördüncü bölüm, sosyal medya söylemini analiz etmek için yeni bir çerçeve önerecektir.", image_url: customImageUrlsUnit2[1] },
+             { en_verb: "Observe", tr_verb: "Gözlemlemek", en_sentence: "We were able to {observe} statistically significant differences between the two treatment groups.", tr_sentence: "İki tedavi grubu arasında istatistiksel olarak anlamlı farklılıklar gözlemleyebildik.", image_url: customImageUrlsUnit2[2] },
+             { en_verb: "Examine", tr_verb: "İncelemek, Muayene Etmek", en_sentence: "The following section will {examine} the historical context that led to the policy implementation.", tr_sentence: "Aşağıdaki bölüm, politikanın uygulanmasına yol açan tarihsel bağlamı inceleyecektir.", image_url: customImageUrlsUnit2[3] },
+             { en_verb: "Apply", tr_verb: "Uygulamak", en_sentence: "This methodology allows us to {apply} the theoretical findings to real-world economic models.", tr_sentence: "Bu metodoloji, teorik bulguları gerçek dünya ekonomik modellerine uygulamamıza olanak tanır.", image_url: customImageUrlsUnit2[4] },
+             { en_verb: "Implement", tr_verb: "Uygulamaya Koymak", en_sentence: "The findings suggest that the government should {implement} stricter environmental regulations immediately.", tr_sentence: "Bulgular, hükümetin daha katı çevre düzenlemelerini derhal uygulamaya koyması gerektiğini öne sürmektedir.", image_url: customImageUrlsUnit2[5] },
+             { en_verb: "Reflect", tr_verb: "Yansıtmak, Düşünmek", en_sentence: "The survey results clearly {reflect} the public's growing dissatisfaction with public services.", tr_sentence: "Anket sonuçları, halkın kamu hizmetlerinden artan hoşnutsuzluğunu açıkça yansıtmaktadır.", image_url: customImageUrlsUnit2[6] },
+             { en_verb: "Relate", tr_verb: "İlişkilendirmek", en_sentence: "Researchers need to {relate} the frequency of the occurrence to the changes in atmospheric pressure.", tr_sentence: "Araştırmacıların olayın sıklığını atmosfer basıncındaki değişikliklerle ilişkilendirmesi gerekmektedir.", image_url: customImageUrlsUnit2[7] },
+             { en_verb: "Discuss", tr_verb: "Tartışmak", en_sentence: "The literature review will {discuss} key theories that underpin the concept of cultural capital.", tr_sentence: "Literatür taraması, kültürel sermaye kavramını destekleyen temel teorileri tartışacaktır.", image_url: customImageUrlsUnit2[8] },
+             { en_verb: "Differentiate", tr_verb: "Ayırt Etmek, Farklılaştırmak", en_sentence: "It is crucial to {differentiate} between correlation and causation when interpreting complex data sets.", tr_sentence: "Karmaşık veri setlerini yorumlarken korelasyon ve nedensellik arasında ayırt etmek çok önemlidir.", image_url: customImageUrlsUnit2[9] },
+             { en_verb: "Validate", tr_verb: "Doğrulamak, Onaylamak", en_sentence: "Further testing is required to {validate} the reliability of the new diagnostic tool.", tr_sentence: "Yeni teşhis aracının güvenilirliğini doğrulamak için ek testler gereklidir.", image_url: customImageUrlsUnit2[10] },
+             { en_verb: "Generate", tr_verb: "Üretmek, Oluşturmak", en_sentence: "The computational model was successful in {generate} a variety of plausible future scenarios.", tr_sentence: "Hesaplama modeli, çeşitli makul gelecek senaryoları üretmede başarılı oldu.", image_url: customImageUrlsUnit2[11] },
+             { en_verb: "Evolve", tr_verb: "Gelişmek, Evrilmek", en_sentence: "Research methodologies continue to {evolve} rapidly, necessitating constant professional training.", tr_sentence: "Araştırma metodolojileri hızla gelişmeye devam etmekte, bu da sürekli mesleki eğitimi zorunlu kılmaktadır.", image_url: customImageUrlsUnit2[12] },
+             { en_verb: "Comprise", tr_verb: "İçermek, Kapsamak", en_sentence: "The final sample {comprise} participants from six different socioeconomic backgrounds.", tr_sentence: "Nihai örneklem, altı farklı sosyoekonomik geçmişten katılımcıları içermektedir.", image_url: customImageUrlsUnit2[13] },
+             { en_verb: "Precede", tr_verb: "Önce Gelmek", en_sentence: "The theoretical discussion must {precede} the presentation of the empirical data for better context.", tr_sentence: "Daha iyi bir bağlam için, teorik tartışma ampirik verilerin sunulmasından önce gelmelidir.", image_url: customImageUrlsUnit2[14] },
+             { en_verb: "Succeed", tr_verb: "Başarılı Olmak, Yerine Geçmek", en_sentence: "Dr. Elmas will {succeed} Professor Kaya as the head of the department next semester.", tr_sentence: "Dr. Elmas, gelecek dönem bölüm başkanı olarak Profesör Kaya'nın yerine geçecektir.", image_url: customImageUrlsUnit2[15] },
+             { en_verb: "Cite", tr_verb: "Alıntı Yapmak", en_sentence: "Students must {cite} all external sources accurately to avoid plagiarism in their essays.", tr_sentence: "Öğrenciler, makalelerinde intihali önlemek için tüm harici kaynaklardan doğru bir şekilde alıntı yapmak zorundadır.", image_url: customImageUrlsUnit2[16] },
+             { en_verb: "Integrate", tr_verb: "Bütünleştirmek", en_sentence: "The project aims to {integrate} machine learning algorithms into the existing data processing pipeline.", tr_sentence: "Proje, makine öğrenimi algoritmalarını mevcut veri işleme hattına bütünleştirmeyi amaçlamaktadır.", image_url: customImageUrlsUnit2[17] },
+             { en_verb: "Modify", tr_verb: "Değiştirmek, Uyarlamak", en_sentence: "It was necessary to {modify} the original experimental design based on the pilot study results.", tr_sentence: "Pilot çalışma sonuçlarına dayanarak orijinal deneysel tasarımı değiştirmek gerekliydi.", image_url: customImageUrlsUnit2[18] },
+             { en_verb: "Replicate", tr_verb: "Tekrarlamak, Çoğaltmak", en_sentence: "The core challenge is whether other laboratories can successfully {replicate} these findings independently.", tr_sentence: "Temel zorluk, diğer laboratuvarların bu bulguları bağımsız olarak başarıyla tekrarlayıp çoğaltamayacağıdır.", image_url: customImageUrlsUnit2[19] }
+        ];
+
+
+        // Tüm kelime verilerini tek bir yerde toplama
+        const allWordsData = [...baseVerbs, ...academicWordsUnit1, ...unit2Words, ...unit3Words];
+
         const unitDatabase = {
             1: [...baseVerbs, ...academicWordsUnit1].map(item => [item.en_verb, item.tr_verb]),
             2: unit2Words.map(item => [item.en_verb, item.tr_verb]), 
-            3: unit3Words.map(item => [item.en_verb, item.tr_verb]),
+            3: unit3Words.map(item => [item.en_verb, item.tr_verb]), // Yeni Ünite 3
+            // Diğer demo üniteler ve sahte veriler korunmuştur.
+            4: [["computer", "bilgisayar"], ["phone", "telefon"], ["camera", "kamera"], ["robot", "robot"], ["screen", "ekran"]],
         };
 
-        // Diğer üniteleri doldur (toplam 20 ünite olacak şekilde)
-        for (let i = 4; i <= 20; i++) {
+        // Demo Amaçlı: Boş üniteleri sahte veriyle dolduralım ki liste dolu görünsün
+        for (let i = 4; i <= 20; i++) { // 4'ten başlayarak demo verisi ekliyoruz
             if (!unitDatabase[i]) {
-                unitDatabase[i] = [["example", "örnek"], ["test", "deneme"]];
+                unitDatabase[i] = [
+                    ["example", "örnek"],
+                    ["test", "deneme"],
+                    ["word", "kelime"]
+                ];
             }
         }
-
-        // ======================================================
-        // 2. TEMEL UYGULAMA MANTIĞI VE FONKSİYONLAR
-        // ======================================================
         
+        // Veri kaynağından kelimenin tam obje formatını getirme fonksiyonu
         function getWordFullData(word) {
-            const result = allWordsData.find(item => item.en_verb.toLowerCase() === word.toLowerCase());
+            const result = allWordsData.find(item => item.en_verb === word);
             if (result) return result;
             
-            // Eğer full data bulunamazsa, sadece kelime ve anlamını içeren bir obje döndürür
+            // Diğer ünitelerdeki kelimeler için basit bir obje döndür 
             for (const unitId in unitDatabase) {
-                const found = unitDatabase[unitId].find(pair => pair[0].toLowerCase() === word.toLowerCase());
+                const found = unitDatabase[unitId].find(pair => pair[0] === word);
                 if (found) {
-                    return { 
-                        en_verb: found[0], 
-                        tr_verb: found[1], 
-                        en_sentence: `Example sentence for {${found[0]}}.`, 
-                        tr_sentence: `Örnek cümle.`, 
-                        image_url: "https://via.placeholder.com/400x300?text=Gorsel+Yok" 
-                    };
+                    // Sahte kelimeler için de bir image_url tanımlayalım
+                    return { en_verb: found[0], tr_verb: found[1], en_sentence: `This is an example sentence for {${found[0]}}.`, tr_sentence: `Bu, {${found[0]}} kelimesi için bir örnektir.`, image_url: "https://via.placeholder.com/400x300?text=DEMO" };
                 }
             }
             return null;
         }
 
+
+        // ======================================================        
+        // 2. İÇERİK OLUŞTURUCU (SADELEŞTİRİLMİŞ)
+        // ======================================================                
+
         function getWordCardData(word, meaning) {
+            
+            // 1. TAM VERİ KONTROLÜ: Tam veriyi al
             const fullData = getWordFullData(word);
+            
             let finalEn = fullData ? fullData.en_sentence : "";
             let finalTr = fullData ? fullData.tr_sentence : "";
-            const imgUrl = fullData && fullData.image_url ? fullData.image_url : "https://via.placeholder.com/400x300?text=Gorsel+Yok";
-            
+            // Görseli doğrudan veri objesinden al
+            const imgUrl = fullData && fullData.image_url 
+                ? fullData.image_url 
+                : "https://via.placeholder.com/400x300?text=Gorsel+Yok"; 
+
+            // -----------------------------------------------------
+            // B. Cümle İşleme (Kelimeyi vurgulama)
+            // -----------------------------------------------------
+
             if (fullData) {
-                // Cümledeki {kelime} kısımlarını renklendirmek için
-                const highlightRegex = new RegExp(`\\{${word}\\}`, 'i');
-                if (!fullData.en_sentence.match(highlightRegex)) {
+                // Kelimeyi {kelime} şeklinde vurgulamak için regex
+                const highlightRegex = new RegExp(`\\{${word}\\}`, 'i'); 
+                
+                // Eğer cümlede {kelime} formatı zaten varsa, direkt highlight'ı uygula
+                if (fullData.en_sentence.match(highlightRegex)) {
+                    finalEn = fullData.en_sentence;
+                } else {
+                    // Eğer {kelime} formatı yoksa, kelimenin kendisini bulup {kelime} formatına dönüştür.
+                    // Bu, kelimenin büyük harf/küçük harf durumunu veya eklerini (succeed vs succeeds) göz ardı etmez.
                     const wordRegex = new RegExp(`\\b${word}\\b`, 'i');
                     let processedEn = fullData.en_sentence.replace(wordRegex, `{${word}}`);
+                    
+                    // Eğer yine de bulunamazsa (ki bu akademik kelimelerde 'implement' gibi fiillerde veya ekli kullanımlarda sorun çıkarabilir)
+                    if (processedEn === fullData.en_sentence && fullData.en_sentence.includes(word)) {
+                         // Daha esnek bir regex ile kelimenin herhangi bir geçtiği yeri yakalamayı deneriz
+                         const strictWordRegex = new RegExp(word, 'g');
+                         processedEn = fullData.en_sentence.replace(strictWordRegex, `{${word}}`);
+                    }
+                    
                     finalEn = processedEn;
-                } else {
-                    finalEn = fullData.en_sentence;
                 }
+                
             }
-            return { word: word, meaning: meaning, image: imgUrl, sentenceEn: finalEn, sentenceTr: finalTr };
+
+
+            return {
+                word: word,
+                meaning: meaning,
+                image: imgUrl,
+                sentenceEn: finalEn, 
+                sentenceTr: finalTr
+            };
         }
 
+        // --- SESLENDİRME FONKSİYONU ---        
         function speakWord(word) {            
             if ('speechSynthesis' in window) {                
-                const utterance = new SpeechSynthesisUtterance(word);
-                utterance.lang = 'en-US';
+                const utterance = new SpeechSynthesisUtterance(word);                
+                // İngilizce için 'en-US' ayarı                
+                utterance.lang = 'en-US';                 
                 window.speechSynthesis.speak(utterance);            
-            }
+            } else {                
+                console.warn('Tarayıcı seslendirmeyi desteklemiyor.');            
+            }        
         }
 
-        const listScreen = document.getElementById('list-screen');
+
+        // ======================================================        
+        // 3. ARAYÜZ FONKSİYONLARI        
+        // ======================================================
+        const listScreen = document.getElementById('list-screen');        
         const detailScreen = document.getElementById('detail-screen');        
         const cardScreen = document.getElementById('card-screen');
-        const quizScreen = document.getElementById('quiz-screen');
-        const resultScreen = document.getElementById('result-screen');
-
+        
         function switchScreen(screen) {            
             listScreen.classList.remove('active'); listScreen.style.display = 'none';            
             detailScreen.classList.remove('active'); detailScreen.style.display = 'none';            
-            cardScreen.classList.remove('active'); cardScreen.style.display = 'none';
-            quizScreen.classList.remove('active'); quizScreen.style.display = 'none';
-            resultScreen.classList.remove('active'); resultScreen.style.display = 'none';
-            
+            cardScreen.classList.remove('active'); cardScreen.style.display = 'none';                        
             screen.style.display = 'block';            
-            setTimeout(() => screen.classList.add('active'), 10);
+            setTimeout(() => screen.classList.add('active'), 10);        
         }
         
+        // --- Ünite Listesini Oluştur ---        
         function initUnitList() {            
-            const container = document.getElementById('units-container');
+            const container = document.getElementById('units-container');            
             const totalUnits = 20;            
             const colors = ['bg-1', 'bg-2', 'bg-3', 'bg-4', 'bg-5'];
+            
             for (let i = 1; i <= totalUnits; i++) {                
-                const color = colors[(i - 1) % colors.length];
+                const color = colors[(i - 1) % colors.length];                
                 const wordCount = unitDatabase[i] ? unitDatabase[i].length : 0;                                
                 const card = document.createElement('div');                
                 card.className = 'unit-card';                
-                card.onclick = () => openUnit(i);
+                card.onclick = () => openUnit(i);                
                 card.innerHTML = `                    
                     <div class="circle ${color}">${i}</div>                    
-                    <div class="info">               
+                    <div class="info">                        
                         <h3>Ünite ${i}</h3>                        
-                        <p>${wordCount} kelime</p>                 
+                        <p>${wordCount} kelime</p>                    
                     </div>                
-                `;
+                `;                
                 container.appendChild(card);            
             }        
         }
         
-        // --- QUIZ MANTIĞI VE DEĞİŞKENLERİ ---
-        let currentQuizQuestions = [];
-        let currentQuestionIndex = 0;
-        let correctCount = 0;
-        let currentUnitIdForQuiz = 0;
-
+        // --- Ünite Detayını Aç ---        
         function openUnit(unitId) {            
-            document.getElementById('detail-unit-title').innerText = `Ünite ${unitId} Kelimeleri`;
+            document.getElementById('detail-unit-title').innerText = `Ünite ${unitId} Kelimeleri`;            
             const listContainer = document.getElementById('unit-word-list');            
             const emptyMsg = document.getElementById('empty-message');            
             listContainer.innerHTML = '';
             
             const rawWords = unitDatabase[unitId];
+            
             if (!rawWords || rawWords.length === 0) {                
-                emptyMsg.style.display = 'block';
+                emptyMsg.style.display = 'block';            
             } else {                
-                emptyMsg.style.display = 'none';
+                emptyMsg.style.display = 'none';                                
                 rawWords.forEach(pair => {                    
                     const word = pair[0];
                     const meaning = pair[1];
+                    
+                    // Kelimenin tam verisini al (burada image_url de var)
                     const fullData = getWordFullData(word); 
-                    const listImageUrl = fullData && fullData.image_url ? fullData.image_url : "https://via.placeholder.com/50x50?text=DEMO";
+                    
+                    // Liste görseli (Eğer görsel URL'si yoksa DEMO placeholder kullanıyoruz)
+                    const listImageUrl = fullData && fullData.image_url 
+                        ? fullData.image_url 
+                        : "https://via.placeholder.com/50x50?text=DEMO";
 
-                    const li = document.createElement('li');           
+                    const li = document.createElement('li');                    
                     li.className = 'word-item';                                        
-                    li.dataset.word = word;       
+                    li.dataset.word = word;                    
                     li.dataset.meaning = meaning;                                        
+                    
                     li.onclick = function() {                        
                         const w = this.dataset.word;
                         const m = this.dataset.meaning;
@@ -578,168 +494,38 @@
                             <img src="${listImageUrl}" alt="${word}">
                         </div>
                         <div style="flex-grow:1">                            
-                            <div style="font-weight:bold; color:#333; font-size:16px;">${word}</div>    
+                            <div style="font-weight:bold; color:#333; font-size:16px;">${word}</div>                            
                             <div style="font-size:14px; color:#777;">${meaning}</div>                        
                         </div>                        
                         <span style="color:#ddd;">&#10095;</span>                    
-                    `;
+                    `;                    
                     listContainer.appendChild(li);                
                 });            
             }            
-
-            // --- QUIZ BUTONU EKLEME KISMI (SABİT) ---
-            currentUnitIdForQuiz = unitId; 
-            
-            // Varsa eski butonu kaldır
-            const oldBtn = document.querySelector('.fixed-quiz-btn-container');
-            if(oldBtn) oldBtn.remove();
-            
-            // Butonu oluştur
-            if (rawWords && rawWords.length > 0) {
-                const btnContainer = document.createElement('div');
-                btnContainer.className = 'fixed-quiz-btn-container';
-                btnContainer.innerHTML = `
-                    <button class="start-quiz-btn" onclick="startQuiz()">
-                         QUIZ BAŞLAT (${rawWords.length} Soru)
-                    </button>
-                `;
-                document.getElementById('detail-screen').appendChild(btnContainer);
-                listContainer.style.paddingBottom = "80px"; // Butonun altında kalmasın
-            }
-
-            switchScreen(detailScreen);
+            switchScreen(detailScreen);        
         }
 
+        // --- Kartı Aç ---        
         function openCard(data) {            
-            document.getElementById('card-word').innerText = data.word;
+            document.getElementById('card-word').innerText = data.word;            
             document.getElementById('card-meaning').innerText = data.meaning;                        
+            
+            // Cümledeki {kelime} kısımlarını renklendirilmiş span'e çevirir.
             const formattedEn = data.sentenceEn.replace(/{(\w+)}/g, '<span class="highlight-word">$1</span>');
-            document.getElementById('card-sentence-en').innerHTML = formattedEn;
+            document.getElementById('card-sentence-en').innerHTML = formattedEn;            
             document.getElementById('card-sentence-tr').innerText = data.sentenceTr;                        
+            
             const img = document.getElementById('card-image');            
+            // Karttaki görselin adresini kullan
             img.src = data.image;
+            
             document.getElementById('card-speaker-icon').onclick = () => speakWord(data.word);
+            
             switchScreen(cardScreen);        
         }
         
         function showListScreen() { switchScreen(listScreen); }        
         function closeCardScreen() { switchScreen(detailScreen); }
-
-        // --- QUIZ FONKSİYONLARI ---
-        function startQuiz() {
-            const rawWords = unitDatabase[currentUnitIdForQuiz];
-            if (!rawWords || rawWords.length === 0) return;
-
-            // Kelime sayısı kadar soru (Sorular sabit)
-            currentQuizQuestions = rawWords.map(item => ({
-                word: item[0],
-                correctMeaning: item[1]
-            }));
-
-            currentQuestionIndex = 0;
-            correctCount = 0;
-            
-            // Toplam soru sayısını ayarla
-            document.getElementById('q-total').innerText = currentQuizQuestions.length;
-            
-            switchScreen(quizScreen);
-            showQuestion();
-        }
-
-        function showQuestion() {
-            if (currentQuestionIndex >= currentQuizQuestions.length) {
-                showResult();
-                return;
-            }
-
-            const qData = currentQuizQuestions[currentQuestionIndex];
-            
-            // İlerleme ve soru numarasını güncelle
-            const progress = ((currentQuestionIndex) / currentQuizQuestions.length) * 100;
-            document.getElementById('quiz-bar').style.width = `${progress}%`;
-            document.getElementById('q-current').innerText = currentQuestionIndex + 1; // Hata buradaydı
-            
-            document.getElementById('quiz-word-display').innerText = qData.word;
-            
-            // Seçenekleri oluştur (1 Doğru + 3 Yanlış)
-            let options = [qData.correctMeaning];
-            
-            // Yanlış cevap havuzu (Tüm veritabanından rastgele al)
-            const allMeanings = [];
-            for(let u in unitDatabase) {
-                unitDatabase[u].forEach(w => allMeanings.push(w[1]));
-            }
-            
-            while (options.length < 4) {
-                const randomMeaning = allMeanings[Math.floor(Math.random() * allMeanings.length)];
-                // Aynı cevap tekrar eklenmesin ve doğru cevap olmasın
-                if (!options.includes(randomMeaning) && randomMeaning !== qData.correctMeaning) {
-                    options.push(randomMeaning);
-                }
-            }
-            // Seçenekleri karıştır
-            options = options.sort(() => Math.random() - 0.5);
-
-            const listEl = document.getElementById('quiz-options-list');
-            listEl.innerHTML = '';
-            
-            options.forEach(opt => {
-                const li = document.createElement('li');
-                li.className = 'quiz-option';
-                li.innerText = opt;
-                li.onclick = () => checkAnswer(li, opt, qData.correctMeaning);
-                listEl.appendChild(li);
-            });
-        }
-
-        function checkAnswer(el, selected, correct) {
-            // Tıklamaları kilitle
-            const allOpts = document.querySelectorAll('.quiz-option');
-            allOpts.forEach(o => o.style.pointerEvents = 'none');
-
-            if (selected === correct) {
-                el.classList.add('correct');
-                correctCount++;
-                const checkMark = document.createElement('span');
-                checkMark.innerHTML = '&#10003;';
-                checkMark.style.cssText = "position:absolute; right:20px; font-size:24px; font-weight:bold; color:white;";
-                el.appendChild(checkMark);
-            } else {
-                el.classList.add('wrong');
-                // Doğruyu göster
-                allOpts.forEach(o => {
-                    if (o.innerText === correct) {
-                         o.classList.add('correct');
-                         // Yanlış seçildiğinde doğru cevabı hafifçe işaretle
-                         o.style.backgroundColor = '#d4edda'; 
-                         o.style.color = '#155724'; 
-                    }
-                });
-            }
-
-            // Sonraki soruya geç
-            setTimeout(() => {
-                currentQuestionIndex++;
-                showQuestion();
-            }, 1000);
-        }
-
-        function showResult() {
-            // İlerleme çubuğunu %100 yap
-            document.getElementById('quiz-bar').style.width = '100%'; 
-
-            document.getElementById('result-score-val').innerText = `${correctCount}/${currentQuizQuestions.length}`;
-            switchScreen(resultScreen);
-        }
-
-        function restartQuiz() {
-            startQuiz();
-        }
-
-        function closeQuiz() {
-            // Quiz ekranından detay ekranına dön
-            switchScreen(detailScreen);
-        }
         
         // Uygulamayı Başlat        
         initUnitList();
