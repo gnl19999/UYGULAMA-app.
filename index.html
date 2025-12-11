@@ -115,7 +115,7 @@
         .highlight-word { color: #27ae60; font-weight: bold; background: #e8f5e9; padding: 0 2px; border-radius: 3px; }
         .divider { height: 1px; background-color: #eee; margin: 12px 0; }
 
-        /* --- YENİ EKLENEN QUIZ STİLLERİ --- */
+        /* --- QUIZ STİLLERİ --- */
         .fixed-quiz-btn-container {
             position: fixed; bottom: 0; left: 0; width: 100%;
             background: white; padding: 15px 20px;
@@ -137,6 +137,10 @@
         .start-quiz-btn:active { transform: scale(0.98); }
 
         /* Quiz Soruları */
+        .quiz-header-text {
+            display: flex; justify-content: space-between; align-items: center;
+            font-weight: bold; color: #888; font-size: 14px; margin-top: 10px;
+        }
         .quiz-progress {
             height: 6px; background: #eee; border-radius: 3px;
             margin: 10px 0 30px 0; overflow: hidden;
@@ -231,7 +235,12 @@
             <div class="card-top-bar">
                 <span class="card-close-btn" onclick="closeQuiz()">&#10005;</span>
             </div>
-            <div style="text-align:center; font-weight:bold; color:#888; font-size:14px;">QUIZ</div>
+            
+            <div class="quiz-header-text">
+                <span>SORU <span id="q-current">1</span>/<span id="q-total">0</span></span>
+                <span>QUIZ</span>
+            </div>
+            
             <div class="quiz-progress">
                 <div id="quiz-bar" class="quiz-progress-bar"></div>
             </div>
@@ -284,7 +293,7 @@
             "https://png.pngtree.com/png-clipart/20231001/original/pngtree-3d-illustration-of-business-growth-report-png-image_13029745.png", // 12. Demonstrate
             "https://png.pngtree.com/png-clipart/20240312/original/pngtree-3d-business-meeting-png-image_14573009.png", // 13. Evaluate
             "https://media.istockphoto.com/id/1327040559/tr/vekt%C3%B6r/sending-and-receiving-payment-using-electronic-invoice-person-preparing-invoice-on-laptop.jpg?s=612x612&w=0&k=20&c=v2amgNVQGs8kWeNDRCUNwLaFupE9ek3UI5Ml-naJdcY=", // 14. Synthesize
-            "https://png.pngtree.com/png-clipart/20240309/original/pngtree-d-illustration-of-charts-and-graph-with-analysis-business-financial-data-png-image_14549648.png", // 15. Formulate
+            "https://png.pngtree.com/png-clipart/20240309/original/pngtree-3d-illustration-of-charts-and-graph-with-analysis-business-financial-data-png-image_14549648.png", // 15. Formulate
             "https://png.pngtree.com/png-vector/20190629/ourmid/pngtree-reports-icon-for-your-project-png-image_1522218.jpg", // 16. Define
             "https://png.pngtree.com/png-vector/20230823/ourmid/pngtree-people-talking-in-front-of-a-screen-vector-png-image_6912863.png", // 17. Compare
             // Akademik fiiller - Son 8 (8 adet)
@@ -293,7 +302,7 @@
             "https://png.pngtree.com/png-vector/20240914/ourmid/pngtree-brain-bulb-cartoon-pictures-png-image_12910015.png", // 20. Support
             "https://png.pngtree.com/thumb_back/fh260/background/20240429/pngtree-d-render-culture-woman-dressed-in-robes-sculpture-marble-pink-green-image_15721877.jpg", // 21. Challenge
             "https://img.pikbest.com/wp/202346/tool-symbol-cartoon-style-3d-rendered-illustration-of-a-set-mathematical-symbols-on-background_9722866.jpg!bw700", // 22. Derive
-            "https://img.freepik.com/premium-vector/d-stock-crypto-investment-trading-analysis-banner-growing-candlestick-chart-window_684471-168.jpg?semt=ais_hybrid&w=740&q=80", // 23. Indicate
+            "https://img.freepik.com/premium-vektor/d-stock-crypto-investment-trading-analysis-banner-growing-candlestick-chart-window_684471-168.jpg?semt=ais_hybrid&w=740&q=80", // 23. Indicate
             "https://png.pngtree.com/png-clipart/20240502/original/pngtree-trendy-ratio-analysis-png-image_14993144.png", // 24. Suggest
             "https://png.pngtree.com/png-vector/20240122/ourmid/pngtree-d-minimal-trading-charts-stock-market-rising-stock-market-analysis-stock-png-image_11455231.png" // 25. Conclude
         ];
@@ -315,13 +324,13 @@
             "https://img.pikbest.com/illustration/20251009/business-team-presentation-vector-with-charts-graphs-data-analysis-and-teamwork_11925317.jpg!w700wp", // 14. Contrast (Tekrar Kullanım)
             "https://cbx-prod.b-cdn.net/COLOURBOX67668799.jpg?width=800&height=800&quality=70", // 15. Vary
             "https://img.freepik.com/premium-photo/curious-scientist-3d-cartoon-character-transparent-background-ai_894067-14624.jpg", // 16. Research
-            "https://media.istockphoto.com/id/1049718624/tr/vekt%C3%B6r/k%C3%BCt%C3%BCphane-illlustration.jpg?s=170667a&w=0&k=20&c=OSM2nrhcx44bnvUB5ZhHMSg5Q429uuRk8WcTM4eWGVQ=", // 17. Abstract
+            "https://media.istockphoto.com/id/1049718624/tr/vekt%C3%B6r/k%C3%BCt%C3%BCphane-illlustration.jpg?s=170667a&w=0&k=20&c=OSM2nrhcx44bnvUB5ZhHMSg5Q429uuRk8WcTM4eGvQ=", // 17. Abstract
             "https://png.pngtree.com/png-vector/20250321/ourmid/pngtree-businessman-analyzing-stock-market-trends-on-multiple-monitors-png-image_15809875.png", // 18. Predict
             "https://png.pngtree.com/thumb_back/fw800/background/20250710/pngtree-financial-data-analysis-with-magnifying-glass-image_17607850.webp", // 19. Confirm (Yeniden kullanılıyor)
             "https://png.pngtree.com/png-clipart/20250305/original/pngtree-cartoon-scientist-in-laboratory-with-flasks-png-image_20575712.png" // 20. Examine
         ];
 
-        // YENİ: Ünite 3 Görsel URL'leri
+        // Ünite 3 Görsel URL'leri
         const customImageUrlsUnit3 = [
             "https://png.pngtree.com/png-vector/20240603/ourmid/pngtree-sleepy-yawning-boy-cartoon-png-image_12611488.png", // 1. Signify (Esneyen çocuk yorgunluk ifade eder)
             "https://png.pngtree.com/png-vector/20250209/ourmid/pngtree-safe-full-of-gold-bars-png-image_15429890.png", // 2. Account for (Kaybolan parayı açıklamak)
@@ -630,7 +639,9 @@
             currentQuestionIndex = 0;
             correctCount = 0;
             
+            // Toplam soru sayısını ayarla
             document.getElementById('q-total').innerText = currentQuizQuestions.length;
+            
             switchScreen(quizScreen);
             showQuestion();
         }
@@ -642,10 +653,13 @@
             }
 
             const qData = currentQuizQuestions[currentQuestionIndex];
+            
+            // İlerleme ve soru numarasını güncelle
             const progress = ((currentQuestionIndex) / currentQuizQuestions.length) * 100;
             document.getElementById('quiz-bar').style.width = `${progress}%`;
+            document.getElementById('q-current').innerText = currentQuestionIndex + 1; // Hata buradaydı
+            
             document.getElementById('quiz-word-display').innerText = qData.word;
-            document.getElementById('q-current').innerText = currentQuestionIndex + 1;
             
             // Seçenekleri oluştur (1 Doğru + 3 Yanlış)
             let options = [qData.correctMeaning];
@@ -696,12 +710,14 @@
                 allOpts.forEach(o => {
                     if (o.innerText === correct) {
                          o.classList.add('correct');
-                         o.style.backgroundColor = '#d4edda'; // Hafif yeşil
-                         o.style.color = '#155724'; // Koyu yeşil
+                         // Yanlış seçildiğinde doğru cevabı hafifçe işaretle
+                         o.style.backgroundColor = '#d4edda'; 
+                         o.style.color = '#155724'; 
                     }
                 });
             }
 
+            // Sonraki soruya geç
             setTimeout(() => {
                 currentQuestionIndex++;
                 showQuestion();
@@ -709,6 +725,9 @@
         }
 
         function showResult() {
+            // İlerleme çubuğunu %100 yap
+            document.getElementById('quiz-bar').style.width = '100%'; 
+
             document.getElementById('result-score-val').innerText = `${correctCount}/${currentQuizQuestions.length}`;
             switchScreen(resultScreen);
         }
