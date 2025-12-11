@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelime Uygulaması v4 (Ünite 3 Güncellendi)</title>
+    <title>Kelime Uygulaması v4 (Hata Düzeltmeleri)</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         /* --- TEMEL AYARLAR --- */
@@ -166,7 +166,7 @@
         // 1. VERİ YÖNETİMİ (Kelimeler, Anlamlar ve Özel Cümleler)
         // ======================================================
         
-        // Ünite 1 için sağladığınız özel görsel URL'leri listesi (önceki ve yeni görseller dahil)
+        // Ünite 1 için sağladığınız özel görsel URL'leri listesi
         const customImageUrlsUnit1 = [
             // Temel fiiller (5 adet)
             "https://png.pngtree.com/thumb_back/fh260/background/20241013/pngtree-backyard-garden-trees-terrace-with-wooden-fences-cartoon-image_16384701.jpg", // hide
@@ -193,15 +193,15 @@
             "https://png.pngtree.com/png-vector/20240914/ourmid/pngtree-brain-bulb-cartoon-pictures-png-image_12910015.png", // Support
             "https://png.pngtree.com/thumb_back/fh260/background/20240429/pngtree-d-render-culture-woman-dressed-in-robes-sculpture-marble-pink-green-image_15721877.jpg", // Challenge
             "https://img.pikbest.com/wp/202346/tool-symbol-cartoon-style-3d-rendered-illustration-of-a-set-mathematical-symbols-on-background_9722866.jpg!bw700", // Derive
-            "https://img.freepik.com/premium-vector/d-stock-crypto-investment-trading-analysis-banner-growing-candlestick-chart-window_684471-168.jpg?semt=ais_hybrid&w=740&q=80", // Indicate
-            "https://png.pngtree.com/png-clipart/20240502/original/pngtree-trendy-ratio-analysis-png-image_14993144.png", // Suggest
+            "https://img.freepik.com/premium-vektor/d-stock-crypto-investment-trading-analysis-banner-growing-candlestick-chart-window_684471-168.jpg?semt=ais_hybrid&w=740&q=80", // Indicate
+            "https://png.pngtree.com/png-vector/20240122/ourmid/pngtree-d-minimal-trading-charts-stock-market-rising-stock-market-analysis-stock-png-image_11455231.png", // Suggest (Görseli değiştirdim)
             "https://png.pngtree.com/png-vector/20240122/ourmid/pngtree-d-minimal-trading-charts-stock-market-rising-stock-market-analysis-stock-png-image_11455231.png" // Conclude
         ];
 
         // Ünite 2 için sağladığınız yeni özel görsel URL'leri listesi (20 adet)
         const customImageUrlsUnit2 = [
             "https://e7.pngegg.com/pngimages/860/592/png-clipart-business-analytics-data-analysis-predictive-analytics-business-intelligence-business-people-business.png", // Perceive
-            "https://png.pngtree.com/png-clipart/20231206/original/pngtree-visible-social-media-icon-3d-render-illustration-white-background-png-image_13781410.png", // Propose
+            "https://png.pngtree.com/png-vector/20250209/ourmid/pngtree-safe-full-of-gold-bars-png-image_15429890.png", // Propose
             "https://png.pngtree.com/thumb_back/fw800/background/20250710/pngtree-financial-data-analysis-with-magnifying-glass-image_17607850.webp", // Observe
             "https://png.pngtree.com/png-vector/20190119/ourmid/pngtree-analytics-on-screen-line-filled-icon-png-image_325333.jpg", // Examine
             "https://img.freepik.com/ucretsiz-vektor/grafiklerle-is-performansi-analizi_53876-59915.jpg?semt=ais_se_enriched&w=740&q=80", // Apply
@@ -223,29 +223,55 @@
         ];
 
         // ======================================================
-        // ÜNİTE 3 KELİMELERİ (Yeni Eklenen Veri)
+        // ÜNİTE 3 KELİMELERİ (Yeni Görsel URL'leri Düzeltildi)
         // ======================================================
+        const customImageUrlsUnit3 = [
+            "https://png.pngtree.com/png-vector/20240603/ourmid/pngtree-sleepy-yawning-boy-cartoon-png-image_12611488.png", // Signify
+            "https://png.pngtree.com/png-vector/20250209/ourmid/pngtree-safe-full-of-gold-bars-png-image_15429890.png", // Account for
+            "https://png.pngtree.com/png-vector/20241016/ourmid/pngtree-crushed-car-vector-broken-illustration-png-image_14090444.png", // Assess
+            "https://png.pngtree.com/png-vector/20230728/ourlarge/pngtree-banquet-clipart-isometric-vector-family-dinner-cartoon-png-image_6798634.png", // Contribute
+            "https://media.istockphoto.com/id/1153827146/tr/vekt%C3%B6r/k%C4%B1z-yatakta-a%C3%A7%C4%B1k-kitap-ile-geceleri-uyuyan.jpg?s=612x612&w=0&k=20&c=eKspsCo5Qb3x4e70oiNDacOgtc6Fremhqi2RKqSAPAk=", // Correlate
+            "https://png.pngtree.com/png-vector/20240604/ourmid/pngtree-teapot-breakfast-flat-free-png-image_12620643.png", // Emphasize
+            "https://media.istockphoto.com/id/1314418031/vector/file-transfer-concept-yellow-folder-with-document-on-computer-monitor-3d-vector-illustration.jpg?s=612x612&w=0&k=20&c=8H3HIg4h8pH9WYSj-89c6MEAWK8P_TfaNDBozlSKlx8=", // Extract
+            "https://media.istockphoto.com/id/162238979/tr/vekt%C3%B6r/open-window.jpg?s=612x612&w=0&k=20&c=qdjyHeID6qCKPkNlPe3ouwD8Hb6K7TOMb1vMTtG1Lbk=", // Hypothesize
+            "https://png.pngtree.com/thumb_back/fh260/background/20220219/pngtree-stacked-flying-dollar-banknotes-rich-consumer-flowing-photo-image_15993028.jpg", // Justify
+            "https://png.pngtree.com/png-vector/20250506/ourmid/pngtree-opened-old-book-with-blank-pages-on-isolated-png-image_16203659.png", // Reveal
+            "https://png.pngtree.com/thumb_back/fh260/background/20230717/pngtree-sleek-memphis-inspired-interior-featuring-a-bold-deep-blue-wall-and-image_3895210.jpg", // Envisage
+            "https://img.freepik.com/premium-vektor/egzersiz-yapan-insan-grubu_18591-46577.jpg?semt=ais_hybrid&w=740&q=80", // Exclude
+            "https://png.pngtree.com/png-vector/20210810/ourmid/pngtree-mountain-climbing-concept-illustration-three-people-cooperate-to-climb-to-the-png-image_3789297.jpg", // Expend
+            "https://media.istockphoto.com/id/824045360/tr/vekt%C3%B6r/kom%C5%9Fular.jpg?s=612x612&w=0&k=20&c=543zvIyX7OOhch_6UQaO508sR2XaHOvH-okTglaiZ0M=", // Facilitate
+            // DÜZELTİLDİ: Erişilemez URL yerine yeni bir görsel
+            "https://img.freepik.com/premium-vector/crypto-price-fluctuations-chart-trading-stock-exchange-vector-illustration_687352-167.jpg?w=740&q=80", // Fluctuat (Eski: Benzin istasyonu - Hata vardı)
+            "https://media.istockphoto.com/id/1082295530/tr/vekt%C3%B6r/%C3%A7ocuk-kitapl%C4%B1%C4%9F%C4%B1nda.jpg?s=170667a&w=0&k=20&c=MHa0i8Dv7HthlUD6nYC3L300RSUAEFMJzz2-6eXFIcA=", // Foster
+            // DÜZELTİLDİ: Ses efekti yerine Küreselleşme görseli
+            "https://png.pngtree.com/png-vector/20220608/ourmid/pngtree-business-global-marketing-world-map-globe-png-image_4922579.png", // Globalize (Eski: Ses/patlama görseli)
+            "https://png.pngtree.com/png-clipart/20240625/original/pngtree-vintage-blue-car-3d-png-image_15408209.png", // Guarantee
+            "https://png.pngtree.com/png-clipart/20230914/original/pngtree-traffic-jam-vector-png-image_12146638.png", // Hinder
+            // DÜZELTİLDİ: Erişilemez URL yerine yeni bir görsel
+            "https://png.pngtree.com/png-vector/20230620/ourmid/pngtree-mystery-man-with-question-mark-in-head-png-image_7060373.png" // Imply (Eski: Kırık vazo - Hata vardı)
+        ];
+
         const unit3Words = [
-            { "en_verb": "Signify", "tr_verb": "İfade Etmek, Anlamına Gelmek", "en_sentence": "His constant yawning might {signify} that he is extremely tired after the long flight.", "tr_sentence": "Onun sürekli esnemesi, uzun uçuştan sonra aşırı yorgun olduğu anlamına gelebilir.", "image_url": "https://via.placeholder.com/400x300?text=Signify" },
-            { "en_verb": "Account for", "tr_verb": "Açıklamak, Sorumlu Olmak", "en_sentence": "Can you {account for} the missing $50 from the petty cash box?", "tr_sentence": "Küçük kasadaki eksik 50 doları açıklayabilir misin (nerede olduğunu söyleyebilir misin)?", "image_url": "https://via.placeholder.com/400x300?text=Account+for" },
-            { "en_verb": "Assess", "tr_verb": "Değer Biçmek, Değerlendirmek", "en_sentence": "We need to {assess} the damage to the car before calling the insurance company.", "tr_sentence": "Sigorta şirketini aramadan önce arabadaki hasarı değerlendirmemiz gerekiyor.", "image_url": "https://via.placeholder.com/400x300?text=Assess" },
-            { "en_verb": "Contribute", "tr_verb": "Katkıda Bulunmak", "en_sentence": "Everyone should {contribute} an item to the potluck dinner next weekend.", "tr_sentence": "Gelecek hafta sonu yapılacak ortak yemeğe herkes bir şeyler getirerek katkıda bulunmalı.", "image_url": "https://via.placeholder.com/400x300?text=Contribute" },
-            { "en_verb": "Correlate", "tr_verb": "İlişkilendirmek, Korelasyon Kurmak", "en_sentence": "We noticed that his mood often {correlate}s with how much sleep he got the previous night.", "tr_sentence": "Ruh halinin, sıklıkla bir önceki gece ne kadar uyuduğuyla ilişkili olduğunu fark ettik.", "image_url": "https://via.placeholder.com/400x300?text=Correlate" },
-            { "en_verb": "Emphasize", "tr_verb": "Vurgulamak", "en_sentence": "My mother always {emphasize}s the importance of eating breakfast every morning.", "tr_sentence": "Annem her sabah kahvaltı yapmanın önemini daima vurgular.", "image_url": "https://via.placeholder.com/400x300?text=Emphasize" },
-            { "en_verb": "Extract", "tr_verb": "Çıkarmak, Özütlemek", "en_sentence": "I need to {extract} all the necessary files from this huge zip folder before I can start working.", "tr_sentence": "Çalışmaya başlamadan önce bu büyük zip klasöründen gerekli tüm dosyaları çıkarmam gerekiyor.", "image_url": "https://via.placeholder.com/400x300?text=Extract" },
-            { "en_verb": "Hypothesize", "tr_verb": "Hipotez Kurmak", "en_sentence": "I {hypothesize} that if we leave the window open, the room will cool down faster.", "tr_sentence": "Eğer pencereyi açık bırakırsak odanın daha hızlı soğuyacağı hipotezini kuruyorum (varsayıyorum).", "image_url": "https://via.placeholder.com/400x300?text=Hypothesize" },
-            { "en_verb": "Justify", "tr_verb": "Gerekçelendirmek", "en_sentence": "You must {justify} the extra money you spent on the vacation to your parents.", "tr_sentence": "Tatilde harcadığın ekstra parayı ailene gerekçelendirmelisin (açıklamalısın).", "image_url": "https://via.placeholder.com/400x300?text=Justify" },
-            { "en_verb": "Reveal", "tr_verb": "Ortaya Çıkarmak, Açığa Vurmak", "en_sentence": "The old diary pages {reveal} a long-kept family secret after all these years.", "tr_sentence": "Eski günlük sayfaları, bunca yıl sonra uzun süredir saklanan bir aile sırrını ortaya çıkarıyor.", "image_url": "https://via.placeholder.com/400x300?text=Reveal" },
-            { "en_verb": "Envisage", "tr_verb": "Öngörmek, Zihninde Canlandırmak", "en_sentence": "I can't quite {envisage} what the living room will look like after we paint the walls dark blue.", "tr_sentence": "Duvarları koyu maviye boyadıktan sonra oturma odasının nasıl görüneceğini tam olarak öngöremiyorum (zihnimde canlandıramıyorum).", "image_url": "https://via.placeholder.com/400x300?text=Envisage" },
-            { "en_verb": "Exclude", "tr_verb": "Hariç Tutmak, Dışlamak", "en_sentence": "The new gym membership package seems to {exclude} access to the swimming pool.", "tr_sentence": "Yeni spor salonu üyeliği paketi, yüzme havuzuna erişimi hariç tutuyor (dışlıyor) gibi görünüyor.", "image_url": "https://via.placeholder.com/400x300?text=Exclude" },
-            { "en_verb": "Expend", "tr_verb": "Harcamak, Tüketmek (kaynak, zaman)", "en_sentence": "We had to {expend} most of our remaining energy just climbing the last hill.", "tr_sentence": "Kalan enerjimizin çoğunu sadece son tepeye tırmanmak için harcamak zorunda kaldık.", "image_url": "https://via.placeholder.com/400x300?text=Expend" },
-            { "en_verb": "Facilitate", "tr_verb": "Kolaylaştırmak", "en_sentence": "The new app feature will {facilitate} much faster communication between neighbors.", "tr_sentence": "Yeni uygulama özelliği, komşular arasındaki iletişimi çok daha hızlı kolaylaştıracak.", "image_url": "https://via.placeholder.com/400x300?text=Facilitate" },
-            { "en_verb": "Fluctuate", "tr_verb": "Dalgalanmak, İnip Çıkmak", "en_sentence": "The gas prices at the station {fluctuate} almost daily depending on the time of the week.", "tr_sentence": "İstasyondaki benzin fiyatları, haftanın gününe bağlı olarak neredeyse her gün dalgalanıyor.", "image_url": "https://via.placeholder.com/400x300?text=Fluctuate" },
-            { "en_verb": "Foster", "tr_verb": "Geliştirmek, Teşvik etmek, Beslemek", "en_sentence": "My parents always tried to {foster} a love of reading in us by taking us to the library.", "tr_sentence": "Ailem, bizi kütüphaneye götürerek bizde daima okuma sevgisini geliştirmeye (veya beslemeye) çalıştı.", "image_url": "https://via.placeholder.com/400x300?text=Foster" },
-            { "en_verb": "Globalize", "tr_verb": "Küreselleştirmek", "en_sentence": "The Internet continues to {globalize} trends in fashion and music more quickly than ever before.", "tr_sentence": "İnternet, moda ve müzik trendlerini daha önce hiç olmadığı kadar hızlı bir şekilde küreselleştirmeye devam ediyor.", "image_url": "https://via.placeholder.com/400x300?text=Globalize" },
-            { "en_verb": "Guarantee", "tr_verb": "Garanti Etmek", "en_sentence": "The mechanic can't {guarantee} that the old car will pass the inspection without several major repairs.", "tr_sentence": "Tamirci, eski arabanın birkaç büyük onarım olmadan muayeneden geçeceğini garanti edemez.", "image_url": "https://via.placeholder.com/400x300?text=Guarantee" },
-            { "en_verb": "Hinder", "tr_verb": "Engellemek, Önlemek", "en_sentence": "Heavy traffic and poor weather will certainly {hinder} our arrival time this evening.", "tr_sentence": "Yoğun trafik ve kötü hava, bu akşamki varış saatimizi kesinlikle engelleyecektir (veya önleyecektir).", "image_url": "https://via.placeholder.com/400x300?text=Hinder" },
-            { "en_verb": "Imply", "tr_verb": "Kastetmek, İma Etmek, Çıkarım Yapmak", "en_sentence": "His silence when I asked about the broken vase seemed to {imply} he was the one responsible.", "tr_sentence": "Kırık vazo hakkında sorduğumdaki sessizliği, sorumlu kişinin kendisi olduğunu ima ediyor gibiydi.", "image_url": "https://via.placeholder.com/400x300?text=Imply" }
+            { "en_verb": "Signify", "tr_verb": "İfade Etmek, Anlamına Gelmek", "en_sentence": "His constant yawning might {signify} that he is extremely tired after the long flight.", "tr_sentence": "Onun sürekli esnemesi, uzun uçuştan sonra aşırı yorgun olduğu anlamına gelebilir.", "image_url": customImageUrlsUnit3[0] },
+            { "en_verb": "Account for", "tr_verb": "Açıklamak, Sorumlu Olmak", "en_sentence": "Can you {account for} the missing $50 from the petty cash box?", "tr_sentence": "Küçük kasadaki eksik 50 doları açıklayabilir misin (nerede olduğunu söyleyebilir misin)?", "image_url": customImageUrlsUnit3[1] },
+            { "en_verb": "Assess", "tr_verb": "Değer Biçmek, Değerlendirmek", "en_sentence": "We need to {assess} the damage to the car before calling the insurance company.", "tr_sentence": "Sigorta şirketini aramadan önce arabadaki hasarı değerlendirmemiz gerekiyor.", "image_url": customImageUrlsUnit3[2] },
+            { "en_verb": "Contribute", "tr_verb": "Katkıda Bulunmak", "en_sentence": "Everyone should {contribute} an item to the potluck dinner next weekend.", "tr_sentence": "Gelecek hafta sonu yapılacak ortak yemeğe herkes bir şeyler getirerek katkıda bulunmalı.", "image_url": customImageUrlsUnit3[3] },
+            { "en_verb": "Correlate", "tr_verb": "İlişkilendirmek, Korelasyon Kurmak", "en_sentence": "We noticed that his mood often {correlate}s with how much sleep he got the previous night.", "tr_sentence": "Ruh halinin, sıklıkla bir önceki gece ne kadar uyuduğuyla ilişkili olduğunu fark ettik.", "image_url": customImageUrlsUnit3[4] },
+            { "en_verb": "Emphasize", "tr_verb": "Vurgulamak", "en_sentence": "My mother always {emphasize}s the importance of eating breakfast every morning.", "tr_sentence": "Annem her sabah kahvaltı yapmanın önemini daima vurgular.", "image_url": customImageUrlsUnit3[5] },
+            { "en_verb": "Extract", "tr_verb": "Çıkarmak, Özütlemek", "en_sentence": "I need to {extract} all the necessary files from this huge zip folder before I can start working.", "tr_sentence": "Çalışmaya başlamadan önce bu büyük zip klasöründen gerekli tüm dosyaları çıkarmam gerekiyor.", "image_url": customImageUrlsUnit3[6] },
+            { "en_verb": "Hypothesize", "tr_verb": "Hipotez Kurmak", "en_sentence": "I {hypothesize} that if we leave the window open, the room will cool down faster.", "tr_sentence": "Eğer pencereyi açık bırakırsak odanın daha hızlı soğuyacağı hipotezini kuruyorum (varsayıyorum).", "image_url": customImageUrlsUnit3[7] },
+            { "en_verb": "Justify", "tr_verb": "Gerekçelendirmek", "en_sentence": "You must {justify} the extra money you spent on the vacation to your parents.", "tr_sentence": "Tatilde harcadığın ekstra parayı ailene gerekçelendirmelisin (açıklamalısın).", "image_url": customImageUrlsUnit3[8] },
+            { "en_verb": "Reveal", "tr_verb": "Ortaya Çıkarmak, Açığa Vurmak", "en_sentence": "The old diary pages {reveal} a long-kept family secret after all these years.", "tr_sentence": "Eski günlük sayfaları, bunca yıl sonra uzun süredir saklanan bir aile sırrını ortaya çıkarıyor.", "image_url": customImageUrlsUnit3[9] },
+            { "en_verb": "Envisage", "tr_verb": "Öngörmek, Zihninde Canlandırmak", "en_sentence": "I can't quite {envisage} what the living room will look like after we paint the walls dark blue.", "tr_sentence": "Duvarları koyu maviye boyadıktan sonra oturma odasının nasıl görüneceğini tam olarak öngöremiyorum (zihnimde canlandıramıyorum).", "image_url": customImageUrlsUnit3[10] },
+            { "en_verb": "Exclude", "tr_verb": "Hariç Tutmak, Dışlamak", "en_sentence": "The new gym membership package seems to {exclude} access to the swimming pool.", "tr_sentence": "Yeni spor salonu üyeliği paketi, yüzme havuzuna erişimi hariç tutuyor (dışlıyor) gibi görünüyor.", "image_url": customImageUrlsUnit3[11] },
+            { "en_verb": "Expend", "tr_verb": "Harcamak, Tüketmek (kaynak, zaman)", "en_sentence": "We had to {expend} most of our remaining energy just climbing the last hill.", "tr_sentence": "Kalan enerjimizin çoğunu sadece son tepeye tırmanmak için harcamak zorunda kaldık.", "image_url": customImageUrlsUnit3[12] },
+            { "en_verb": "Facilitate", "tr_verb": "Kolaylaştırmak", "en_sentence": "The new app feature will {facilitate} much faster communication between neighbors.", "tr_sentence": "Yeni uygulama özelliği, komşular arasındaki iletişimi çok daha hızlı kolaylaştıracak.", "image_url": customImageUrlsUnit3[13] },
+            { "en_verb": "Fluctuate", "tr_verb": "Dalgalanmak, İnip Çıkmak", "en_sentence": "The gas prices at the station {fluctuate} almost daily depending on the time of the week.", "tr_sentence": "İstasyondaki benzin fiyatları, haftanın gününe bağlı olarak neredeyse her gün dalgalanıyor.", "image_url": customImageUrlsUnit3[14] },
+            { "en_verb": "Foster", "tr_verb": "Geliştirmek, Teşvik etmek, Beslemek", "en_sentence": "My parents always tried to {foster} a love of reading in us by taking us to the library.", "tr_sentence": "Ailem, bizi kütüphaneye götürerek bizde daima okuma sevgisini geliştirmeye (veya beslemeye) çalıştı.", "image_url": customImageUrlsUnit3[15] },
+            { "en_verb": "Globalize", "tr_verb": "Küreselleştirmek", "en_sentence": "The Internet continues to {globalize} trends in fashion and music more quickly than ever before.", "tr_sentence": "İnternet, moda ve müzik trendlerini daha önce hiç olmadığı kadar hızlı bir şekilde küreselleştirmeye devam ediyor.", "image_url": customImageUrlsUnit3[16] },
+            { "en_verb": "Guarantee", "tr_verb": "Garanti Etmek", "en_sentence": "The mechanic can't {guarantee} that the old car will pass the inspection without several major repairs.", "tr_sentence": "Tamirci, eski arabanın birkaç büyük onarım olmadan muayeneden geçeceğini garanti edemez.", "image_url": customImageUrlsUnit3[17] },
+            { "en_verb": "Hinder", "tr_verb": "Engellemek, Önlemek", "en_sentence": "Heavy traffic and poor weather will certainly {hinder} our arrival time this evening.", "tr_sentence": "Yoğun trafik ve kötü hava, bu akşamki varış saatimizi kesinlikle engelleyecektir (veya önleyecektir).", "image_url": customImageUrlsUnit3[18] },
+            { "en_verb": "Imply", "tr_verb": "Kastetmek, İma Etmek, Çıkarım Yapmak", "en_sentence": "His silence when I asked about the broken vase seemed to {imply} he was the one responsible.", "tr_sentence": "Kırık vazo hakkında sorduğumdaki sessizliği, sorumlu kişinin kendisi olduğunu ima ediyor gibiydi.", "image_url": customImageUrlsUnit3[19] }
         ];
 
         // Kelimeler ve Cümleler, şimdi görsel URL'leri ile eşleştiriliyor.
@@ -261,66 +287,64 @@
         const academicWordsUnit1 = [
             { en_verb: "Analyze", tr_verb: "Analiz Etmek", en_sentence: "The research aims to {analyze} the impact of climate change on coastal biodiversity over the last decade.", tr_sentence: "Araştırma, son on yılda iklim değişikliğinin kıyı biyoçeşitliliği üzerindeki etkisini analiz etmeyi amaçlamaktadır.", image_url: customImageUrlsUnit1[5] },
             { en_verb: "Identify", tr_verb: "Tanımlamak, Belirlemek", en_sentence: "Researchers were able to {identify} a clear correlation between screen time and reduced attention spans in adolescents.", tr_sentence: "Araştırmacılar, ergenlerde ekran süresi ile azalan dikkat süreleri arasında açık bir korelasyonu tanımlayabildiler.", image_url: customImageUrlsUnit1[6] },
-            { en_verb: "Determine", tr_verb: "Saptamak, Karar Vermek", en_sentence: "A detailed regression model was employed to {determine} the primary factors influencing consumer behavior.", tr_sentence: "Tüketici davranışlarını etkileyen temel faktörleri saptamak için ayrıntılı bir regresyon modeli kullanıldı.", image_url: customImageUrlsUnit1[7] },
-            { en_verb: "Establish", tr_verb: "Kurmak, Oluşturmak, Saptamak", en_sentence: "The study sought to {establish} a causal link between the new policy and the increase in unemployment rates.", tr_sentence: "Çalışma, yeni politika ile artan işsizlik oranları arasında nedensel bir bağlantı kurmayı amaçladı.", image_url: customImageUrlsUnit1[8] },
-            { en_verb: "Investigate", tr_verb: "Araştırmak, İncelemek", en_sentence: "This paper will {investigate} the theoretical underpinnings of quantum entanglement in physics.", tr_sentence: "Bu makale, fizikteki kuantum dolanıklığının teorik temellerini araştırmaktadır.", image_url: customImageUrlsUnit1[9] },
-            { en_verb: "Illustrate", tr_verb: "Örneklemek, Açıklamak", en_sentence: "Figure 3 effectively {illustrate} the exponential growth curve observed in the experimental data.", tr_sentence: "Şekil 3, deneysel verilerde gözlemlenen üstel büyüme eğrisini etkili bir şekilde örneklemektedir.", image_url: customImageUrlsUnit1[10] },
-            { en_verb: "Demonstrate", tr_verb: "Göstermek, Kanıtlamak", en_sentence: "The results {demonstrate} that the novel therapeutic compound significantly inhibits viral replication.", tr_sentence: "Sonuçlar, yeni terapötik bileşiğin viral çoğalmayı önemli ölçüde engellediğini göstermektedir.", image_url: customImageUrlsUnit1[11] },
-            { en_verb: "Evaluate", tr_verb: "Değerlendirmek", en_sentence: "The committee must {evaluate} the long-term sustainability of the proposed infrastructure project.", tr_sentence: "Komite, önerilen altyapı projesinin uzun vadeli sürdürülebilirliğini değerlendirmelidir.", image_url: customImageUrlsUnit1[12] },
-            { en_verb: "Synthesize", tr_verb: "Sentezlemek", en_sentence: "The chapter attempts to {synthesize} disparate findings from various subfields into a coherent framework.", tr_sentence: "Bölüm, çeşitli alt alanlardan gelen farklı bulguları tutarlı bir çerçevede sentezlemeye çalışmaktadır.", image_url: customImageUrlsUnit1[13] },
-            { en_verb: "Formulate", tr_verb: "Formüle Etmek, Geliştirmek", en_sentence: "We need to {formulate} a robust hypothesis before commencing the data collection phase of the research.", tr_sentence: "Araştırmanın veri toplama aşamasına başlamadan önce sağlam bir hipotez formüle etmemiz gerekiyor.", image_url: customImageUrlsUnit1[14] },
-            { en_verb: "Define", tr_verb: "Tanımlamak", en_sentence: "The initial section of the thesis must clearly {define} the scope and key terminology used throughout the study.", tr_sentence: "Tezin ilk bölümü, çalışma boyunca kullanılan kapsamı ve temel terminolojiyi açıkça tanımlamalıdır.", image_url: customImageUrlsUnit1[15] },
-            { en_verb: "Compare", tr_verb: "Karşılaştırmak", en_sentence: "The methodology requires us to {compare} the performance of the traditional algorithm with the machine learning approach.", tr_sentence: "Metodoloji, geleneksel algoritmanın performansını makine öğrenimi yaklaşımıyla karşılaştırmamızı gerektirmektedir.", image_url: customImageUrlsUnit1[16] },
-            { en_verb: "Contrast", tr_verb: "Karşıtlık Kurmak, Farklılıkları Belirtmek", en_sentence: "This essay will {contrast} the economic policies of the two major political parties during the recent financial crisis.", tr_sentence: "Bu deneme, son mali kriz sırasındaki iki büyük siyasi partinin ekonomi politikalarını karşılaştırarak farklılıklarını belirtecektir.", image_url: customImageUrlsUnit1[17] },
-            { en_verb: "Argue", tr_verb: "Tartışmak, İddia Etmek", en_sentence: "The author of the journal article {argues} convincingly for a shift towards renewable energy sources.", tr_sentence: "Dergi makalesinin yazarı, yenilenebilir enerji kaynaklarına geçiş lehine ikna edici bir şekilde iddiaya etmektedir.", image_url: customImageUrlsUnit1[18] },
-            { en_verb: "Support", tr_verb: "Desteklemek", en_sentence: "Numerous empirical studies {support} the theory that early intervention improves educational outcomes.", tr_sentence: "Çok sayıda ampirik çalışma, erken müdahalenin eğitim sonuçlarını iyileştirdiği teorisini desteklemektedir.", image_url: customImageUrlsUnit1[19] },
-            { en_verb: "Challenge", tr_verb: "Sorgulamak, Meydan Okumak", en_sentence: "Recent archaeological findings {challenge} the long-held assumption regarding the timeline of the ancient civilization.", tr_sentence: "Son arkeolojik bulgular, kadim uygarlğın zaman çizelgesi hakkındaki köklü varsayımı sorgulamaktadır.", image_url: customImageUrlsUnit1[20] },
-            { en_verb: "Derive", tr_verb: "Türetmek, Elde Etmek", en_sentence: "The mathematical model allows us to {derive} an equation predicting the future state of the system.", tr_sentence: "Matematiksel model, sistemin gelecekteki durumunu tahmin eden bir denklemi türetmemizi sağlamaktadır.", image_url: customImageUrlsUnit1[21] },
-            { en_verb: "Indicate", tr_verb: "İşaret Etmek, Göstermek", en_sentence: "The preliminary data {indicate} a significant outlier that requires further examination.", tr_sentence: "Ön veriler, daha fazla inceleme gerektiren önemli bir aykırı değere işaret etmektedir.", image_url: customImageUrlsUnit1[22] },
-            { en_verb: "Suggest", tr_verb: "Öne Sürmek, Önermek", en_sentence: "Based on the qualitative interviews, the data {suggest} a correlation, though not a definitive causation.", tr_sentence: "Nitel görüşmelere dayanarak, veriler kesin bir nedensellik olmasa da bir korelasyon öne sürmektedir.", image_url: customImageUrlsUnit1[23] },
-            { en_verb: "Conclude", tr_verb: "Sonuçlandırmak", en_sentence: "In light of the evidence, the study must {conclude} that the intervention had a negligible effect.", tr_sentence: "Kanıtlar ışığında, çalışma müdahalenin ihmal edilebilir bir etkiye sahip olduğu sonucuna varmalıdır.", image_url: customImageUrlsUnit1[24] }
+            { en_verb: "Determine", tr_verb: "Saptamak, Karar Vermek", en_sentence: "A detailed regression model was employed to {determine} the primary factors influencing consumer behavior.", tr_sentence": "Tüketici davranışlarını etkileyen temel faktörleri saptamak için ayrıntılı bir regresyon modeli kullanıldı.", image_url: customImageUrlsUnit1[7] },
+            { en_verb: "Establish", tr_verb: "Kurmak, Oluşturmak, Saptamak", en_sentence": "The study sought to {establish} a causal link between the new policy and the increase in unemployment rates.", tr_sentence": "Çalışma, yeni politika ile artan işsizlik oranları arasında nedensel bir bağlantı kurmayı amaçladı.", image_url: customImageUrlsUnit1[8] },
+            { en_verb: "Investigate", tr_verb: "Araştırmak, İncelemek", en_sentence": "This paper will {investigate} the theoretical underpinnings of quantum entanglement in physics.", tr_sentence": "Bu makale, fizikteki kuantum dolanıklığının teorik temellerini araştırmaktadır.", image_url: customImageUrlsUnit1[9] },
+            { en_verb: "Illustrate", tr_verb: "Örneklemek, Açıklamak", en_sentence": "Figure 3 effectively {illustrate} the exponential growth curve observed in the experimental data.", tr_sentence": "Şekil 3, deneysel verilerde gözlemlenen üstel büyüme eğrisini etkili bir şekilde örneklemektedir.", image_url: customImageUrlsUnit1[10] },
+            { en_verb: "Demonstrate", tr_verb: "Göstermek, Kanıtlamak", en_sentence": "The results {demonstrate} that the novel therapeutic compound significantly inhibits viral replication.", tr_sentence": "Sonuçlar, yeni terapötik bileşiğin viral çoğalmayı önemli ölçüde engellediğini göstermektedir.", image_url: customImageUrlsUnit1[11] },
+            { en_verb: "Evaluate", tr_verb: "Değerlendirmek", en_sentence": "The committee must {evaluate} the long-term sustainability of the proposed infrastructure project.", tr_sentence": "Komite, önerilen altyapı projesinin uzun vadeli sürdürülebilirliğini değerlendirmelidir.", image_url: customImageUrlsUnit1[12] },
+            { en_verb: "Synthesize", tr_verb: "Sentezlemek", en_sentence": "The chapter attempts to {synthesize} disparate findings from various subfields into a coherent framework.", tr_sentence": "Bölüm, çeşitli alt alanlardan gelen farklı bulguları tutarlı bir çerçevede sentezlemeye çalışmaktadır.", image_url: customImageUrlsUnit1[13] },
+            { en_verb: "Formulate", tr_verb: "Formüle Etmek, Geliştirmek", en_sentence": "We need to {formulate} a robust hypothesis before commencing the data collection phase of the research.", tr_sentence": "Araştırmanın veri toplama aşamasına başlamadan önce sağlam bir hipotez formüle etmemiz gerekiyor.", image_url: customImageUrlsUnit1[14] },
+            { en_verb: "Define", tr_verb: "Tanımlamak", en_sentence": "The initial section of the thesis must clearly {define} the scope and key terminology used throughout the study.", tr_sentence": "Tezin ilk bölümü, çalışma boyunca kullanılan kapsamı ve temel terminolojiyi açıkça tanımlamalıdır.", image_url: customImageUrlsUnit1[15] },
+            { en_verb: "Compare", tr_verb: "Karşılaştırmak", en_sentence": "The methodology requires us to {compare} the performance of the traditional algorithm with the machine learning approach.", tr_sentence": "Metodoloji, geleneksel algoritmanın performansını makine öğrenimi yaklaşımıyla karşılaştırmamızı gerektirmektedir.", image_url: customImageUrlsUnit1[16] },
+            { en_verb: "Contrast", tr_verb: "Karşıtlık Kurmak, Farklılıkları Belirtmek", en_sentence": "This essay will {contrast} the economic policies of the two major political parties during the recent financial crisis.", tr_sentence": "Bu deneme, son mali kriz sırasındaki iki büyük siyasi partinin ekonomi politikalarını karşılaştırarak farklılıklarını belirtecektir.", image_url: customImageUrlsUnit1[17] },
+            { en_verb: "Argue", tr_verb: "Tartışmak, İddia Etmek", en_sentence": "The author of the journal article {argues} convincingly for a shift towards renewable energy sources.", tr_sentence": "Dergi makalesinin yazarı, yenilenebilir enerji kaynaklarına geçiş lehine ikna edici bir şekilde iddiaya etmektedir.", image_url: customImageUrlsUnit1[18] },
+            { en_verb: "Support", tr_verb: "Desteklemek", en_sentence": "Numerous empirical studies {support} the theory that early intervention improves educational outcomes.", tr_sentence": "Çok sayıda ampirik çalışma, erken müdahalenin eğitim sonuçlarını desteklemektedir.", image_url: customImageUrlsUnit1[19] },
+            { en_verb: "Challenge", tr_verb: "Sorgulamak, Meydan Okumak", en_sentence": "Recent archaeological findings {challenge} the long-held assumption regarding the timeline of the ancient civilization.", tr_sentence": "Son arkeolojik bulgular, kadim uygarlğın zaman çizelgesi hakkındaki köklü varsayımı sorgulamaktadır.", image_url: customImageUrlsUnit1[20] },
+            { en_verb: "Derive", tr_verb: "Türetmek, Elde Etmek", en_sentence": "The mathematical model allows us to {derive} an equation predicting the future state of the system.", tr_sentence": "Matematiksel model, sistemin gelecekteki durumunu tahmin eden bir denklemi türetmemizi sağlamaktadır.", image_url: customImageUrlsUnit1[21] },
+            { en_verb: "Indicate", tr_verb: "İşaret Etmek, Göstermek", en_sentence": "The preliminary data {indicate} a significant outlier that requires further examination.", tr_sentence": "Ön veriler, daha fazla inceleme gerektiren önemli bir aykırı değere işaret etmektedir.", image_url: customImageUrlsUnit1[22] },
+            { en_verb: "Suggest", tr_verb: "Öne Sürmek, Önermek", en_sentence": "Based on the qualitative interviews, the data {suggest} a correlation, though not a definitive causation.", tr_sentence": "Nitel görüşmelere dayanarak, veriler kesin bir nedensellik olmasa da bir korelasyon öne sürmektedir.", image_url: customImageUrlsUnit1[23] },
+            { en_verb: "Conclude", tr_verb: "Sonuçlandırmak", en_sentence": "In light of the evidence, the study must {conclude} that the intervention had a negligible effect.", tr_sentence": "Kanıtlar ışığında, çalışma müdahalenin ihmal edilebilir bir etkiye sahip olduğu sonucuna varmalıdır.", image_url: customImageUrlsUnit1[24] }
         ];
         
         // ======================================================
         // ÜNİTE 2 KELİMELERİ (Güncel)
         // ======================================================
         const unit2Words = [
-             { en_verb: "Perceive", tr_verb: "Algılamak", en_sentence: "The study investigates how students {perceive} the fairness of the new grading system.", tr_sentence: "Çalışma, öğrencilerin yeni notlandırma sisteminin adilliğini nasıl algıladığını araştırmaktadır.", image_url: customImageUrlsUnit2[0] },
-             { en_verb: "Propose", tr_verb: "Teklif Etmek, Önermek", en_sentence: "Chapter four will {propose} a novel framework for analyzing social media discourse.", tr_sentence: "Dördüncü bölüm, sosyal medya söylemini analiz etmek için yeni bir çerçeve önerecektir.", image_url: customImageUrlsUnit2[1] },
-             { en_verb: "Observe", tr_verb: "Gözlemlemek", en_sentence: "We were able to {observe} statistically significant differences between the two treatment groups.", tr_sentence: "İki tedavi grubu arasında istatistiksel olarak anlamlı farklılıklar gözlemleyebildik.", image_url: customImageUrlsUnit2[2] },
-             { en_verb: "Examine", tr_verb: "İncelemek, Muayene Etmek", en_sentence: "The following section will {examine} the historical context that led to the policy implementation.", tr_sentence: "Aşağıdaki bölüm, politikanın uygulanmasına yol açan tarihsel bağlamı inceleyecektir.", image_url: customImageUrlsUnit2[3] },
-             { en_verb: "Apply", tr_verb: "Uygulamak", en_sentence: "This methodology allows us to {apply} the theoretical findings to real-world economic models.", tr_sentence: "Bu metodoloji, teorik bulguları gerçek dünya ekonomik modellerine uygulamamıza olanak tanır.", image_url: customImageUrlsUnit2[4] },
-             { en_verb: "Implement", tr_verb: "Uygulamaya Koymak", en_sentence: "The findings suggest that the government should {implement} stricter environmental regulations immediately.", tr_sentence: "Bulgular, hükümetin daha katı çevre düzenlemelerini derhal uygulamaya koyması gerektiğini öne sürmektedir.", image_url: customImageUrlsUnit2[5] },
-             { en_verb: "Reflect", tr_verb: "Yansıtmak, Düşünmek", en_sentence: "The survey results clearly {reflect} the public's growing dissatisfaction with public services.", tr_sentence: "Anket sonuçları, halkın kamu hizmetlerinden artan hoşnutsuzluğunu açıkça yansıtmaktadır.", image_url: customImageUrlsUnit2[6] },
-             { en_verb: "Relate", tr_verb: "İlişkilendirmek", en_sentence: "Researchers need to {relate} the frequency of the occurrence to the changes in atmospheric pressure.", tr_sentence: "Araştırmacıların olayın sıklığını atmosfer basıncındaki değişikliklerle ilişkilendirmesi gerekmektedir.", image_url: customImageUrlsUnit2[7] },
-             { en_verb: "Discuss", tr_verb: "Tartışmak", en_sentence: "The literature review will {discuss} key theories that underpin the concept of cultural capital.", tr_sentence: "Literatür taraması, kültürel sermaye kavramını destekleyen temel teorileri tartışacaktır.", image_url: customImageUrlsUnit2[8] },
-             { en_verb: "Differentiate", tr_verb: "Ayırt Etmek, Farklılaştırmak", en_sentence: "It is crucial to {differentiate} between correlation and causation when interpreting complex data sets.", tr_sentence: "Karmaşık veri setlerini yorumlarken korelasyon ve nedensellik arasında ayırt etmek çok önemlidir.", image_url: customImageUrlsUnit2[9] },
-             { en_verb: "Validate", tr_verb: "Doğrulamak, Onaylamak", en_sentence: "Further testing is required to {validate} the reliability of the new diagnostic tool.", tr_sentence: "Yeni teşhis aracının güvenilirliğini doğrulamak için ek testler gereklidir.", image_url: customImageUrlsUnit2[10] },
-             { en_verb: "Generate", tr_verb: "Üretmek, Oluşturmak", en_sentence: "The computational model was successful in {generate} a variety of plausible future scenarios.", tr_sentence: "Hesaplama modeli, çeşitli makul gelecek senaryoları üretmede başarılı oldu.", image_url: customImageUrlsUnit2[11] },
-             { en_verb: "Evolve", tr_verb: "Gelişmek, Evrilmek", en_sentence: "Research methodologies continue to {evolve} rapidly, necessitating constant professional training.", tr_sentence: "Araştırma metodolojileri hızla gelişmeye devam etmekte, bu da sürekli mesleki eğitimi zorunlu kılmaktadır.", image_url: customImageUrlsUnit2[12] },
-             { en_verb: "Comprise", tr_verb: "İçermek, Kapsamak", en_sentence: "The final sample {comprise} participants from six different socioeconomic backgrounds.", tr_sentence: "Nihai örneklem, altı farklı sosyoekonomik geçmişten katılımcıları içermektedir.", image_url: customImageUrlsUnit2[13] },
-             { en_verb: "Precede", tr_verb: "Önce Gelmek", en_sentence: "The theoretical discussion must {precede} the presentation of the empirical data for better context.", tr_sentence: "Daha iyi bir bağlam için, teorik tartışma ampirik verilerin sunulmasından önce gelmelidir.", image_url: customImageUrlsUnit2[14] },
-             { en_verb: "Succeed", tr_verb: "Başarılı Olmak, Yerine Geçmek", en_sentence: "Dr. Elmas will {succeed} Professor Kaya as the head of the department next semester.", tr_sentence: "Dr. Elmas, gelecek dönem bölüm başkanı olarak Profesör Kaya'nın yerine geçecektir.", image_url: customImageUrlsUnit2[15] },
-             { en_verb: "Cite", tr_verb: "Alıntı Yapmak", en_sentence: "Students must {cite} all external sources accurately to avoid plagiarism in their essays.", tr_sentence: "Öğrenciler, makalelerinde intihali önlemek için tüm harici kaynaklardan doğru bir şekilde alıntı yapmak zorundadır.", image_url: customImageUrlsUnit2[16] },
-             { en_verb: "Integrate", tr_verb: "Bütünleştirmek", en_sentence: "The project aims to {integrate} machine learning algorithms into the existing data processing pipeline.", tr_sentence: "Proje, makine öğrenimi algoritmalarını mevcut veri işleme hattına bütünleştirmeyi amaçlamaktadır.", image_url: customImageUrlsUnit2[17] },
-             { en_verb: "Modify", tr_verb: "Değiştirmek, Uyarlamak", en_sentence: "It was necessary to {modify} the original experimental design based on the pilot study results.", tr_sentence: "Pilot çalışma sonuçlarına dayanarak orijinal deneysel tasarımı değiştirmek gerekliydi.", image_url: customImageUrlsUnit2[18] },
-             { en_verb: "Replicate", tr_verb: "Tekrarlamak, Çoğaltmak", en_sentence: "The core challenge is whether other laboratories can successfully {replicate} these findings independently.", tr_sentence: "Temel zorluk, diğer laboratuvarların bu bulguları bağımsız olarak başarıyla tekrarlayıp çoğaltamayacağıdır.", image_url: customImageUrlsUnit2[19] }
+             { en_verb: "Perceive", tr_verb: "Algılamak", en_sentence: "The study investigates how students {perceive} the fairness of the new grading system.", tr_sentence": "Çalışma, öğrencilerin yeni notlandırma sisteminin adilliğini nasıl algıladığını araştırmaktadır.", image_url: customImageUrlsUnit2[0] },
+             { en_verb: "Propose", tr_verb: "Teklif Etmek, Önermek", en_sentence": "Chapter four will {propose} a novel framework for analyzing social media discourse.", tr_sentence": "Dördüncü bölüm, sosyal medya söylemini analiz etmek için yeni bir çerçeve önerecektir.", image_url: customImageUrlsUnit2[1] },
+             { en_verb: "Observe", tr_verb: "Gözlemlemek", en_sentence": "We were able to {observe} statistically significant differences between the two treatment groups.", tr_sentence": "İki tedavi grubu arasında istatistiksel olarak anlamlı farklılıklar gözlemleyebildik.", image_url: customImageUrlsUnit2[2] },
+             { en_verb: "Examine", tr_verb: "İncelemek, Muayene Etmek", en_sentence": "The following section will {examine} the historical context that led to the policy implementation.", tr_sentence": "Aşağıdaki bölüm, politikanın uygulanmasına yol açan tarihsel bağlamı inceleyecektir.", image_url: customImageUrlsUnit2[3] },
+             { en_verb: "Apply", tr_verb: "Uygulamak", en_sentence": "This methodology allows us to {apply} the theoretical findings to real-world economic models.", tr_sentence": "Bu metodoloji, teorik bulguları gerçek dünya ekonomik modellerine uygulamamıza olanak tanır.", image_url: customImageUrlsUnit2[4] },
+             { en_verb: "Implement", tr_verb: "Uygulamaya Koymak", en_sentence": "The findings suggest that the government should {implement} stricter environmental regulations immediately.", tr_sentence": "Bulgular, hükümetin daha katı çevre düzenlemelerini derhal uygulamaya koyması gerektiğini öne sürmektedir.", image_url: customImageUrlsUnit2[5] },
+             { en_verb: "Reflect", tr_verb: "Yansıtmak, Düşünmek", en_sentence": "The survey results clearly {reflect} the public's growing dissatisfaction with public services.", tr_sentence": "Anket sonuçları, halkın kamu hizmetlerinden artan hoşnutsuzluğunu açıkça yansıtmaktadır.", image_url: customImageUrlsUnit2[6] },
+             { en_verb: "Relate", tr_verb: "İlişkilendirmek", en_sentence": "Researchers need to {relate} the frequency of the occurrence to the changes in atmospheric pressure.", tr_sentence": "Araştırmacıların olayın sıklığını atmosfer basıncındaki değişikliklerle ilişkilendirmesi gerekmektedir.", image_url: customImageUrlsUnit2[7] },
+             { en_verb: "Discuss", tr_verb: "Tartışmak", en_sentence": "The literature review will {discuss} key theories that underpin the concept of cultural capital.", tr_sentence": "Literatür taraması, kültürel sermaye kavramını destekleyen temel teorileri tartışacaktır.", image_url: customImageUrlsUnit2[8] },
+             { en_verb: "Differentiate", tr_verb: "Ayırt Etmek, Farklılaştırmak", en_sentence": "It is crucial to {differentiate} between correlation and causation when interpreting complex data sets.", tr_sentence": "Karmaşık veri setlerini yorumlarken korelasyon ve nedensellik arasında ayırt etmek çok önemlidir.", image_url: customImageUrlsUnit2[9] },
+             { en_verb: "Validate", tr_verb: "Doğrulamak, Onaylamak", en_sentence": "Further testing is required to {validate} the reliability of the new diagnostic tool.", tr_sentence": "Yeni teşhis aracının güvenilirliğini doğrulamak için ek testler gereklidir.", image_url: customImageUrlsUnit2[10] },
+             { en_verb: "Generate", tr_verb: "Üretmek, Oluşturmak", en_sentence": "The computational model was successful in {generate} a variety of plausible future scenarios.", tr_sentence": "Hesaplama modeli, çeşitli makul gelecek senaryoları üretmede başarılı oldu.", image_url: customImageUrlsUnit2[11] },
+             { en_verb: "Evolve", tr_verb: "Gelişmek, Evrilmek", en_sentence": "Research methodologies continue to {evolve} rapidly, necessitating constant professional training.", tr_sentence": "Araştırma metodolojileri hızla gelişmeye devam etmekte, bu da sürekli mesleki eğitimi zorunlu kılmaktadır.", image_url: customImageUrlsUnit2[12] },
+             { en_verb: "Comprise", tr_verb: "İçermek, Kapsamak", en_sentence": "The final sample {comprise} participants from six different socioeconomic backgrounds.", tr_sentence": "Nihai örneklem, altı farklı sosyoekonomik geçmişten katılımcıları içermektedir.", image_url: customImageUrlsUnit2[13] },
+             { en_verb: "Precede", tr_verb: "Önce Gelmek", en_sentence": "The theoretical discussion must {precede} the presentation of the empirical data for better context.", tr_sentence": "Daha iyi bir bağlam için, teorik tartışma ampirik verilerin sunulmasından önce gelmelidir.", image_url: customImageUrlsUnit2[14] },
+             { en_verb: "Succeed", tr_verb: "Başarılı Olmak, Yerine Geçmek", en_sentence": "Dr. Elmas will {succeed} Professor Kaya as the head of the department next semester.", tr_sentence": "Dr. Elmas, gelecek dönem bölüm başkanı olarak Profesör Kaya'nın yerine geçecektir.", image_url: customImageUrlsUnit2[15] },
+             { en_verb: "Cite", tr_verb: "Alıntı Yapmak", en_sentence": "Students must {cite} all external sources accurately to avoid plagiarism in their essays.", tr_sentence": "Öğrenciler, makalelerinde intihali önlemek için tüm harici kaynaklardan doğru bir şekilde alıntı yapmak zorundadır.", image_url: customImageUrlsUnit2[16] },
+             { en_verb: "Integrate", tr_verb: "Bütünleştirmek", en_sentence": "The project aims to {integrate} machine learning algorithms into the existing data processing pipeline.", tr_sentence": "Proje, makine öğrenimi algoritmalarını mevcut veri işleme hattına bütünleştirmeyi amaçlamaktadır.", image_url: customImageUrlsUnit2[17] },
+             { en_verb: "Modify", tr_verb: "Değiştirmek, Uyarlamak", en_sentence": "It was necessary to {modify} the original experimental design based on the pilot study results.", tr_sentence": "Pilot çalışma sonuçlarına dayanarak orijinal deneysel tasarımı değiştirmek gerekliydi.", image_url: customImageUrlsUnit2[18] },
+             { en_verb: "Replicate", tr_verb: "Tekrarlamak, Çoğaltmak", en_sentence": "The core challenge is whether other laboratories can successfully {replicate} these findings independently.", tr_sentence": "Temel zorluk, diğer laboratuvarların bu bulguları bağımsız olarak başarıyla tekrarlayıp çoğaltamayacağıdır.", image_url: customImageUrlsUnit2[19] }
         ];
 
 
-        // Tüm kelime verilerini tek bir yerde toplama
         const allWordsData = [...baseVerbs, ...academicWordsUnit1, ...unit2Words, ...unit3Words];
 
         const unitDatabase = {
             1: [...baseVerbs, ...academicWordsUnit1].map(item => [item.en_verb, item.tr_verb]),
             2: unit2Words.map(item => [item.en_verb, item.tr_verb]), 
-            3: unit3Words.map(item => [item.en_verb, item.tr_verb]), // Yeni Ünite 3
-            // Diğer demo üniteler ve sahte veriler korunmuştur.
+            3: unit3Words.map(item => [item.en_verb, item.tr_verb]), 
             4: [["computer", "bilgisayar"], ["phone", "telefon"], ["camera", "kamera"], ["robot", "robot"], ["screen", "ekran"]],
         };
 
         // Demo Amaçlı: Boş üniteleri sahte veriyle dolduralım ki liste dolu görünsün
-        for (let i = 4; i <= 20; i++) { // 4'ten başlayarak demo verisi ekliyoruz
+        for (let i = 4; i <= 20; i++) { 
             if (!unitDatabase[i]) {
                 unitDatabase[i] = [
                     ["example", "örnek"],
@@ -348,7 +372,7 @@
 
 
         // ======================================================        
-        // 2. İÇERİK OLUŞTURUCU (SADELEŞTİRİLMİŞ)
+        // 2. İÇERİK OLUŞTURUCU (HATA DÜZELTİLDİ)
         // ======================================================                
 
         function getWordCardData(word, meaning) {
@@ -358,36 +382,39 @@
             
             let finalEn = fullData ? fullData.en_sentence : "";
             let finalTr = fullData ? fullData.tr_sentence : "";
-            // Görseli doğrudan veri objesinden al
             const imgUrl = fullData && fullData.image_url 
                 ? fullData.image_url 
                 : "https://via.placeholder.com/400x300?text=Gorsel+Yok"; 
 
             // -----------------------------------------------------
-            // B. Cümle İşleme (Kelimeyi vurgulama)
+            // B. Cümle İşleme (Kelimeyi vurgulama) - Hata Düzeltildi: Daha esnek regex
             // -----------------------------------------------------
 
             if (fullData) {
-                // Kelimeyi {kelime} şeklinde vurgulamak için regex
-                const highlightRegex = new RegExp(`\\{${word}\\}`, 'i'); 
-                
-                // Eğer cümlede {kelime} formatı zaten varsa, direkt highlight'ı uygula
-                if (fullData.en_sentence.match(highlightRegex)) {
+                // Öncelik: Zaten {kelime} formatında vurgulanmış yerleri bul.
+                const highlightRegexPreformatted = /\{([^{}]+)\}/g;
+                if (fullData.en_sentence.match(highlightRegexPreformatted)) {
                     finalEn = fullData.en_sentence;
                 } else {
-                    // Eğer {kelime} formatı yoksa, kelimenin kendisini bulup {kelime} formatına dönüştür.
-                    // Bu, kelimenin büyük harf/küçük harf durumunu veya eklerini (succeed vs succeeds) göz ardı etmez.
-                    const wordRegex = new RegExp(`\\b${word}\\b`, 'i');
-                    let processedEn = fullData.en_sentence.replace(wordRegex, `{${word}}`);
+                    // Eğer önceden formatlanmış yer yoksa:
+                    // 1. Kelimenin kökünü, tüm çekimlerini veya cümledeki geçişini bulmak için daha esnek bir regex.
+                    // Bu regex kelime kökünü (word) bulur ve sonrasında gelen 1-2 harflik ekleri (s, ed, ing, teki gibi) de kapsayarak vurgular.
                     
-                    // Eğer yine de bulunamazsa (ki bu akademik kelimelerde 'implement' gibi fiillerde veya ekli kullanımlarda sorun çıkarabilir)
-                    if (processedEn === fullData.en_sentence && fullData.en_sentence.includes(word)) {
-                         // Daha esnek bir regex ile kelimenin herhangi bir geçtiği yeri yakalamayı deneriz
-                         const strictWordRegex = new RegExp(word, 'g');
-                         processedEn = fullData.en_sentence.replace(strictWordRegex, `{${word}}`);
+                    // Örneğin: "Contribute" için "contributes" veya "contributing" içindeki kökü bulur.
+                    // \b: Kelime sınırı
+                    // $1: Regex'te yakalanan kelimeyi temsil eder.
+                    const flexibleWordRegex = new RegExp(`\\b(${word})\\w*\\b`, 'gi'); 
+                    
+                    // Önceki cümleyi alıp, regex ile bulunan kısmı {kelime} içine alır.
+                    // $1 değişkeni, parantez içindeki kelimeyi (word) temsil eder.
+                    finalEn = fullData.en_sentence.replace(flexibleWordRegex, `{$1}`);
+
+                    // Eğer cümle içinde kelimenin birebir aynı hali geçmiyorsa ve sadece {word} ile işaretlediysek,
+                    // finalEn hala eski haline eşit olabilir. Bu durumda, orijinal kelimeyi kullanmaya devam et.
+                    if (finalEn === fullData.en_sentence) {
+                         // Eğer hiçbir şey bulunamazsa, orijinal formatı kullanırız (genellikle hata mesajını engeller)
+                         finalEn = fullData.en_sentence;
                     }
-                    
-                    finalEn = processedEn;
                 }
                 
             }
@@ -397,11 +424,11 @@
                 word: word,
                 meaning: meaning,
                 image: imgUrl,
-                sentenceEn: finalEn, 
+                // Son çıktıdaki {kelime} formatını HTML'e dönüştürür.
+                sentenceEn: finalEn.replace(/{(\w+)}/g, '<span class="highlight-word">$1</span>'), 
                 sentenceTr: finalTr
             };
         }
-
         // --- SESLENDİRME FONKSİYONU ---        
         function speakWord(word) {            
             if ('speechSynthesis' in window) {                
@@ -486,6 +513,7 @@
                     li.onclick = function() {                        
                         const w = this.dataset.word;
                         const m = this.dataset.meaning;
+                        // openCard'a artık sadece işlenmemiş veriyi gönderiyoruz
                         openCard(getWordCardData(w, m));                    
                     };                                        
                     
@@ -510,13 +538,11 @@
             document.getElementById('card-word').innerText = data.word;            
             document.getElementById('card-meaning').innerText = data.meaning;                        
             
-            // Cümledeki {kelime} kısımlarını renklendirilmiş span'e çevirir.
-            const formattedEn = data.sentenceEn.replace(/{(\w+)}/g, '<span class="highlight-word">$1</span>');
-            document.getElementById('card-sentence-en').innerHTML = formattedEn;            
+            // Düzeltilmiş: sentenceEn zaten HTML olarak geliyor, doğrudan innerHTML'e atıyoruz.
+            document.getElementById('card-sentence-en').innerHTML = data.sentenceEn;            
             document.getElementById('card-sentence-tr').innerText = data.sentenceTr;                        
             
             const img = document.getElementById('card-image');            
-            // Karttaki görselin adresini kullan
             img.src = data.image;
             
             document.getElementById('card-speaker-icon').onclick = () => speakWord(data.word);
