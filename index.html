@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelime Uygulaması v5 (Quiz Sabitlendi)</title>
+    <title>Kelime Uygulaması v5 (Fixed)</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         /* --- TEMEL AYARLAR --- */
@@ -37,8 +37,7 @@
         }
         .unit-card:hover { transform: translateY(-2px); }
         .circle {
-            width: 50px;
-            height: 50px; border-radius: 50%; display: flex;
+            width: 50px; height: 50px; border-radius: 50%; display: flex;
             align-items: center; justify-content: center; color: white;
             font-weight: bold; font-size: 18px; margin-right: 15px; flex-shrink: 0;
         }
@@ -53,7 +52,10 @@
         .info p { margin: 3px 0 0 0; color: #95a5a6; font-size: 12px; }
 
         /* --- DETAY LİSTESİ --- */
-        .detail-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .detail-header { 
+            display: flex; align-items: center; margin-bottom: 20px; 
+            padding-bottom: 10px; border-bottom: 1px solid #eee;
+        }
         .back-button { font-size: 24px; color: #333; cursor: pointer; margin-right: 15px; }
         .word-item {
             background-color: white;
@@ -64,10 +66,9 @@
         }
         .word-item:active { background-color: #f5f5f5; }
         
-        /* Yeni: Küçük Görsel Alanı */
+        /* Küçük Görsel Alanı */
         .word-thumbnail {
-            width: 50px;
-            height: 50px; 
+            width: 50px; height: 50px; 
             margin-right: 15px; border-radius: 8px; 
             background-color: #f0f2f5; 
             overflow: hidden;
@@ -76,11 +77,18 @@
         .word-thumbnail img { width: 100%; height: 100%; object-fit: cover; }
 
         /* --- KELİME KARTI --- */
-        #card-screen { padding: 0; height: 100vh; background-color: white; display: flex; flex-direction: column; position: fixed; top: 0; width: 100%; max-width: 450px; z-index: 20; }
+        #card-screen { 
+            padding: 0; height: 100vh; background-color: white; 
+            display: flex; flex-direction: column; position: fixed; 
+            top: 0; width: 100%; max-width: 450px; z-index: 20;
+        }
         .card-top-bar { padding: 15px; display: flex; justify-content: flex-end; }
         .card-close-btn { font-size: 28px; color: #b0bec5; cursor: pointer; padding: 10px; }
 
-        .card-content { padding: 0 20px 30px 20px; flex-grow: 1; display: flex; flex-direction: column; align-items: center; }
+        .card-content { 
+            padding: 0 20px 30px 20px; flex-grow: 1; display: flex;
+            flex-direction: column; align-items: center; 
+        }
         .word-header { text-align: center; margin-bottom: 15px; width: 100%; }
         .main-word-row { display: flex; align-items: center; justify-content: center; gap: 10px; }
         .main-word { font-size: 38px; font-weight: 900; color: #2c3e50; margin: 0; letter-spacing: -1px; }
@@ -94,22 +102,27 @@
         }
         .card-image-container img { width: 100%; height: 100%; object-fit: cover; }
         .lightning-icon {
-            position: absolute; right: 15px; bottom: 15px; color: #f1c40f; font-size: 24px; background: rgba(255,255,255,0.8);
-            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            position: absolute; right: 15px; bottom: 15px; color: #f1c40f; 
+            font-size: 24px; background: rgba(255,255,255,0.8);
+            width: 40px; height: 40px; border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center;
         }
 
         .example-box {
-            width: 100%; background-color: #fafafa; border: 1px solid #eee; border-radius: 16px; padding: 20px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02); position: relative; margin-top: auto; margin-bottom: 40px; box-sizing: border-box;
+            width: 100%;
+            background-color: #fafafa; border: 1px solid #eee; border-radius: 16px; padding: 20px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02); position: relative; margin-top: auto;
+            margin-bottom: 40px; box-sizing: border-box;
         }
         .or-label {
             position: absolute; left: 20px; top: -12px; background: #fff; padding: 0 5px;
-            color: #f39c12; font-weight: bold; font-size: 14px; border: 1px solid #eee; border-radius: 4px;
+            color: #f39c12; font-weight: bold; font-size: 14px; border: 1px solid #eee;
+            border-radius: 4px;
         }
         .highlight-word { color: #27ae60; font-weight: bold; background: #e8f5e9; padding: 0 2px; border-radius: 3px; }
         .divider { height: 1px; background-color: #eee; margin: 12px 0; }
 
-        /* --- YENİ: QUIZ STİLLERİ --- */
+        /* --- QUIZ STİLLERİ --- */
         .fixed-bottom-bar {
             position: fixed; bottom: 0; width: 100%; max-width: 450px;
             background: white; padding: 15px; box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
@@ -129,7 +142,7 @@
         .progress-bar { height: 100%; background: #aacc00; width: 0%; transition: width 0.3s; }
         
         .quiz-question-box { text-align: center; margin-bottom: 40px; margin-top: 20px; }
-        .quiz-word { font-size: 42px; font-weight: 900; color: #2c3e50; margin-bottom: 10px; display: block;}
+        .quiz-word { font-size: 42px; font-weight: 900; color: #2c3e50; margin-bottom: 10px; display: block; word-break: break-word;}
         
         .options-container { display: flex; flex-direction: column; gap: 15px; }
         .option-btn {
@@ -173,7 +186,7 @@
             </div>
             
             <div class="fixed-bottom-bar" id="detail-bottom-bar">
-                <button class="quiz-start-btn" onclick="startQuiz()">? Quiz Çöz</button>
+                <button class="quiz-start-btn" onclick="startQuiz()">📝 Quiz Çöz</button>
             </div>
         </div>
 
@@ -184,7 +197,7 @@
             <div class="card-content">
                 <div class="word-header">
                     <div class="main-word-row">
-                        <span class="speaker-icon" id="card-speaker-icon">??</span>
+                        <span class="speaker-icon" id="card-speaker-icon">🔊</span>
                         <h1 id="card-word" class="main-word">...</h1>
                     </div>
                     <p id="card-meaning" class="main-meaning">...</p>
@@ -192,7 +205,7 @@
 
                 <div class="card-image-container">
                     <img id="card-image" src="" alt="Görsel">
-                    <div class="lightning-icon">?</div>
+                    <div class="lightning-icon">💡</div>
                 </div>
 
                 <div class="example-box">
@@ -216,7 +229,7 @@
             </div>
 
             <div class="quiz-question-box">
-                <span class="speaker-icon" onclick="speakCurrentQuizWord()" style="font-size:32px; display:block; margin-bottom:10px; color:#f1c40f;">??</span>
+                <span class="speaker-icon" onclick="speakCurrentQuizWord()" style="font-size:32px; display:block; margin-bottom:10px; color:#f1c40f;">🔊</span>
                 <span id="quiz-word-text" class="quiz-word">Word</span>
             </div>
 
@@ -437,7 +450,7 @@
             }
         ];
 
-        // Kelimeler ve Cümleler, şimdi görsel URL'leri ile eşleştiriliyor.
+        // Kelimeler ve Cümleler, görsel URL'leri ile eşleştiriliyor.
         const baseVerbs = [
             { en_verb: "hide", tr_verb: "saklamak", en_sentence: "I like to {hide} small things in the garden.", tr_sentence: "Bahçeye küçük şeyler saklamayı severim.", image_url: customImageUrlsUnit1[0] },
             { en_verb: "run", tr_verb: "koşmak", en_sentence: "We should {run} faster to catch the bus.", tr_sentence: "Otobüsü yakalamak için daha hızlı koşmalıyız.", image_url: customImageUrlsUnit1[1] },
@@ -571,15 +584,16 @@
         const quizScreen = document.getElementById('quiz-screen');
         const resultScreen = document.getElementById('quiz-result-screen');
         
-        let activeUnitId = 1; // Hangi ünitede olduğumuzu takip etmek için
+        let activeUnitId = 1;
+        // Hangi ünitede olduğumuzu takip etmek için
 
         function switchScreen(screen) {            
-            listScreen.classList.remove('active'); listScreen.style.display = 'none';            
+            listScreen.classList.remove('active');
+            listScreen.style.display = 'none';            
             detailScreen.classList.remove('active'); detailScreen.style.display = 'none';            
             cardScreen.classList.remove('active'); cardScreen.style.display = 'none';                        
             quizScreen.classList.remove('active'); quizScreen.style.display = 'none';
             resultScreen.classList.remove('active'); resultScreen.style.display = 'none';
-
             screen.style.display = 'block';            
             setTimeout(() => screen.classList.add('active'), 10);
         }
@@ -597,9 +611,9 @@
                 card.onclick = () => openUnit(i);
                 card.innerHTML = `                    
                     <div class="circle ${color}">${i}</div>                    
-                    <div class="info">                        
+                    <div class="info">               
                         <h3>Ünite ${i}</h3>                        
-                        <p>${wordCount} kelime</p>                     
+                        <p>${wordCount} kelime</p>                 
                     </div>                
                 `;
                 container.appendChild(card);            
@@ -608,7 +622,8 @@
         
         // --- Ünite Detayını Aç ---        
         function openUnit(unitId) {
-            activeUnitId = unitId; // Aktif üniteyi kaydet
+            activeUnitId = unitId;
+            // Aktif üniteyi kaydet
             document.getElementById('detail-unit-title').innerText = `Ünite ${unitId} Kelimeleri`;
             const listContainer = document.getElementById('unit-word-list');            
             const emptyMsg = document.getElementById('empty-message');
@@ -634,21 +649,21 @@
                     li.className = 'word-item';                                        
                     li.dataset.word = word;                     
                     li.dataset.meaning = meaning;                                        
-                    li.onclick = function() {                        
+                    li.onclick = function() {                       
                         const w = this.dataset.word;
                         const m = this.dataset.meaning;
                         openCard(getWordCardData(w, m));                    
                     };                                        
-                    li.innerHTML = `                        
+                    li.innerHTML = `                  
                         <div class="word-thumbnail"><img src="${listImageUrl}" alt="${word}"></div>
                         <div style="flex-grow:1">                            
                             <div style="font-weight:bold; color:#333; font-size:16px;">${word}</div>                            
                             <div style="font-size:14px; color:#777;">${meaning}</div>                        
                         </div>                        
-                        <span style="color:#ddd;">&#10095;</span>                    
+                        <span style="color:#ddd;">&#10095;</span>   
                     `;
                     listContainer.appendChild(li);                
-                });            
+                });           
             }            
             switchScreen(detailScreen);
         }
@@ -659,8 +674,9 @@
             document.getElementById('card-meaning').innerText = data.meaning;                        
             const formattedEn = data.sentenceEn.replace(/{(\w+)}/g, '<span class="highlight-word">$1</span>');
             document.getElementById('card-sentence-en').innerHTML = formattedEn;
-            document.getElementById('card-sentence-tr').innerText = data.sentenceTr;                        
-            const img = document.getElementById('card-image');            
+            document.getElementById('card-sentence-tr').innerText = data.sentenceTr;                
+            
+            const img = document.getElementById('card-image');
             img.src = data.image;
             document.getElementById('card-speaker-icon').onclick = () => speakWord(data.word);
             switchScreen(cardScreen);        
@@ -676,7 +692,7 @@
         let currentQuestionIndex = 0;
         let correctAnswersCount = 0;
         let isAnswerProcessed = false;
-
+        
         function startQuiz() {
             // Ünite kelimelerini al
             const unitWords = unitDatabase[activeUnitId];
@@ -684,10 +700,8 @@
 
             // Soruları karıştır
             const shuffledWords = [...unitWords].sort(() => 0.5 - Math.random());
-            
             // TÜM KELİMELER SORU OLARAK KULLANILIYOR
-            currentQuizQuestions = shuffledWords; 
-            
+            currentQuizQuestions = shuffledWords;
             currentQuestionIndex = 0;
             correctAnswersCount = 0;
             
@@ -700,8 +714,7 @@
             const currentData = currentQuizQuestions[currentQuestionIndex];
             const correctWord = currentData[0];
             const correctMeaning = currentData[1];
-
-            // Arayüzü güncelle (Sayaç ünitedeki toplam kelime sayısını gösteriyor)
+            // Arayüzü güncelle
             document.getElementById('quiz-counter').innerText = `${currentQuestionIndex + 1} / ${currentQuizQuestions.length}`;
             document.getElementById('quiz-word-text').innerText = correctWord;
             
@@ -712,7 +725,6 @@
             // Şıkları oluştur
             // 1. Doğru cevabı ekle
             let options = [correctMeaning];
-            
             // 2. Yanlış cevapları havuzdan (allWordsData) seç
             const allMeanings = allWordsData.map(item => item.tr_verb);
             while (options.length < 4) {
@@ -724,7 +736,6 @@
 
             // 3. Şıkları karıştır
             options.sort(() => 0.5 - Math.random());
-
             // 4. HTML'e bas
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
@@ -761,7 +772,6 @@
 
             // Diğer butonlara tıklamayı engelle
             allBtns.forEach(btn => btn.classList.add('disabled'));
-
             // Bekle ve sonraki soruya geç
             setTimeout(() => {
                 currentQuestionIndex++;
@@ -779,7 +789,6 @@
         }
 
         function finishQuiz() {
-            // Hesaplama artık toplam soru sayısına göre yapılıyor
             const scorePercentage = Math.round((correctAnswersCount / currentQuizQuestions.length) * 100);
             document.getElementById('result-score').innerText = `%${scorePercentage}`;
             
