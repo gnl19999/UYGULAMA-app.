@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelime Uygulaması v4 (Tüm Üniteler Tamamlandı)</title>
+    <title>Kelime Uygulaması v5 (5 Ünite Tamamlandı)</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         /* --- TEMEL AYARLAR --- */
@@ -242,10 +242,11 @@
             { id: 1, title: "Ünite 1: Temel Fiiller", count: 20 },
             { id: 2, title: "Ünite 2: Analiz ve Değerlendirme Fiilleri", count: 20 },
             { id: 3, title: "Ünite 3: Çıkarım ve Kolaylaştırma Fiilleri", count: 20 },
-            { id: 4, title: "Ünite 4: Yönetim ve İletişim Fiilleri", count: 20 } 
+            { id: 4, title: "Ünite 4: Yönetim ve İletişim Fiilleri", count: 20 },
+            { id: 5, title: "Ünite 5: Öncelik ve Tahmin Fiilleri", count: 20 } // Yeni Ünite 5 eklendi
         ];
 
-        // Ünite 1 kelimeleri (örnek veri)
+        // Ünite 1 kelimeleri (Promote kelimesi Substitute ile değiştirildi)
         const unit1Words = [
             { "en_verb": "Establish", "tr_verb": "Kurmak", "en_sentence": "They plan to {establish} a new office in İstanbul next year.", "tr_sentence": "Gelecek yıl İstanbul'da yeni bir ofis kurmayı planlıyorlar.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-3d-building-city-urban-png-image_13038318.png" },
             { "en_verb": "Involve", "tr_verb": "İçermek, Kapsamak", "en_sentence": "The project will {involve} extensive travel across the country.", "tr_sentence": "Proje, ülke genelinde kapsamlı seyahat içerecek.", "image_url": "https://png.pngtree.com/png-vector/20240608/ourmid/pngtree-teamwork-business-partnership-vector-png-image_12683995.png" },
@@ -266,7 +267,7 @@
             { "en_verb": "Exceed", "tr_verb": "Aşmak, Geçmek", "en_sentence": "The project costs are expected to {exceed} the initial budget.", "tr_sentence": "Proje maliyetlerinin ilk bütçeyi aşması bekleniyor.", "image_url": "https://png.pngtree.com/png-vector/20240614/ourmid/pngtree-money-up-arrow-graph-png-image_12763351.png" },
             { "en_verb": "Focus", "tr_verb": "Odaklanmak", "en_sentence": "We should {focus} our efforts on solving the root cause of the problem.", "tr_sentence": "Çabalarımızı sorunun temel nedenini çözmeye odaklamalıyız.", "image_url": "https://png.pngtree.com/png-vector/20240608/ourmid/pngtree-target-goal-vector-png-image_12684826.png" },
             { "en_verb": "Impact", "tr_verb": "Etkilemek", "en_sentence": "His speech had a strong {impact} on the audience's decision.", "tr_sentence": "Konuşması, izleyicilerin kararı üzerinde güçlü bir etki yarattı.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-effect-icon-symbol-png-image_13038316.png" },
-            { "en_verb": "Promote", "tr_verb": "Teşvik Etmek, Tanıtımını Yapmak", "en_sentence": "The campaign aims to {promote} healthy eating habits among children.", "tr_sentence": "Kampanya, çocuklar arasında sağlıklı beslenme alışkanlıklarını teşvik etmeyi amaçlıyor.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-apple-fruit-health-png-image_13036495.png" }
+            { "en_verb": "Substitute", "tr_verb": "Yerine Koymak", "en_sentence": "We can {substitute} the sugar with honey in this recipe.", "tr_sentence": "Bu tarifte şekeri bal ile yerine koyabiliriz.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-honey-bee-sugar-alternative-png-image_13038313.png" } // Promote yerine eklendi
         ];
 
         // Ünite 2 için özel görsel URL'leri listesi (20 adet)
@@ -287,7 +288,7 @@
           
             "https://e7.pngegg.com/pngimages/576/642/png-clipart-data-analysis-analytics-management-big-data-data-processing-business-template-text.png", // Evolve
             "https://img.pikbest.com/illustration/20251009/business-team-presentation-vector-with-charts-graphs-data-analysis-and-teamwork_11925317.jpg!w700wp", // Comprise
-            "https://cbx-prod.b-cdn.net/COLOURBOX67668799.jpg?width=800&height=800&quality=70", // Precede
+            "https://cbx-prod.b-cdn.net/COLOURBOX67668799.jpg?width=800&height=800&quality=70", // Analyze (Yeni kelime)
             "https://img.freepik.com/premium-photo/curious-scientist-3d-cartoon-character-transparent-background-ai_894067-14624.jpg", // Succeed
             "https://media.istockphoto.com/id/1049718624/tr/vekt%C3%B6r/k%C3%BCt%C3%BCphane-illlustration.jpg?s=170667a&w=0&k=20&c=OSM2nrhcx44bnvUB5ZhHMSg5Q429uuRk8WcTM4eWGVQ=", // Cite
             "https://png.pngtree.com/png-vector/20250321/ourmid/pngtree-businessman-analyzing-stock-market-trends-on-multiple-monitors-png-image_15809875.png", // Integrate
@@ -311,7 +312,7 @@
             { "en_verb": "Generate", "tr_verb": "Oluşturmak, Üretmek", "en_sentence": "The brainstorming session managed to {generate} several new ideas for the project.", "tr_sentence": "Beyin fırtınası oturumu, proje için birkaç yeni fikir üretmeyi başardı.", "image_url": customImageUrlsUnit2[11] },
             { "en_verb": "Evolve", "tr_verb": "Gelişmek, Evrim Geçirmek", "en_sentence": "The small startup has {evolve}d into a large international corporation.", "tr_sentence": "Küçük başlangıç şirketi, büyük bir uluslararası şirkete dönüştü (gelişti).", "image_url": customImageUrlsUnit2[12] },
             { "en_verb": "Comprise", "tr_verb": "Oluşmak, İçermek", "en_sentence": "The entire training program {comprise}s five distinct modules.", "tr_sentence": "Tüm eğitim programı beş farklı modülden oluşmaktadır.", "image_url": customImageUrlsUnit2[13] },
-            { "en_verb": "Precede", "tr_verb": "Önce Gelmek", "en_sentence": "The introduction section must {precede} the main body of the report.", "tr_sentence": "Giriş bölümü, raporun ana gövdesinden önce gelmelidir.", "image_url": customImageUrlsUnit2[14] },
+            { "en_verb": "Analyze", "tr_verb": "Analiz Etmek", "en_sentence": "The lab technicians will {analyze} the samples to determine their composition.", "tr_sentence": "Laboratuvar teknisyenleri, bileşimlerini belirlemek için örnekleri analiz edecek.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-data-analysis-scientist-lab-png-image_13038314.png" }, // Precede yerine eklendi
             { "en_verb": "Succeed", "tr_verb": "Başarılı Olmak, Ardından Gelmek", "en_sentence": "To {succeed} in this field, you must be both creative and analytical.", "tr_sentence": "Bu alanda başarılı olmak için hem yaratıcı hem de analitik olmalısınız.", "image_url": customImageUrlsUnit2[15] },
             { "en_verb": "Cite", "tr_verb": "Alıntı Yapmak, Atıfta Bulunmak", "en_sentence": "Remember to {cite} all your sources correctly at the end of the essay.", "tr_sentence": "Denemenin sonunda tüm kaynaklarınızı doğru bir şekilde alıntı yapmayı unutmayın.", "image_url": customImageUrlsUnit2[16] },
             { "en_verb": "Integrate", "tr_verb": "Bütünleştirmek", "en_sentence": "We plan to {integrate} the new software with the existing company database.", "tr_sentence": "Yeni yazılımı mevcut şirket veritabanıyla bütünleştirmeyi planlıyoruz.", "image_url": customImageUrlsUnit2[17] },
@@ -319,7 +320,7 @@
             { "en_verb": "Replicate", "tr_verb": "Tekrarlamak, Çoğaltmak", "en_sentence": "The goal of the experiment is to {replicate} the initial successful results.", "tr_sentence": "Deneyin amacı, ilk başarılı sonuçları tekrarlamaktır.", "image_url": customImageUrlsUnit2[19] }
         ];
 
-        // Ünite 3 için özel görsel URL'leri listesi
+        // Ünite 3 için özel görsel URL'leri listesi (20 adet)
         const customImageUrlsUnit3 = [
             "https://png.pngtree.com/png-vector/20240603/ourmid/pngtree-sleepy-yawning-boy-cartoon-png-image_12611488.png", // Signify (Esneme/Yorgunluk)
             "https://png.pngtree.com/png-vector/20250209/ourmid/pngtree-safe-full-of-gold-bars-png-image_15429890.png", // Account for (Eksik Para/Kasa)
@@ -367,7 +368,7 @@
             { "en_verb": "Imply", "tr_verb": "Kastetmek, İma Etmek, Çıkarım Yapmak", "en_sentence": "His silence when I asked about the broken vase seemed to {imply} he was the one responsible.", "tr_sentence": "Kırık vazo hakkında sorduğumdaki sessizliği, sorumlu kişinin kendisi olduğunu ima ediyor gibiydi.", "image_url": customImageUrlsUnit3[19] }
         ];
 
-        // Ünite 4 kelimeleri (Düzeltilmiş Veri)
+        // Ünite 4 kelimeleri
         const unit4Words = [
             { "en_verb": "Incur", "tr_verb": "Maruz kalmak, Uğramak (masraf, zarar)", "en_sentence": "We will {incur} heavy fines if we fail to file the tax report on time.", "tr_sentence": "Vergi raporunu zamanında dosyalamazsak ağır para cezalarına maruz kalacağız.", "image_url": "https://png.pngtree.com/png-vector/20240723/ourmid/pngtree-money-fine-penalty-png-image_13010724.png" },
             { "en_verb": "Infer", "tr_verb": "Çıkarım yapmak, Sonuç çıkarmak", "en_sentence": "From his nervousness, I {infer} that he is not telling us the whole truth.", "tr_sentence": "Onun gerginliğinden, bize tüm gerçeği söylemediği çıkarımını yapıyorum.", "image_url": "https://png.pngtree.com/png-vector/20240402/ourmid/pngtree-thought-cloud-vector-png-image_11942183.png" },
@@ -384,13 +385,35 @@
             { "en_verb": "Minimize", "tr_verb": "Asgariye indirmek, Küçültmek", "en_sentence": "We must {minimize} the amount of waste we produce daily.", "tr_sentence": "Günlük ürettiğimiz atık miktarını asgariye indirmeliyiz.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-trash-can-recycle-png-image_13036493.png" },
             { "en_verb": "Negate", "tr_verb": "Yadsımak, Geçersiz kılmak", "en_sentence": "The new evidence seemed to {negate} his previous testimony completely.", "tr_sentence": "Yeni kanıt, önceki ifadesini tamamen geçersiz kılıyor gibiydi.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-x-mark-cross-symbol-png-image_13038315.png" },
             { "en_verb": "Negotiate", "tr_verb": "Müzakere etmek, Görüşmek", "en_sentence": "They will {negotiate} the final price of the house next week.", "tr_sentence": "Önümüzdeki hafta evin son fiyatını müzakere edecekler.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-people-talking-discussion-png-image_13038317.png" },
-            // Düzeltilmiş kelime (Obtain yerine)
             { "en_verb": "Persist", "tr_verb": "Sürmek, Devam Etmek", "en_sentence": "If the symptoms {persist} after a week, you should call your doctor.", "tr_sentence": "Belirtiler bir hafta sonra hala devam ederse, doktorunuzu aramalısınız.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-clock-time-management-png-image_13038308.png" },
-            // Düzeltilmiş kelime (Occur yerine)
             { "en_verb": "Undergo", "tr_verb": "Geçirmek, Yaşamak", "en_sentence": "All new employees must {undergo} a mandatory training period of two weeks.", "tr_sentence": "Tüm yeni çalışanlar iki haftalık zorunlu bir eğitim dönemi geçirmelidir.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-training-course-education-png-image_13038307.png" },
             { "en_verb": "Omit", "tr_verb": "Atlamak, Hariç bırakmak", "en_sentence": "Be careful not to {omit} any details when writing the summary report.", "tr_sentence": "Özet raporu yazarken herhangi bir ayrıntıyı atlamamaya dikkat edin.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-miss-error-wrong-png-image_13038312.png" },
             { "en_verb": "Oversee", "tr_verb": "Denetlemek, Gözetmek", "en_sentence": "The director will {oversee} the entire construction process from start to finish.", "tr_sentence": "Direktör, tüm inşaat sürecini baştan sona denetleyecek.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-eyes-watching-monitoring-png-image_13038311.png" },
             { "en_verb": "Parallel", "tr_verb": "Paralellik kurmak", "en_sentence": "It is possible to {parallel} the company's growth with the economic boom of the 90s.", "tr_sentence": "Şirketin büyümesi ile 90'lardaki ekonomik patlama arasında paralellik kurmak mümkündür.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-two-parallel-lines-png-image_13038310.png" }
+        ];
+        
+        // Yeni Ünite 5 kelimeleri
+        const unit5Words = [
+            { "en_verb": "Participate", "tr_verb": "Katılmak", "en_sentence": "Everyone is encouraged to {participate} in the workshop actively.", "tr_sentence": "Herkesin atölyeye aktif olarak katılması teşvik ediliyor.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-group-of-people-meeting-png-image_13038306.png" },
+            { "en_verb": "Permit", "tr_verb": "İzin vermek", "en_sentence": "The security guard will not {permit} entry after 10 PM.", "tr_sentence": "Güvenlik görevlisi akşam 10'dan sonra girişe izin vermeyecektir.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-pass-approved-check-mark-png-image_13038305.png" },
+            { "en_verb": "Pertain", "tr_verb": "İlişkili olmak, Ait olmak", "en_sentence": "The documents {pertain} to the company's financial history.", "tr_sentence": "Belgeler, şirketin finansal geçmişine ilişkilidir (aittir).", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-document-file-related-png-image_13038304.png" },
+            { "en_verb": "Phase", "tr_verb": "Aşamalara ayırmak", "en_sentence": "We decided to {phase} the project into three distinct stages over the year.", "tr_sentence": "Projeyi yıl boyunca üç farklı aşamaya ayırmaya karar verdik.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-timeline-steps-process-png-image_13038303.png" },
+            { "en_verb": "Postulate", "tr_verb": "Varsaymak, Öncül olarak kabul etmek", "en_sentence": "Scientists {postulate} the existence of dark matter to explain the universe's behavior.", "tr_sentence": "Bilim insanları, evrenin davranışını açıklamak için karanlık maddenin varlığını varsayıyorlar.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-stars-galaxy-universe-png-image_13038302.png" },
+            { "en_verb": "Precede", "tr_verb": "Önce gelmek", "en_sentence": "His formal presentation will {precede} the short Q&A session.", "tr_sentence": "Resmi sunumu, kısa soru-cevap oturumundan önce gelecektir.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-arrow-direction-ahead-png-image_13038301.png" },
+            { "en_verb": "Predict", "tr_verb": "Tahmin etmek, Yordamak", "en_sentence": "It is hard to {predict} the exact outcome of the upcoming elections.", "tr_sentence": "Yaklaşan seçimlerin kesin sonucunu tahmin etmek zordur.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-crystal-ball-future-prediction-png-image_13038300.png" },
+            { "en_verb": "Prescribe", "tr_verb": "Önermek, Reçetelemek, Emretmek", "en_sentence": "The doctor {prescribe}d two weeks of complete rest for the patient.", "tr_sentence": "Doktor, hastaya iki hafta tam dinlenmeyi reçete etti (önerdi).", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-medical-prescription-drug-png-image_13038299.png" },
+            { "en_verb": "Presume", "tr_verb": "Varsaymak, Sanmak", "en_sentence": "We must {presume} innocence until proven guilty in a court of law.", "tr_sentence": "Bir hukuk mahkemesinde suçlu kanıtlanana kadar masumiyeti varsaymalıyız.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-balance-justice-scale-png-image_13038298.png" },
+            { "en_verb": "Prevail", "tr_verb": "Üstün gelmek, Yaygın olmak", "en_sentence": "Common sense must {prevail} when making decisions about the budget.", "tr_sentence": "Bütçe hakkında karar verirken sağduyunun üstün gelmesi gerekir.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-winner-trophy-success-png-image_13038297.png" },
+            { "en_verb": "Prioritize", "tr_verb": "Önceliklendirmek", "en_sentence": "You should {prioritize} urgent tasks over less important requests today.", "tr_sentence": "Bugün acil görevleri daha az önemli isteklerin önünde önceliklendirmelisiniz.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-clipboard-priority-list-png-image_13038296.png" },
+            { "en_verb": "Proceed", "tr_verb": "Devam etmek, İlerlemek", "en_sentence": "Once you have finished the first chapter, you may {proceed} to the next one.", "tr_sentence": "İlk bölümü bitirdikten sonra, bir sonrakine devam edebilirsiniz (ilerleyebilirsiniz).", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-next-forward-arrow-png-image_13038295.png" },
+            { "en_verb": "Prohibit", "tr_verb": "Yasaklamak", "en_sentence": "The school rules {prohibit} the use of mobile phones during class hours.", "tr_sentence": "Okul kuralları, ders saatlerinde cep telefonu kullanımını yasaklamaktadır.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-no-phone-sign-prohibited-png-image_13038294.png" },
+            { "en_verb": "Project", "tr_verb": "Yansıtmak, Tahmin etmek (gelecek)", "en_sentence": "The financial reports {project} a 15% increase in revenue for the next quarter.", "tr_sentence": "Finansal raporlar, gelecek çeyrek için gelirde %15'lik bir artış tahmin ediyor.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-chart-graph-growth-projection-png-image_13038293.png" },
+            { "en_verb": "Promote", "tr_verb": "Teşvik etmek, Desteklemek", "en_sentence": "The campaign aims to {promote} healthy eating habits among children.", "tr_sentence": "Kampanya, çocuklar arasında sağlıklı beslenme alışkanlıklarını teşvik etmeyi amaçlıyor.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-hand-giving-help-support-png-image_13038292.png" },
+            { "en_verb": "Pursue", "tr_verb": "Peşinden koşmak, Takip etmek (amaç)", "en_sentence": "She decided to {pursue} a career in medicine despite the long studies.", "tr_sentence": "Uzun süren eğitimlere rağmen tıp alanında bir kariyer peşinden koşmaya karar verdi.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-running-person-goal-chasing-png-image_13038291.png" },
+            { "en_verb": "Qualify", "tr_verb": "Nitelemek, Şartlı kabul etmek, Yeterli olmak", "en_sentence": "You must {qualify} for the grant by meeting all the specified income requirements.", "tr_sentence": "Belirtilen tüm gelir gerekliliklerini karşılayarak hibe için yeterli olmalısınız.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-check-mark-qualified-png-image_13038290.png" },
+            { "en_verb": "Quantify", "tr_verb": "Nicelendirmek, Miktarını Belirtmek", "en_sentence": "It is difficult to {quantify} the positive emotional impact of the new policy.", "tr_sentence": "Yeni politikanın olumlu duygusal etkisini nicelendirmek zordur.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-measure-ruler-amount-png-image_13038289.png" },
+            { "en_verb": "Recapitulate", "tr_verb": "Özetlemek, Tekrarlamak", "en_sentence": "Let me quickly {recapitulate} the main points of the presentation.", "tr_sentence": "Sunumun ana noktalarını hızlıca özetlememe izin verin.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-summary-report-list-png-image_13038288.png" },
+            { "en_verb": "Reinforce", "tr_verb": "Güçlendirmek, Takviye etmek", "en_sentence": "The constant positive feedback helped to {reinforce} her confidence.", "tr_sentence": "Sürekli olumlu geri bildirim, özgüvenini güçlendirmeye yardımcı oldu.", "image_url": "https://png.pngtree.com/png-vector/20240726/ourmid/pngtree-strength-power-muscle-png-image_13038287.png" }
         ];
 
         // --- KELİME VERİLERİNİ BİRLEŞTİRME VE DÜZENLEME ---
@@ -398,7 +421,8 @@
             1: unit1Words,
             2: unit2Words,
             3: unit3Words,
-            4: unit4Words 
+            4: unit4Words,
+            5: unit5Words // Yeni ünite eklendi
         };
 
         // --- SESLENDİRME İŞLEVİ ---
