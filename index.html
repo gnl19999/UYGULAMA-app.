@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelime Uygulaması v5 (Quiz Modülü Eklendi)</title>
+    <title>Kelime Uygulaması v4 (Ünite 3 Güncellendi)</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         /* --- TEMEL AYARLAR --- */
@@ -15,12 +15,10 @@
             min-height: 100vh;
         }
         .container {
-            width: 100%;
-            max-width: 450px;
+            width: 100%; max-width: 450px;
             background-color: #fff; min-height: 100vh;
             position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05);
             overflow-x: hidden;
-            padding-bottom: 80px; /* Alt bar için boşluk */
         }
         /* --- EKRAN GEÇİŞLERİ --- */
         .screen { display: none; padding: 20px; animation: fadeIn 0.3s; }
@@ -29,24 +27,19 @@
         
         /* --- ÜNİTE KARTLARI --- */
         .unit-card {
-            background-color: white;
-            border-radius: 12px; padding: 15px; margin-bottom: 15px;
+            background-color: white; border-radius: 12px; padding: 15px; margin-bottom: 15px;
             display: flex; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border: 1px solid #f0f0f0;
-            cursor: pointer; transition: transform 0.2s;
+            border: 1px solid #f0f0f0; cursor: pointer; transition: transform 0.2s;
         }
         .unit-card:hover { transform: translateY(-2px); }
         .circle {
-            width: 50px;
-            height: 50px; border-radius: 50%; display: flex;
+            width: 50px; height: 50px; border-radius: 50%; display: flex;
             align-items: center; justify-content: center; color: white;
             font-weight: bold; font-size: 18px; margin-right: 15px; flex-shrink: 0;
         }
         /* Renkler */
-        .bg-1 { background-color: #ff6b6b; } 
-        .bg-2 { background-color: #4ecdc4; }
-        .bg-3 { background-color: #1a535c; } 
-        .bg-4 { background-color: #f7fff7; border: 1px solid #ccc; color:#333 !important; } 
+        .bg-1 { background-color: #ff6b6b; } .bg-2 { background-color: #4ecdc4; }
+        .bg-3 { background-color: #1a535c; } .bg-4 { background-color: #f7fff7; border: 1px solid #ccc; color:#333 !important; } 
         .bg-5 { background-color: #ffe66d; color:#333 !important; }
 
         .info h3 { margin: 0; font-size: 16px; color: #333; }
@@ -56,31 +49,36 @@
         .detail-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
         .back-button { font-size: 24px; color: #333; cursor: pointer; margin-right: 15px; }
         .word-item {
-            background-color: white;
-            border-radius: 10px; padding: 10px 15px; margin-bottom: 10px; 
+            background-color: white; border-radius: 10px; padding: 10px 15px; margin-bottom: 10px; 
             display: flex; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            border: 1px solid #eee;
-            cursor: pointer; transition: background 0.2s;
+            border: 1px solid #eee; cursor: pointer; transition: background 0.2s;
         }
         .word-item:active { background-color: #f5f5f5; }
         
         /* Yeni: Küçük Görsel Alanı */
         .word-thumbnail {
-            width: 50px;
-            height: 50px; 
+            width: 50px; height: 50px; 
             margin-right: 15px; border-radius: 8px; 
             background-color: #f0f2f5; 
             overflow: hidden;
             flex-shrink: 0;
         }
-        .word-thumbnail img { width: 100%; height: 100%; object-fit: cover; }
+        .word-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
         /* --- KELİME KARTI --- */
-        #card-screen { padding: 0; height: 100vh; background-color: white; display: flex; flex-direction: column; position: fixed; top: 0; width: 100%; max-width: 450px; z-index: 20; }
+        #card-screen { padding: 0; height: 100vh; background-color: white; display: flex; flex-direction: column; }
         .card-top-bar { padding: 15px; display: flex; justify-content: flex-end; }
         .card-close-btn { font-size: 28px; color: #b0bec5; cursor: pointer; padding: 10px; }
 
-        .card-content { padding: 0 20px 30px 20px; flex-grow: 1; display: flex; flex-direction: column; align-items: center; }
+        .card-content {
+            padding: 0 20px 30px 20px; flex-grow: 1; display: flex;
+            flex-direction: column; align-items: center;
+        }
+
         .word-header { text-align: center; margin-bottom: 15px; width: 100%; }
         .main-word-row { display: flex; align-items: center; justify-content: center; gap: 10px; }
         .main-word { font-size: 38px; font-weight: 900; color: #2c3e50; margin: 0; letter-spacing: -1px; }
@@ -89,18 +87,22 @@
         .speaker-icon:hover { filter: grayscale(0%); }
 
         .card-image-container {
-            width: 100%; height: 260px; margin: 10px 0 20px 0; border-radius: 16px; overflow: hidden;
+            width: 100%; height: 260px;
+            margin: 10px 0 20px 0; border-radius: 16px; overflow: hidden;
             position: relative; background-color: #f0f0f0;
         }
         .card-image-container img { width: 100%; height: 100%; object-fit: cover; }
         .lightning-icon {
-            position: absolute; right: 15px; bottom: 15px; color: #f1c40f; font-size: 24px; background: rgba(255,255,255,0.8);
-            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            position: absolute; right: 15px; bottom: 15px;
+            color: #f1c40f; font-size: 24px; background: rgba(255,255,255,0.8);
+            width: 40px; height: 40px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center;
         }
 
         .example-box {
-            width: 100%; background-color: #fafafa; border: 1px solid #eee; border-radius: 16px; padding: 20px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02); position: relative; margin-top: auto; margin-bottom: 40px; box-sizing: border-box;
+            width: 100%; background-color: #fafafa; border: 1px solid #eee;
+            border-radius: 16px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            position: relative; margin-top: auto; margin-bottom: 40px; box-sizing: border-box;
         }
         .or-label {
             position: absolute; left: 20px; top: -12px; background: #fff; padding: 0 5px;
@@ -108,50 +110,6 @@
         }
         .highlight-word { color: #27ae60; font-weight: bold; background: #e8f5e9; padding: 0 2px; border-radius: 3px; }
         .divider { height: 1px; background-color: #eee; margin: 12px 0; }
-
-        /* --- YENİ: QUIZ STİLLERİ --- */
-        .fixed-bottom-bar {
-            position: fixed; bottom: 0; width: 100%; max-width: 450px;
-            background: white; padding: 15px; box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
-            display: flex; justify-content: center; z-index: 10; box-sizing: border-box;
-        }
-        .quiz-start-btn {
-            background-color: #aacc00; color: white; border: none; padding: 15px 30px;
-            border-radius: 50px; font-size: 18px; font-weight: bold; width: 100%;
-            cursor: pointer; transition: background 0.2s; box-shadow: 0 4px 0 #88aa00;
-        }
-        .quiz-start-btn:active { transform: translateY(4px); box-shadow: none; }
-        
-        /* Quiz Ekranı */
-        #quiz-screen { padding: 20px; height: 100vh; background: #fff; position: relative; display: none; }
-        .quiz-header { display: flex; align-items: center; margin-bottom: 30px; }
-        .quiz-progress { flex-grow: 1; height: 10px; background: #eee; border-radius: 5px; margin: 0 15px; overflow: hidden; }
-        .progress-bar { height: 100%; background: #aacc00; width: 0%; transition: width 0.3s; }
-        
-        .quiz-question-box { text-align: center; margin-bottom: 40px; margin-top: 20px; }
-        .quiz-word { font-size: 42px; font-weight: 900; color: #2c3e50; margin-bottom: 10px; display: block;}
-        
-        .options-container { display: flex; flex-direction: column; gap: 15px; }
-        .option-btn {
-            background: #f8f9fa; border: 2px solid #e9ecef; padding: 18px; border-radius: 16px;
-            font-size: 18px; color: #495057; cursor: pointer; transition: all 0.2s; font-weight: 500;
-            text-align: center;
-        }
-        .option-btn:hover { background: #e9ecef; }
-        .option-btn.correct { background: #d4edda; border-color: #c3e6cb; color: #155724; }
-        .option-btn.wrong { background: #f8d7da; border-color: #f5c6cb; color: #721c24; }
-        .option-btn.disabled { pointer-events: none; opacity: 0.7; }
-
-        /* Quiz Sonuç Ekranı */
-        #quiz-result-screen { text-align: center; display: none; padding-top: 50px; }
-        .result-circle {
-            width: 150px; height: 150px; background: #aacc00; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; margin: 0 auto 30px auto;
-            color: white; font-size: 48px; font-weight: bold; box-shadow: 0 10px 20px rgba(170, 204, 0, 0.4);
-        }
-        .result-title { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 10px; }
-        .result-text { color: #777; margin-bottom: 40px; }
-
     </style>
 </head>
 <body>
@@ -162,7 +120,7 @@
             <div id="units-container"></div>
         </div>
 
-        <div id="detail-screen" class="screen" style="padding-bottom: 100px;">
+        <div id="detail-screen" class="screen">
             <div class="detail-header">
                 <span class="back-button" onclick="showListScreen()">&#8592;</span> 
                 <h2 id="detail-unit-title" style="margin:0; font-size:18px; color:#333;"></h2>
@@ -170,10 +128,6 @@
             <ul id="unit-word-list" style="list-style:none; padding:0;"></ul>
             <div id="empty-message" style="display:none; text-align:center; color:#999; margin-top:50px;">
                 Bu ünite henüz boş.
-            </div>
-            
-            <div class="fixed-bottom-bar" id="detail-bottom-bar">
-                <button class="quiz-start-btn" onclick="startQuiz()">? Quiz Çöz</button>
             </div>
         </div>
 
@@ -205,46 +159,22 @@
                 </div>
             </div>
         </div>
-
-        <div id="quiz-screen" class="screen">
-            <div class="quiz-header">
-                <span class="back-button" onclick="quitQuiz()">&#10005;</span>
-                <div class="quiz-progress">
-                    <div class="progress-bar" id="quiz-progress-bar"></div>
-                </div>
-                <span id="quiz-counter" style="font-weight:bold; color:#aacc00;">1/10</span>
-            </div>
-
-            <div class="quiz-question-box">
-                <span class="speaker-icon" onclick="speakCurrentQuizWord()" style="font-size:32px; display:block; margin-bottom:10px; color:#f1c40f;">??</span>
-                <span id="quiz-word-text" class="quiz-word">Word</span>
-            </div>
-
-            <div class="options-container" id="options-container">
-                </div>
-        </div>
-
-        <div id="quiz-result-screen" class="screen">
-            <div class="result-circle" id="result-score">80</div>
-            <h2 class="result-title">Tebrikler!</h2>
-            <p class="result-text" id="result-message">Üniteyi başarıyla tamamladın.</p>
-            <button class="quiz-start-btn" onclick="quitQuiz()">Üniteye Dön</button>
-        </div>
-
     </div>
 
     <script>
         // ======================================================
-        // 1. VERİ YÖNETİMİ 
+        // 1. VERİ YÖNETİMİ (Kelimeler, Anlamlar ve Özel Cümleler)
         // ======================================================
         
-        // Ünite 1 Görselleri
+        // Ünite 1 için sağladığınız özel görsel URL'leri listesi (önceki ve yeni görseller dahil)
         const customImageUrlsUnit1 = [
+            // Temel fiiller (5 adet)
             "https://png.pngtree.com/thumb_back/fh260/background/20241013/pngtree-backyard-garden-trees-terrace-with-wooden-fences-cartoon-image_16384701.jpg", // hide
             "https://media.istockphoto.com/id/1277525745/tr/vekt%C3%B6r/otob%C3%BCsten-inen-insanlar-karikat%C3%BCr-ill%C3%BCstrasyon-beyaz-arka-plan-%C3%BCzerinde-izole-nesne-vekt%C3%B6r.jpg?s=612x612&w=0&k=20&c=Wl68TfH5BU4kudtZD-acxnKkcalMCOrDvzX0SNxc8KQ=", // run
             "https://png.pngtree.com/png-clipart/20240528/original/pngtree-a-3d-vector-illustration-of-pizza-png-image_15192871.png", // eat
             "https://png.pngtree.com/png-vector/20250119/ourmid/pngtree-boy-drinking-water-clipart-hd-png-image_15270285.png", // drink
             "https://png.pngtree.com/thumb_back/fh260/background/20250903/pngtree-person-sleeping-in-bed-with-cityscape-background-image_16776254.jpg", // sleep
+            // Akademik fiiller - İlk 12 (12 adet)
             "https://png.pngtree.com/png-vector/20250221/ourmid/pngtree-amazon-rainforest-conservation-protecting-tropical-biodiversity-png-image_15552028.png", // Analyze
             "https://png.pngtree.com/png-vector/20250531/ourmid/pngtree-boy-using-phone-cartoon-illustration-png-image_16431770.png", // Identify
             "https://png.pngtree.com/png-vector/20250904/ourlarge/pngtree-3d-business-analytics-and-reporting-icon-png-image_17363432.webp", // Determine
@@ -257,6 +187,7 @@
             "https://png.pngtree.com/png-clipart/20240309/original/pngtree-d-illustration-of-charts-and-graph-with-analysis-business-financial-data-png-image_14549648.png", // Formulate
             "https://png.pngtree.com/png-vector/20190629/ourmid/pngtree-reports-icon-for-your-project-png-image_1522218.jpg", // Define
             "https://png.pngtree.com/png-vector/20230823/ourmid/pngtree-people-talking-in-front-of-a-screen-vector-png-image_6912863.png", // Compare
+            // Akademik fiiller - Son 8 (8 adet)
             "https://png.pngtree.com/png-vector/20240406/ourmid/pngtree-economic-crisis-vector-icon-png-image_12269105.png", // Contrast
             "https://png.pngtree.com/png-vector/20230728/ourmid/pngtree-claim-clipart-cartoon-guy-looking-through-a-magnifying-glass-vector-png-image_6809134.png", // Argue
             "https://png.pngtree.com/png-vector/20240914/ourmid/pngtree-brain-bulb-cartoon-pictures-png-image_12910015.png", // Support
@@ -267,7 +198,7 @@
             "https://png.pngtree.com/png-vector/20240122/ourmid/pngtree-d-minimal-trading-charts-stock-market-rising-stock-market-analysis-stock-png-image_11455231.png" // Conclude
         ];
 
-        // Ünite 2 Görselleri
+        // Ünite 2 için sağladığınız yeni özel görsel URL'leri listesi (20 adet)
         const customImageUrlsUnit2 = [
             "https://e7.pngegg.com/pngimages/860/592/png-clipart-business-analytics-data-analysis-predictive-analytics-business-intelligence-business-people-business.png", // Perceive
             "https://png.pngtree.com/png-clipart/20231206/original/pngtree-visible-social-media-icon-3d-render-illustration-white-background-png-image_13781410.png", // Propose
@@ -292,152 +223,33 @@
         ];
 
         // ======================================================
-        // ÜNİTE 3 KELİMELERİ
+        // ÜNİTE 3 KELİMELERİ (Yeni Eklenen Veri)
         // ======================================================
         const unit3Words = [
-            { 
-                "en_verb": "Signify", 
-                "tr_verb": "İfade Etmek, Anlamına Gelmek", 
-                "en_sentence": "His constant yawning might {signify} that he is extremely tired after the long flight.", 
-                "tr_sentence": "Onun sürekli esnemesi, uzun uçuştan sonra aşırı yorgun olduğu anlamına gelebilir.", 
-                "image_url": "https://png.pngtree.com/png-vector/20240603/ourmid/pngtree-sleepy-yawning-boy-cartoon-png-image_12611488.png" 
-            },
-            { 
-                "en_verb": "Account for", 
-                "tr_verb": "Açıklamak, Sorumlu Olmak", 
-                "en_sentence": "Can you {account for} the missing $50 from the petty cash box?", 
-                "tr_sentence": "Küçük kasadaki eksik 50 doları açıklayabilir misin (nerede olduğunu söyleyebilir misin)?", 
-                "image_url": "https://png.pngtree.com/png-vector/20250209/ourmid/pngtree-safe-full-of-gold-bars-png-image_15429890.png" 
-            },
-            { 
-                "en_verb": "Assess", 
-                "tr_verb": "Değer Biçmek, Değerlendirmek", 
-                "en_sentence": "We need to {assess} the damage to the car before calling the insurance company.", 
-                "tr_sentence": "Sigorta şirketini aramadan önce arabadaki hasarı değerlendirmemiz gerekiyor.", 
-                "image_url": "https://png.pngtree.com/png-vector/20241016/ourmid/pngtree-crushed-car-vector-broken-illustration-png-image_14090444.png" 
-            },
-            { 
-                "en_verb": "Contribute", 
-                "tr_verb": "Katkıda Bulunmak", 
-                "en_sentence": "Everyone should {contribute} an item to the potluck dinner next weekend.", 
-                "tr_sentence": "Gelecek hafta sonu yapılacak ortak yemeğe herkes bir şeyler getirerek katkıda bulunmalı.", 
-                "image_url": "https://png.pngtree.com/png-vector/20230728/ourlarge/pngtree-banquet-clipart-isometric-vector-family-dinner-cartoon-png-image_6798634.png" 
-            },
-            { 
-                "en_verb": "Correlate", 
-                "tr_verb": "İlişkilendirmek, Korelasyon Kurmak", 
-                "en_sentence": "We noticed that his mood often {correlate}s with how much sleep he got the previous night.", 
-                "tr_sentence": "Ruh halinin, sıklıkla bir önceki gece ne kadar uyuduğuyla ilişkili olduğunu fark ettik.", 
-                "image_url": "https://media.istockphoto.com/id/1153827146/tr/vekt%C3%B6r/k%C4%B1z-yatakta-a%C3%A7%C4%B1k-kitap-ile-geceleri-uyuyan.jpg?s=612x612&w=0&k=20&c=eKspsCo5Qb3x4e70oiNDacOgtc6Fremhqi2RKqSAPAk=" 
-            },
-            { 
-                "en_verb": "Emphasize", 
-                "tr_verb": "Vurgulamak", 
-                "en_sentence": "My mother always {emphasize}s the importance of eating breakfast every morning.", 
-                "tr_sentence": "Annem her sabah kahvaltı yapmanın önemini daima vurgular.", 
-                "image_url": "https://png.pngtree.com/png-vector/20240604/ourmid/pngtree-teapot-breakfast-flat-free-png-image_12620643.png" 
-            },
-            { 
-                "en_verb": "Extract", 
-                "tr_verb": "Çıkarmak, Özütlemek", 
-                "en_sentence": "I need to {extract} all the necessary files from this huge zip folder before I can start working.", 
-                "tr_sentence": "Çalışmaya başlamadan önce bu büyük zip klasöründen gerekli tüm dosyaları çıkarmam gerekiyor.", 
-                "image_url": "https://media.istockphoto.com/id/1314418031/vector/file-transfer-concept-yellow-folder-with-document-on-computer-monitor-3d-vector-illustration.jpg?s=612x612&w=0&k=20&c=8H3HIg4h8pH9WYSj-89c6MEAWK8P_TfaNDBozlSKlx8=" 
-            },
-            { 
-                "en_verb": "Hypothesize", 
-                "tr_verb": "Hipotez Kurmak", 
-                "en_sentence": "I {hypothesize} that if we leave the window open, the room will cool down faster.", 
-                "tr_sentence": "Eğer pencereyi açık bırakırsak odanın daha hızlı soğuyacağı hipotezini kuruyorum (varsayıyorum).", 
-                "image_url": "https://media.istockphoto.com/id/162238979/tr/vekt%C3%B6r/open-window.jpg?s=612x612&w=0&k=20&c=qdjyHeID6qCKPkNlPe3ouwD8Hb6K7TOMb1vMTtG1Lbk=" 
-            },
-            { 
-                "en_verb": "Justify", 
-                "tr_verb": "Gerekçelendirmek", 
-                "en_sentence": "You must {justify} the extra money you spent on the vacation to your parents.", 
-                "tr_sentence": "Tatilde harcadığın ekstra parayı ailene gerekçelendirmelisin (açıklamalısın).", 
-                "image_url": "https://png.pngtree.com/thumb_back/fh260/background/20220219/pngtree-stacked-flying-dollar-banknotes-rich-consumer-flowing-photo-image_15993028.jpg" 
-            },
-            { 
-                "en_verb": "Reveal", 
-                "tr_verb": "Ortaya Çıkarmak, Açığa Vurmak", 
-                "en_sentence": "The old diary pages {reveal} a long-kept family secret after all these years.", 
-                "tr_sentence": "Eski günlük sayfaları, bunca yıl sonra uzun süredir saklanan bir aile sırrını ortaya çıkarıyor.", 
-                "image_url": "https://png.pngtree.com/png-vector/20250506/ourmid/pngtree-opened-old-book-with-blank-pages-on-isolated-png-image_16203659.png" 
-            },
-            { 
-                "en_verb": "Envisage", 
-                "tr_verb": "Öngörmek, Zihninde Canlandırmak", 
-                "en_sentence": "I can't quite {envisage} what the living room will look like after we paint the walls dark blue.", 
-                "tr_sentence": "Duvarları koyu maviye boyadıktan sonra oturma odasının nasıl görüneceğini tam olarak öngöremiyorum (zihnimde canlandıramıyorum).", 
-                "image_url": "https://png.pngtree.com/thumb_back/fh260/background/20230717/pngtree-sleek-memphis-inspired-interior-featuring-a-bold-deep-blue-wall-and-image_3895210.jpg" 
-            },
-            { 
-                "en_verb": "Exclude", 
-                "tr_verb": "Hariç Tutmak, Dışlamak", 
-                "en_sentence": "The new gym membership package seems to {exclude} access to the swimming pool.", 
-                "tr_sentence": "Yeni spor salonu üyeliği paketi, yüzme havuzuna erişimi hariç tutuyor (dışlıyor) gibi görünüyor.", 
-                "image_url": "https://img.freepik.com/premium-vektor/egzersiz-yapan-insan-grubu_18591-46577.jpg?semt=ais_hybrid&w=740&q=80" 
-            },
-            { 
-                "en_verb": "Expend", 
-                "tr_verb": "Harcamak, Tüketmek (kaynak, zaman)", 
-                "en_sentence": "We had to {expend} most of our remaining energy just climbing the last hill.", 
-                "tr_sentence": "Kalan enerjimizin çoğunu sadece son tepeye tırmanmak için harcamak zorunda kaldık.", 
-                "image_url": "https://png.pngtree.com/png-vector/20210810/ourmid/pngtree-mountain-climbing-concept-illustration-three-people-cooperate-to-climb-to-the-png-image_3789297.jpg" 
-            },
-            { 
-                "en_verb": "Facilitate", 
-                "tr_verb": "Kolaylaştırmak", 
-                "en_sentence": "The new app feature will {facilitate} much faster communication between neighbors.", 
-                "tr_sentence": "Yeni uygulama özelliği, komşular arasındaki iletişimi çok daha hızlı kolaylaştıracak.", 
-                "image_url": "https://media.istockphoto.com/id/824045360/tr/vekt%C3%B6r/kom%C5%9Fular.jpg?s=612x612&w=0&k=20&c=543zvIyX7OOhch_6UQaO508sR2XaHOvH-okTglaiZ0M=" 
-            },
-            { 
-                "en_verb": "Fluctuate", 
-                "tr_verb": "Dalgalanmak, İnip Çıkmak", 
-                "en_sentence": "The gas prices at the station {fluctuate} almost daily depending on the time of the week.", 
-                "tr_sentence": "İstasyondaki benzin fiyatları, haftanın gününe bağlı olarak neredeyse her gün dalgalanıyor.", 
-                "image_url": "https://media.istockphoto.com/id/1061070196/tr/foto%C4%9Fraf/benzin-istasyonu-beyaz-bir-arka-plan-%C3%BCzerinde-izole-3d-%C3%A7izim.jpg?s=170667a&w=0&k=20&c=kQ9yLJ_EwlZK6sNPYDaGilXqO4_eojE3CE2YE5cl0Gw=" 
-            },
-            { 
-                "en_verb": "Foster", 
-                "tr_verb": "Geliştirmek, Teşvik etmek, Beslemek", 
-                "en_sentence": "My parents always tried to {foster} a love of reading in us by taking us to the library.", 
-                "tr_sentence": "Ailem, bizi kütüphaneye götürerek bizde daima okuma sevgisini geliştirmeye (veya beslemeye) çalıştı.", 
-                "image_url": "https://media.istockphoto.com/id/1082295530/tr/vekt%C3%B6r/%C3%A7ocuk-kitapl%C4%B1%C4%9F%C4%B1nda.jpg?s=170667a&w=0&k=20&c=MHa0i8Dv7HthlUD6nYC3L300RSUAEFMJzz2-6eXFIcA=" 
-            },
-            { 
-                "en_verb": "Globalize", 
-                "tr_verb": "Küreselleştirmek", 
-                "en_sentence": "The Internet continues to {globalize} trends in fashion and music more quickly than ever before.", 
-                "tr_sentence": "İnternet, moda ve müzik trendlerini daha önce hiç olmadığı kadar hızlı bir şekilde küreselleştirmeye devam ediyor.", 
-                "image_url": "https://media.istockphoto.com/id/1486891519/vector/sound-elements-with-explosion-effect-3d-vector-mobile-application-icon-with-notification.jpg?s=612x612&w=0&k=20&c=lu9tRyWR6_9hDpryAj-A68mHV7W0V46BiItrTSh8QDo=" 
-            },
-            { 
-                "en_verb": "Guarantee", 
-                "tr_verb": "Garanti Etmek", 
-                "en_sentence": "The mechanic can't {guarantee} that the old car will pass the inspection without several major repairs.", 
-                "tr_sentence": "Tamirci, eski arabanın birkaç büyük onarım olmadan muayeneden geçeceğini garanti edemez.", 
-                "image_url": "https://png.pngtree.com/png-clipart/20240625/original/pngtree-vintage-blue-car-3d-png-image_15408209.png" 
-            },
-            { 
-                "en_verb": "Hinder", 
-                "tr_verb": "Engellemek, Önlemek", 
-                "en_sentence": "Heavy traffic and poor weather will certainly {hinder} our arrival time this evening.", 
-                "tr_sentence": "Yoğun trafik ve kötü hava, bu akşamki varış saatimizi kesinlikle engelleyecektir (veya önleyecektir).", 
-                "image_url": "https://png.pngtree.com/png-clipart/20230914/original/pngtree-traffic-jam-vector-png-image_12146638.png" 
-            },
-            { 
-                "en_verb": "Imply", 
-                "tr_verb": "Kastetmek, İma Etmek, Çıkarım Yapmak", 
-                "en_sentence": "His silence when I asked about the broken vase seemed to {imply} he was the one responsible.", 
-                "tr_sentence": "Kırık vazo hakkında sorduğumdaki sessizliği, sorumlu kişinin kendisi olduğunu ima ediyor gibiydi.", 
-                "image_url": "https://png.pngtree.com/png-vector/20240823/ourlarge/pngtree-an-old-vase-featuring-a-broken-piece-of-pottery-showcasing-its-png-image_13591223.png" 
-            }
+            { "en_verb": "Signify", "tr_verb": "İfade Etmek, Anlamına Gelmek", "en_sentence": "His constant yawning might {signify} that he is extremely tired after the long flight.", "tr_sentence": "Onun sürekli esnemesi, uzun uçuştan sonra aşırı yorgun olduğu anlamına gelebilir.", "image_url": "https://via.placeholder.com/400x300?text=Signify" },
+            { "en_verb": "Account for", "tr_verb": "Açıklamak, Sorumlu Olmak", "en_sentence": "Can you {account for} the missing $50 from the petty cash box?", "tr_sentence": "Küçük kasadaki eksik 50 doları açıklayabilir misin (nerede olduğunu söyleyebilir misin)?", "image_url": "https://via.placeholder.com/400x300?text=Account+for" },
+            { "en_verb": "Assess", "tr_verb": "Değer Biçmek, Değerlendirmek", "en_sentence": "We need to {assess} the damage to the car before calling the insurance company.", "tr_sentence": "Sigorta şirketini aramadan önce arabadaki hasarı değerlendirmemiz gerekiyor.", "image_url": "https://via.placeholder.com/400x300?text=Assess" },
+            { "en_verb": "Contribute", "tr_verb": "Katkıda Bulunmak", "en_sentence": "Everyone should {contribute} an item to the potluck dinner next weekend.", "tr_sentence": "Gelecek hafta sonu yapılacak ortak yemeğe herkes bir şeyler getirerek katkıda bulunmalı.", "image_url": "https://via.placeholder.com/400x300?text=Contribute" },
+            { "en_verb": "Correlate", "tr_verb": "İlişkilendirmek, Korelasyon Kurmak", "en_sentence": "We noticed that his mood often {correlate}s with how much sleep he got the previous night.", "tr_sentence": "Ruh halinin, sıklıkla bir önceki gece ne kadar uyuduğuyla ilişkili olduğunu fark ettik.", "image_url": "https://via.placeholder.com/400x300?text=Correlate" },
+            { "en_verb": "Emphasize", "tr_verb": "Vurgulamak", "en_sentence": "My mother always {emphasize}s the importance of eating breakfast every morning.", "tr_sentence": "Annem her sabah kahvaltı yapmanın önemini daima vurgular.", "image_url": "https://via.placeholder.com/400x300?text=Emphasize" },
+            { "en_verb": "Extract", "tr_verb": "Çıkarmak, Özütlemek", "en_sentence": "I need to {extract} all the necessary files from this huge zip folder before I can start working.", "tr_sentence": "Çalışmaya başlamadan önce bu büyük zip klasöründen gerekli tüm dosyaları çıkarmam gerekiyor.", "image_url": "https://via.placeholder.com/400x300?text=Extract" },
+            { "en_verb": "Hypothesize", "tr_verb": "Hipotez Kurmak", "en_sentence": "I {hypothesize} that if we leave the window open, the room will cool down faster.", "tr_sentence": "Eğer pencereyi açık bırakırsak odanın daha hızlı soğuyacağı hipotezini kuruyorum (varsayıyorum).", "image_url": "https://via.placeholder.com/400x300?text=Hypothesize" },
+            { "en_verb": "Justify", "tr_verb": "Gerekçelendirmek", "en_sentence": "You must {justify} the extra money you spent on the vacation to your parents.", "tr_sentence": "Tatilde harcadığın ekstra parayı ailene gerekçelendirmelisin (açıklamalısın).", "image_url": "https://via.placeholder.com/400x300?text=Justify" },
+            { "en_verb": "Reveal", "tr_verb": "Ortaya Çıkarmak, Açığa Vurmak", "en_sentence": "The old diary pages {reveal} a long-kept family secret after all these years.", "tr_sentence": "Eski günlük sayfaları, bunca yıl sonra uzun süredir saklanan bir aile sırrını ortaya çıkarıyor.", "image_url": "https://via.placeholder.com/400x300?text=Reveal" },
+            { "en_verb": "Envisage", "tr_verb": "Öngörmek, Zihninde Canlandırmak", "en_sentence": "I can't quite {envisage} what the living room will look like after we paint the walls dark blue.", "tr_sentence": "Duvarları koyu maviye boyadıktan sonra oturma odasının nasıl görüneceğini tam olarak öngöremiyorum (zihnimde canlandıramıyorum).", "image_url": "https://via.placeholder.com/400x300?text=Envisage" },
+            { "en_verb": "Exclude", "tr_verb": "Hariç Tutmak, Dışlamak", "en_sentence": "The new gym membership package seems to {exclude} access to the swimming pool.", "tr_sentence": "Yeni spor salonu üyeliği paketi, yüzme havuzuna erişimi hariç tutuyor (dışlıyor) gibi görünüyor.", "image_url": "https://via.placeholder.com/400x300?text=Exclude" },
+            { "en_verb": "Expend", "tr_verb": "Harcamak, Tüketmek (kaynak, zaman)", "en_sentence": "We had to {expend} most of our remaining energy just climbing the last hill.", "tr_sentence": "Kalan enerjimizin çoğunu sadece son tepeye tırmanmak için harcamak zorunda kaldık.", "image_url": "https://via.placeholder.com/400x300?text=Expend" },
+            { "en_verb": "Facilitate", "tr_verb": "Kolaylaştırmak", "en_sentence": "The new app feature will {facilitate} much faster communication between neighbors.", "tr_sentence": "Yeni uygulama özelliği, komşular arasındaki iletişimi çok daha hızlı kolaylaştıracak.", "image_url": "https://via.placeholder.com/400x300?text=Facilitate" },
+            { "en_verb": "Fluctuate", "tr_verb": "Dalgalanmak, İnip Çıkmak", "en_sentence": "The gas prices at the station {fluctuate} almost daily depending on the time of the week.", "tr_sentence": "İstasyondaki benzin fiyatları, haftanın gününe bağlı olarak neredeyse her gün dalgalanıyor.", "image_url": "https://via.placeholder.com/400x300?text=Fluctuate" },
+            { "en_verb": "Foster", "tr_verb": "Geliştirmek, Teşvik etmek, Beslemek", "en_sentence": "My parents always tried to {foster} a love of reading in us by taking us to the library.", "tr_sentence": "Ailem, bizi kütüphaneye götürerek bizde daima okuma sevgisini geliştirmeye (veya beslemeye) çalıştı.", "image_url": "https://via.placeholder.com/400x300?text=Foster" },
+            { "en_verb": "Globalize", "tr_verb": "Küreselleştirmek", "en_sentence": "The Internet continues to {globalize} trends in fashion and music more quickly than ever before.", "tr_sentence": "İnternet, moda ve müzik trendlerini daha önce hiç olmadığı kadar hızlı bir şekilde küreselleştirmeye devam ediyor.", "image_url": "https://via.placeholder.com/400x300?text=Globalize" },
+            { "en_verb": "Guarantee", "tr_verb": "Garanti Etmek", "en_sentence": "The mechanic can't {guarantee} that the old car will pass the inspection without several major repairs.", "tr_sentence": "Tamirci, eski arabanın birkaç büyük onarım olmadan muayeneden geçeceğini garanti edemez.", "image_url": "https://via.placeholder.com/400x300?text=Guarantee" },
+            { "en_verb": "Hinder", "tr_verb": "Engellemek, Önlemek", "en_sentence": "Heavy traffic and poor weather will certainly {hinder} our arrival time this evening.", "tr_sentence": "Yoğun trafik ve kötü hava, bu akşamki varış saatimizi kesinlikle engelleyecektir (veya önleyecektir).", "image_url": "https://via.placeholder.com/400x300?text=Hinder" },
+            { "en_verb": "Imply", "tr_verb": "Kastetmek, İma Etmek, Çıkarım Yapmak", "en_sentence": "His silence when I asked about the broken vase seemed to {imply} he was the one responsible.", "tr_sentence": "Kırık vazo hakkında sorduğumdaki sessizliği, sorumlu kişinin kendisi olduğunu ima ediyor gibiydi.", "image_url": "https://via.placeholder.com/400x300?text=Imply" }
         ];
 
         // Kelimeler ve Cümleler, şimdi görsel URL'leri ile eşleştiriliyor.
+
         const baseVerbs = [
             { en_verb: "hide", tr_verb: "saklamak", en_sentence: "I like to {hide} small things in the garden.", tr_sentence: "Bahçeye küçük şeyler saklamayı severim.", image_url: customImageUrlsUnit1[0] },
             { en_verb: "run", tr_verb: "koşmak", en_sentence: "We should {run} faster to catch the bus.", tr_sentence: "Otobüsü yakalamak için daha hızlı koşmalıyız.", image_url: customImageUrlsUnit1[1] },
@@ -468,7 +280,10 @@
             { en_verb: "Suggest", tr_verb: "Öne Sürmek, Önermek", en_sentence: "Based on the qualitative interviews, the data {suggest} a correlation, though not a definitive causation.", tr_sentence: "Nitel görüşmelere dayanarak, veriler kesin bir nedensellik olmasa da bir korelasyon öne sürmektedir.", image_url: customImageUrlsUnit1[23] },
             { en_verb: "Conclude", tr_verb: "Sonuçlandırmak", en_sentence: "In light of the evidence, the study must {conclude} that the intervention had a negligible effect.", tr_sentence: "Kanıtlar ışığında, çalışma müdahalenin ihmal edilebilir bir etkiye sahip olduğu sonucuna varmalıdır.", image_url: customImageUrlsUnit1[24] }
         ];
-
+        
+        // ======================================================
+        // ÜNİTE 2 KELİMELERİ (Güncel)
+        // ======================================================
         const unit2Words = [
              { en_verb: "Perceive", tr_verb: "Algılamak", en_sentence: "The study investigates how students {perceive} the fairness of the new grading system.", tr_sentence: "Çalışma, öğrencilerin yeni notlandırma sisteminin adilliğini nasıl algıladığını araştırmaktadır.", image_url: customImageUrlsUnit2[0] },
              { en_verb: "Propose", tr_verb: "Teklif Etmek, Önermek", en_sentence: "Chapter four will {propose} a novel framework for analyzing social media discourse.", tr_sentence: "Dördüncü bölüm, sosyal medya söylemini analiz etmek için yeni bir çerçeve önerecektir.", image_url: customImageUrlsUnit2[1] },
@@ -492,21 +307,26 @@
              { en_verb: "Replicate", tr_verb: "Tekrarlamak, Çoğaltmak", en_sentence: "The core challenge is whether other laboratories can successfully {replicate} these findings independently.", tr_sentence: "Temel zorluk, diğer laboratuvarların bu bulguları bağımsız olarak başarıyla tekrarlayıp çoğaltamayacağıdır.", image_url: customImageUrlsUnit2[19] }
         ];
 
+
         // Tüm kelime verilerini tek bir yerde toplama
         const allWordsData = [...baseVerbs, ...academicWordsUnit1, ...unit2Words, ...unit3Words];
 
         const unitDatabase = {
             1: [...baseVerbs, ...academicWordsUnit1].map(item => [item.en_verb, item.tr_verb]),
             2: unit2Words.map(item => [item.en_verb, item.tr_verb]), 
-            3: unit3Words.map(item => [item.en_verb, item.tr_verb]), 
-            // Demo veriler
+            3: unit3Words.map(item => [item.en_verb, item.tr_verb]), // Yeni Ünite 3
+            // Diğer demo üniteler ve sahte veriler korunmuştur.
             4: [["computer", "bilgisayar"], ["phone", "telefon"], ["camera", "kamera"], ["robot", "robot"], ["screen", "ekran"]],
         };
 
-        // Demo Amaçlı: Boş üniteleri sahte veriyle doldur
-        for (let i = 4; i <= 20; i++) {
+        // Demo Amaçlı: Boş üniteleri sahte veriyle dolduralım ki liste dolu görünsün
+        for (let i = 4; i <= 20; i++) { // 4'ten başlayarak demo verisi ekliyoruz
             if (!unitDatabase[i]) {
-                unitDatabase[i] = [ ["example", "örnek"], ["test", "deneme"], ["word", "kelime"] ];
+                unitDatabase[i] = [
+                    ["example", "örnek"],
+                    ["test", "deneme"],
+                    ["word", "kelime"]
+                ];
             }
         }
         
@@ -515,289 +335,200 @@
             const result = allWordsData.find(item => item.en_verb === word);
             if (result) return result;
             
+            // Diğer ünitelerdeki kelimeler için basit bir obje döndür 
             for (const unitId in unitDatabase) {
                 const found = unitDatabase[unitId].find(pair => pair[0] === word);
                 if (found) {
+                    // Sahte kelimeler için de bir image_url tanımlayalım
                     return { en_verb: found[0], tr_verb: found[1], en_sentence: `This is an example sentence for {${found[0]}}.`, tr_sentence: `Bu, {${found[0]}} kelimesi için bir örnektir.`, image_url: "https://via.placeholder.com/400x300?text=DEMO" };
                 }
             }
             return null;
         }
 
+
         // ======================================================        
-        // 2. İÇERİK OLUŞTURUCU 
+        // 2. İÇERİK OLUŞTURUCU (SADELEŞTİRİLMİŞ)
         // ======================================================                
+
         function getWordCardData(word, meaning) {
+            
+            // 1. TAM VERİ KONTROLÜ: Tam veriyi al
             const fullData = getWordFullData(word);
+            
             let finalEn = fullData ? fullData.en_sentence : "";
             let finalTr = fullData ? fullData.tr_sentence : "";
-            const imgUrl = fullData && fullData.image_url ? fullData.image_url : "https://via.placeholder.com/400x300?text=Gorsel+Yok";
-            
+            // Görseli doğrudan veri objesinden al
+            const imgUrl = fullData && fullData.image_url 
+                ? fullData.image_url 
+                : "https://via.placeholder.com/400x300?text=Gorsel+Yok"; 
+
+            // -----------------------------------------------------
+            // B. Cümle İşleme (Kelimeyi vurgulama)
+            // -----------------------------------------------------
+
             if (fullData) {
-                const highlightRegex = new RegExp(`\\{${word}\\}`, 'i');
+                // Kelimeyi {kelime} şeklinde vurgulamak için regex
+                const highlightRegex = new RegExp(`\\{${word}\\}`, 'i'); 
+                
+                // Eğer cümlede {kelime} formatı zaten varsa, direkt highlight'ı uygula
                 if (fullData.en_sentence.match(highlightRegex)) {
                     finalEn = fullData.en_sentence;
                 } else {
+                    // Eğer {kelime} formatı yoksa, kelimenin kendisini bulup {kelime} formatına dönüştür.
+                    // Bu, kelimenin büyük harf/küçük harf durumunu veya eklerini (succeed vs succeeds) göz ardı etmez.
                     const wordRegex = new RegExp(`\\b${word}\\b`, 'i');
                     let processedEn = fullData.en_sentence.replace(wordRegex, `{${word}}`);
+                    
+                    // Eğer yine de bulunamazsa (ki bu akademik kelimelerde 'implement' gibi fiillerde veya ekli kullanımlarda sorun çıkarabilir)
                     if (processedEn === fullData.en_sentence && fullData.en_sentence.includes(word)) {
+                         // Daha esnek bir regex ile kelimenin herhangi bir geçtiği yeri yakalamayı deneriz
                          const strictWordRegex = new RegExp(word, 'g');
                          processedEn = fullData.en_sentence.replace(strictWordRegex, `{${word}}`);
                     }
+                    
                     finalEn = processedEn;
                 }
+                
             }
 
-            return { word: word, meaning: meaning, image: imgUrl, sentenceEn: finalEn, sentenceTr: finalTr };
+
+            return {
+                word: word,
+                meaning: meaning,
+                image: imgUrl,
+                sentenceEn: finalEn, 
+                sentenceTr: finalTr
+            };
         }
 
-        // --- SESLENDİRME ---        
+        // --- SESLENDİRME FONKSİYONU ---        
         function speakWord(word) {            
             if ('speechSynthesis' in window) {                
-                const utterance = new SpeechSynthesisUtterance(word);
-                utterance.lang = 'en-US';
+                const utterance = new SpeechSynthesisUtterance(word);                
+                // İngilizce için 'en-US' ayarı                
+                utterance.lang = 'en-US';                 
                 window.speechSynthesis.speak(utterance);            
             } else {                
-                console.warn('Tarayıcı seslendirmeyi desteklemiyor.');
+                console.warn('Tarayıcı seslendirmeyi desteklemiyor.');            
             }        
         }
+
 
         // ======================================================        
         // 3. ARAYÜZ FONKSİYONLARI        
         // ======================================================
-        const listScreen = document.getElementById('list-screen');
+        const listScreen = document.getElementById('list-screen');        
         const detailScreen = document.getElementById('detail-screen');        
         const cardScreen = document.getElementById('card-screen');
-        const quizScreen = document.getElementById('quiz-screen');
-        const resultScreen = document.getElementById('quiz-result-screen');
         
-        let activeUnitId = 1; // Hangi ünitede olduğumuzu takip etmek için
-
         function switchScreen(screen) {            
             listScreen.classList.remove('active'); listScreen.style.display = 'none';            
             detailScreen.classList.remove('active'); detailScreen.style.display = 'none';            
             cardScreen.classList.remove('active'); cardScreen.style.display = 'none';                        
-            quizScreen.classList.remove('active'); quizScreen.style.display = 'none';
-            resultScreen.classList.remove('active'); resultScreen.style.display = 'none';
-
             screen.style.display = 'block';            
-            setTimeout(() => screen.classList.add('active'), 10);
+            setTimeout(() => screen.classList.add('active'), 10);        
         }
         
         // --- Ünite Listesini Oluştur ---        
         function initUnitList() {            
-            const container = document.getElementById('units-container');
+            const container = document.getElementById('units-container');            
             const totalUnits = 20;            
             const colors = ['bg-1', 'bg-2', 'bg-3', 'bg-4', 'bg-5'];
+            
             for (let i = 1; i <= totalUnits; i++) {                
-                const color = colors[(i - 1) % colors.length];
+                const color = colors[(i - 1) % colors.length];                
                 const wordCount = unitDatabase[i] ? unitDatabase[i].length : 0;                                
                 const card = document.createElement('div');                
                 card.className = 'unit-card';                
-                card.onclick = () => openUnit(i);
+                card.onclick = () => openUnit(i);                
                 card.innerHTML = `                    
                     <div class="circle ${color}">${i}</div>                    
                     <div class="info">                        
                         <h3>Ünite ${i}</h3>                        
-                        <p>${wordCount} kelime</p>                     
+                        <p>${wordCount} kelime</p>                    
                     </div>                
-                `;
+                `;                
                 container.appendChild(card);            
             }        
         }
         
         // --- Ünite Detayını Aç ---        
-        function openUnit(unitId) {
-            activeUnitId = unitId; // Aktif üniteyi kaydet
-            document.getElementById('detail-unit-title').innerText = `Ünite ${unitId} Kelimeleri`;
+        function openUnit(unitId) {            
+            document.getElementById('detail-unit-title').innerText = `Ünite ${unitId} Kelimeleri`;            
             const listContainer = document.getElementById('unit-word-list');            
-            const emptyMsg = document.getElementById('empty-message');
-            const bottomBar = document.getElementById('detail-bottom-bar');
-            
+            const emptyMsg = document.getElementById('empty-message');            
             listContainer.innerHTML = '';
             
             const rawWords = unitDatabase[unitId];
+            
             if (!rawWords || rawWords.length === 0) {                
-                emptyMsg.style.display = 'block';
-                bottomBar.style.display = 'none'; // Kelime yoksa quiz butonu gizle
+                emptyMsg.style.display = 'block';            
             } else {                
-                emptyMsg.style.display = 'none';
-                bottomBar.style.display = 'flex'; // Kelime varsa göster
-
+                emptyMsg.style.display = 'none';                                
                 rawWords.forEach(pair => {                    
                     const word = pair[0];
                     const meaning = pair[1];
+                    
+                    // Kelimenin tam verisini al (burada image_url de var)
                     const fullData = getWordFullData(word); 
-                    const listImageUrl = fullData && fullData.image_url ? fullData.image_url : "https://via.placeholder.com/50x50?text=DEMO";
+                    
+                    // Liste görseli (Eğer görsel URL'si yoksa DEMO placeholder kullanıyoruz)
+                    const listImageUrl = fullData && fullData.image_url 
+                        ? fullData.image_url 
+                        : "https://via.placeholder.com/50x50?text=DEMO";
 
-                    const li = document.createElement('li');                     
+                    const li = document.createElement('li');                    
                     li.className = 'word-item';                                        
-                    li.dataset.word = word;                     
+                    li.dataset.word = word;                    
                     li.dataset.meaning = meaning;                                        
+                    
                     li.onclick = function() {                        
                         const w = this.dataset.word;
                         const m = this.dataset.meaning;
                         openCard(getWordCardData(w, m));                    
                     };                                        
+                    
                     li.innerHTML = `                        
-                        <div class="word-thumbnail"><img src="${listImageUrl}" alt="${word}"></div>
+                        <div class="word-thumbnail">
+                            <img src="${listImageUrl}" alt="${word}">
+                        </div>
                         <div style="flex-grow:1">                            
                             <div style="font-weight:bold; color:#333; font-size:16px;">${word}</div>                            
                             <div style="font-size:14px; color:#777;">${meaning}</div>                        
                         </div>                        
                         <span style="color:#ddd;">&#10095;</span>                    
-                    `;
+                    `;                    
                     listContainer.appendChild(li);                
                 });            
             }            
-            switchScreen(detailScreen);
+            switchScreen(detailScreen);        
         }
 
         // --- Kartı Aç ---        
         function openCard(data) {            
-            document.getElementById('card-word').innerText = data.word;
+            document.getElementById('card-word').innerText = data.word;            
             document.getElementById('card-meaning').innerText = data.meaning;                        
+            
+            // Cümledeki {kelime} kısımlarını renklendirilmiş span'e çevirir.
             const formattedEn = data.sentenceEn.replace(/{(\w+)}/g, '<span class="highlight-word">$1</span>');
-            document.getElementById('card-sentence-en').innerHTML = formattedEn;
+            document.getElementById('card-sentence-en').innerHTML = formattedEn;            
             document.getElementById('card-sentence-tr').innerText = data.sentenceTr;                        
+            
             const img = document.getElementById('card-image');            
+            // Karttaki görselin adresini kullan
             img.src = data.image;
+            
             document.getElementById('card-speaker-icon').onclick = () => speakWord(data.word);
+            
             switchScreen(cardScreen);        
         }
         
         function showListScreen() { switchScreen(listScreen); }        
         function closeCardScreen() { switchScreen(detailScreen); }
-
-        // ======================================================
-        // 4. QUIZ SİSTEMİ (YENİ EKLENEN KISIM)
-        // ======================================================
-        let currentQuizQuestions = [];
-        let currentQuestionIndex = 0;
-        let correctAnswersCount = 0;
-        let isAnswerProcessed = false;
-
-        function startQuiz() {
-            // Ünite kelimelerini al
-            const unitWords = unitDatabase[activeUnitId];
-            if (!unitWords || unitWords.length === 0) return;
-
-            // Soruları karıştır
-            const shuffledWords = [...unitWords].sort(() => 0.5 - Math.random());
-            // En fazla 10 soru, yoksa hepsi
-            currentQuizQuestions = shuffledWords.slice(0, 10);
-            
-            currentQuestionIndex = 0;
-            correctAnswersCount = 0;
-            
-            showQuizQuestion();
-            switchScreen(quizScreen);
-        }
-
-        function showQuizQuestion() {
-            isAnswerProcessed = false;
-            const currentData = currentQuizQuestions[currentQuestionIndex];
-            const correctWord = currentData[0];
-            const correctMeaning = currentData[1];
-
-            // Arayüzü güncelle
-            document.getElementById('quiz-counter').innerText = `${currentQuestionIndex + 1} / ${currentQuizQuestions.length}`;
-            document.getElementById('quiz-word-text').innerText = correctWord;
-            
-            // Progress bar
-            const progressPercent = ((currentQuestionIndex) / currentQuizQuestions.length) * 100;
-            document.getElementById('quiz-progress-bar').style.width = `${progressPercent}%`;
-
-            // Şıkları oluştur
-            // 1. Doğru cevabı ekle
-            let options = [correctMeaning];
-            
-            // 2. Yanlış cevapları havuzdan (allWordsData) seç
-            // Kendi anlamı olmayan rastgele anlamlar bul
-            const allMeanings = allWordsData.map(item => item.tr_verb);
-            while (options.length < 4) {
-                const randomMeaning = allMeanings[Math.floor(Math.random() * allMeanings.length)];
-                if (!options.includes(randomMeaning) && randomMeaning !== correctMeaning) {
-                    options.push(randomMeaning);
-                }
-            }
-
-            // 3. Şıkları karıştır
-            options.sort(() => 0.5 - Math.random());
-
-            // 4. HTML'e bas
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
-
-            options.forEach(opt => {
-                const btn = document.createElement('div');
-                btn.className = 'option-btn';
-                btn.innerText = opt;
-                btn.onclick = () => checkAnswer(btn, opt, correctMeaning);
-                optionsContainer.appendChild(btn);
-            });
-        }
-
-        function checkAnswer(btnElement, selectedMeaning, correctMeaning) {
-            if (isAnswerProcessed) return;
-            isAnswerProcessed = true;
-
-            const allBtns = document.querySelectorAll('.option-btn');
-            
-            if (selectedMeaning === correctMeaning) {
-                // DOĞRU
-                btnElement.classList.add('correct');
-                correctAnswersCount++;
-                const correctSound = new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg'); // Basit bir ses efekti eklenebilir
-                // speakWord("Correct");
-            } else {
-                // YANLIŞ
-                btnElement.classList.add('wrong');
-                // Doğru olanı da göster
-                allBtns.forEach(btn => {
-                    if (btn.innerText === correctMeaning) {
-                        btn.classList.add('correct');
-                    }
-                });
-            }
-
-            // Diğer butonlara tıklamayı engelle
-            allBtns.forEach(btn => btn.classList.add('disabled'));
-
-            // Bekle ve sonraki soruya geç
-            setTimeout(() => {
-                currentQuestionIndex++;
-                if (currentQuestionIndex < currentQuizQuestions.length) {
-                    showQuizQuestion();
-                } else {
-                    finishQuiz();
-                }
-            }, 1500);
-        }
-
-        function speakCurrentQuizWord() {
-            const word = currentQuizQuestions[currentQuestionIndex][0];
-            speakWord(word);
-        }
-
-        function finishQuiz() {
-            document.getElementById('result-score').innerText = `%${Math.round((correctAnswersCount / currentQuizQuestions.length) * 100)}`;
-            
-            let msg = "";
-            if (correctAnswersCount === currentQuizQuestions.length) msg = "Mükemmel! Hepsini bildin.";
-            else if (correctAnswersCount > currentQuizQuestions.length / 2) msg = "Gayet iyi, ama biraz daha tekrar yapabilirsin.";
-            else msg = "Daha fazla çalışmalısın.";
-            
-            document.getElementById('result-message').innerText = msg;
-            switchScreen(resultScreen);
-        }
-
-        function quitQuiz() {
-            switchScreen(detailScreen);
-        }
-
+        
         // Uygulamayı Başlat        
         initUnitList();
-    </script>
-</body>
+    </script> 
+</body> 
 </html>
