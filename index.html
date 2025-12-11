@@ -262,7 +262,7 @@
     <script>
         
         // ======================================================
-        // 1. VERİ TANIMLAMA (Eksik Kelimeler Geri Yüklendi)
+        // 1. VERİ TANIMLAMA (Ünite 3 Görselleri Eklendi)
         // ======================================================
 
         // --- GÖRSEL URL'leri ---
@@ -309,7 +309,7 @@
             "https://www.epcredit.ng/wp-content/uploads/2024/01/p1-copyright.png", // 8. Justify
             "https://png.pngtree.com/png-vector/20250816/ourlarge/pngtree-3d-glossy-magnifying-glass-over-book-research-study-png-image_17002924.webp", // 9. Propose
             "https://png.pngtree.com/png-clipart/20240309/original/pngtree-d-illustration-of-charts-and-graph-with-analysis-business-financial-data-png-image_14549648.png", // 10. Correlate
-            "https://img.freepik.com/premium-vektor/veri-analitigi-gosteren-tablet-ile-3d-izometrik-infografik-is-konsepti_281653-3458.jpg", // 11. Interpret
+            "https://img.freepik.com/ucretsiz-vektor/grafiklerle-is-performansi-analizi_53876-59915.jpg?semt=ais_se_enriched&w=740&q=80", // 11. Interpret (Yeniden kullanılıyor)
             "https://png.pngtree.com/png-vector/20251001/ourmid/pngtree-ultra-hd-infographic-and-data-visualization-icons-set-charts-graphs-arrows-png-image_17650129.webp", // 12. Distinguish
             "https://e7.pngegg.com/pngimages/576/642/png-clipart-data-analysis-analytics-management-big-data-data-processing-business-template-text.png", // 13. Refer
             "https://img.pikbest.com/illustration/20251009/business-team-presentation-vector-with-charts-graphs-data-analysis-and-teamwork_11925317.jpg!w700wp", // 14. Contrast (Tekrar Kullanım)
@@ -317,8 +317,32 @@
             "https://img.freepik.com/premium-photo/curious-scientist-3d-cartoon-character-transparent-background-ai_894067-14624.jpg", // 16. Research
             "https://media.istockphoto.com/id/1049718624/tr/vekt%C3%B6r/k%C3%BCt%C3%BCphane-illlustration.jpg?s=170667a&w=0&k=20&c=OSM2nrhcx44bnvUB5ZhHMSg5Q429uuRk8WcTM4eWGVQ=", // 17. Abstract
             "https://png.pngtree.com/png-vector/20250321/ourmid/pngtree-businessman-analyzing-stock-market-trends-on-multiple-monitors-png-image_15809875.png", // 18. Predict
-            "https://png.pngtree.com/thumb_back/fw800/background/20250710/pngtree-financial-data-analysis-with-magnifying-glass-image_17607850.webp", // 19. Confirm
+            "https://png.pngtree.com/thumb_back/fw800/background/20250710/pngtree-financial-data-analysis-with-magnifying-glass-image_17607850.webp", // 19. Confirm (Yeniden kullanılıyor)
             "https://png.pngtree.com/png-clipart/20250305/original/pngtree-cartoon-scientist-in-laboratory-with-flasks-png-image_20575712.png" // 20. Examine
+        ];
+
+        // YENİ: Ünite 3 Görsel URL'leri
+        const customImageUrlsUnit3 = [
+            "https://png.pngtree.com/png-vector/20240603/ourmid/pngtree-sleepy-yawning-boy-cartoon-png-image_12611488.png", // 1. Signify (Esneyen çocuk yorgunluk ifade eder)
+            "https://png.pngtree.com/png-vector/20250209/ourmid/pngtree-safe-full-of-gold-bars-png-image_15429890.png", // 2. Account for (Kaybolan parayı açıklamak)
+            "https://png.pngtree.com/png-vector/20241016/ourmid/pngtree-crushed-car-vector-broken-illustration-png-image_14090444.png", // 3. Assess (Hasarı değerlendirmek)
+            "https://png.pngtree.com/png-vector/20230728/ourlarge/pngtree-banquet-clipart-isometric-vector-family-dinner-cartoon-png-image_6798634.png", // 4. Assume (Yemeği bitirdiğini varsaymak)
+            "https://media.istockphoto.com/id/1153827146/tr/vekt%C3%B6r/k%C4%B1z-yatakta-a%C3%A7%C4%B1k-kitap-ile-geceleri-uyuyan.jpg?s=612x612&w=0&k=20&c=eKspsCo5Qb3x4e70oiNDacOgtc6Fremhqi2RKqSAPAk=", // 5. Deduce (Kitaplardan çıkarım yapmak)
+            "https://png.pngtree.com/png-vector/20240604/ourmid/pngtree-teapot-breakfast-flat-free-png-image_12620643.png", // 6. Illustrate (Örneklemek, göstermek)
+            "https://media.istockphoto.com/id/1314418031/vector/file-transfer-concept-yellow-folder-with-document-on-computer-monitor-3d-vector-illustration.jpg?s=612x612&w=0&k=20&c=8H3HIg4h8pH9WYSj-89c6MEAWK8P_TfaNDBozlSKlx8=", // 7. Incorporate (Dosya/Veri dahil etmek)
+            "https://media.istockphoto.com/id/162238979/tr/vekt%C3%B6r/open-window.jpg?s=612x612&w=0&k=20&c=qdjyHeID6qCKPkNlPe3ouwD8Hb6K7TOMb1vMTtG1Lbk=", // 8. Monitor (Gözlemlemek, pencereden izlemek)
+            "https://png.pngtree.com/thumb_back/fh260/background/20220219/pngtree-stacked-flying-dollar-banknotes-rich-consumer-flowing-photo-image_15993028.jpg", // 9. Omit (Detay atlamak, hariç bırakmak)
+            "https://png.pngtree.com/png-vector/20250506/ourmid/pngtree-opened-old-book-with-blank-pages-on-isolated-png-image_16203659.png", // 10. Persist (Okumaya/işe devam etmek)
+            "https://png.pngtree.com/thumb_back/fh260/background/20230717/pngtree-sleek-memphis-inspired-interior-featuring-a-bold-deep-blue-wall-and-image_3895210.jpg", // 11. Precede (Önce gelmek)
+            "https://img.freepik.com/premium-vektor/egzersiz-yapan-insan-grubu_18591-46577.jpg?semt=ais_hybrid&w=740&q=80", // 12. Retain (Formu korumak/Bilgiyi muhafaza etmek)
+            "https://png.pngtree.com/png-vector/20210810/ourmid/pngtree-mountain-climbing-concept-illustration-three-people-cooperate-to-climb-to-the-png-image_3789297.jpg", // 13. Specify (Hedefi belirlemek)
+            "https://media.istockphoto.com/id/824045360/tr/vekt%C3%B6r/kom%C5%9Fular.jpg?s=612x612&w=0&k=20&c=543zvIyX7OOhch_6UQaO508sR2XaHOvH-okTglaiZ0M=", // 14. Substantiate (Komşuluk ilişkilerini kanıtlamak)
+            "https://media.istockphoto.com/id/1061070196/tr/foto%C4%9Fraf/benzin-istasyonu-beyaz-bir-arka-plan-%C3%BCzerinde-izole-3d-%C3%A7izim.jpg?s=170667a&w=0&k=20&c=kQ9yLJ_EwlZK6sNPYDaGilXqO4_eojE3CE2YE5cl0Gw=", // 15. Undergo (Yakıt alım sürecinden geçmek)
+            "https://media.istockphoto.com/id/1082295530/tr/vekt%C3%B6r/%C3%A7ocuk-kitapl%C4%B1%C4%9F%C4%B1nda.jpg?s=170667a&w=0&k=20&c=MHa0i8Dv7HthlUD6nYC3L300RSUAEFMJzz2-6eXFIcA=", // 16. Utilize (Kitapları/kaynakları kullanmak)
+            "https://media.istockphoto.com/id/1486891519/vector/sound-elements-with-explosion-effect-3d-vector-mobile-application-icon-with-notification.jpg?s=612x612&w=0&k=20&c=lu9tRyWR6_9hDpryAj-A68mHV7W0V46BiItrTSh8QDo=", // 17. Constitute (Temel ilkeleri oluşturmak)
+            "https://png.pngtree.com/png-clipart/20240625/original/pngtree-vintage-blue-car-3d-png-image_15408209.png", // 18. Execute (Planı uygulamak)
+            "https://png.pngtree.com/png-clipart/20230914/original/pngtree-traffic-jam-vector-png-image_12146638.png", // 19. Integrate (Trafiğe/Sisteme entegre olmak)
+            "https://png.pngtree.com/png-vector/20240823/ourlarge/pngtree-an-old-vase-featuring-a-broken-piece-of-pottery-showcasing-its-png-image_13591223.png" // 20. Resolve (Çatışmayı/Problemi çözmek)
         ];
 
 
@@ -342,7 +366,7 @@
              { en_verb: "Demonstrate", tr_verb: "Gösteriyle Kanıtlamak", en_sentence: "The scientist will {Demonstrate} the new theory.", tr_sentence: "Bilim insanı yeni teoriyi kanıtlayacak.", image_url: customImageUrlsUnit1[11] },
              { en_verb: "Evaluate", tr_verb: "Değer Biçmek, Değerlendirmek", en_sentence: "The managers will {Evaluate} the performance.", tr_sentence: "Yöneticiler performansı değerlendirecek.", image_url: customImageUrlsUnit1[12] },
              { en_verb: "Synthesize", tr_verb: "Sentezlemek, Birleştirmek", en_sentence: "She was asked to {Synthesize} the findings.", tr_sentence: "Ondan bulguları sentezlemesi istendi.", image_url: customImageUrlsUnit1[13] },
-             { en_verb: "Formulate", tr_verb: "Formüle Etmek, Hazırlamak", en_sentence: "We need to {Formulate} a new plan immediately.", tr_sentence: "Hemen yeni bir plan hazırlamamız gerekiyor.", image_url: customImageUrlsUnit1[14] },
+             { en_verb: "Formulate", tr_verb: "Formüle Etmek, Hazırlamak", en_sentence: "We need to {Formulate} a new plan immediately.", tr_sentence: "Hemen yeni bir plan hazırlamam gerekiyor.", image_url: customImageUrlsUnit1[14] },
              { en_verb: "Define", tr_verb: "Tanımlamak", en_sentence: "You must {Define} the key terms clearly.", tr_sentence: "Anahtar terimleri net bir şekilde tanımlamalısınız.", image_url: customImageUrlsUnit1[15] },
              { en_verb: "Compare", tr_verb: "Karşılaştırmak", en_sentence: "Please {Compare} the two reports.", tr_sentence: "Lütfen iki raporu karşılaştırın.", image_url: customImageUrlsUnit1[16] },
              { en_verb: "Contrast", tr_verb: "Zıtlığını Göstermek", en_sentence: "The study will {Contrast} the two methods.", tr_sentence: "Çalışma, iki yöntemin zıtlığını gösterecek.", image_url: customImageUrlsUnit1[17] },
@@ -379,26 +403,26 @@
         ];
 
         const unit3Words = [
-            { en_verb: "Signify", tr_verb: "İfade Etmek, Anlamına Gelmek", en_sentence: "His constant yawning might {Signify} that he is extremely tired.", tr_sentence: "Sürekli esnemesi, aşırı yorgun olduğu anlamına gelebilir.", image_url: "https://via.placeholder.com/400x300?text=Signify" },
-            { en_verb: "Account for", tr_verb: "Açıklamak", en_sentence: "Can you {Account for} the missing money?", tr_sentence: "Kayıp parayı açıklayabilir misin?", image_url: "https://via.placeholder.com/400x300?text=Account+for" },
-            { en_verb: "Assess", tr_verb: "Değerlendirmek", en_sentence: "We need to {Assess} the damage after the storm.", tr_sentence: "Fırtınadan sonra hasarı değerlendirmemiz gerekiyor.", image_url: "https://via.placeholder.com/400x300?text=Assess" },
-            { en_verb: "Assume", tr_verb: "Varsaymak, Farz Etmek", en_sentence: "I {Assume} you have finished the work.", tr_sentence: "İşi bitirdiğinizi varsayıyorum.", image_url: "https://via.placeholder.com/400x300?text=Assume" },
-            { en_verb: "Deduce", tr_verb: "Sonuç Çıkarmak", en_sentence: "We can {Deduce} the answer from the facts.", tr_sentence: "Cevabı gerçeklerden sonuç çıkarabiliriz.", image_url: "https://via.placeholder.com/400x300?text=Deduce" },
-            { en_verb: "Illustrate", tr_verb: "Açıklamak, Örneklemek", en_sentence: "She used a chart to {Illustrate} her points.", tr_sentence: "Fikirlerini açıklamak için bir grafik kullandı.", image_url: "https://via.placeholder.com/400x300?text=Illustrate" },
-            { en_verb: "Incorporate", tr_verb: "Dahil Etmek, Katmak", en_sentence: "The report should {Incorporate} all new data.", tr_sentence: "Rapor tüm yeni verileri dahil etmeli.", image_url: "https://via.placeholder.com/400x300?text=Incorporate" },
-            { en_verb: "Monitor", tr_verb: "İzlemek, Gözlemlemek", en_sentence: "Please {Monitor} the system performance.", tr_sentence: "Lütfen sistem performansını izleyin.", image_url: "https://via.placeholder.com/400x300?text=Monitor" },
-            { en_verb: "Omit", tr_verb: "Hariç Bırakmak, Atlamak", en_sentence: "Do not {Omit} any details in your summary.", tr_sentence: "Özetinizde hiçbir detayı atlamayın.", image_url: "https://via.placeholder.com/400x300?text=Omit" },
-            { en_verb: "Persist", tr_verb: "Devam Etmek, Israr Etmek", en_sentence: "The rain will {Persist} for another hour.", tr_sentence: "Yağmur bir saat daha devam edecek.", image_url: "https://via.placeholder.com/400x300?text=Persist" },
-            { en_verb: "Precede", tr_verb: "Önce Gelmek", en_sentence: "The introduction must {Precede} the main text.", tr_sentence: "Giriş, ana metinden önce gelmelidir.", image_url: "https://via.placeholder.com/400x300?text=Precede" },
-            { en_verb: "Retain", tr_verb: "Tutmak, Muhafaza Etmek", en_sentence: "Try to {Retain} the information from the lecture.", tr_sentence: "Dersteki bilgiyi muhafaza etmeye çalışın.", image_url: "https://via.placeholder.com/400x300?text=Retain" },
-            { en_verb: "Specify", tr_verb: "Belirtmek", en_sentence: "Please {Specify} the required quantity.", tr_sentence: "Lütfen gerekli miktarı belirtin.", image_url: "https://via.placeholder.com/400x300?text=Specify" },
-            { en_verb: "Substantiate", tr_verb: "Kanıtlamak, Doğrulamak", en_sentence: "You must {Substantiate} your claims with evidence.", tr_sentence: "İddialarınızı kanıtlarla doğrulamalısınız.", image_url: "https://via.placeholder.com/400x300?text=Substantiate" },
-            { en_verb: "Undergo", tr_verb: "Geçirmek, Yaşamak", en_sentence: "The device will {Undergo} rigorous testing.", tr_sentence: "Cihaz titiz testlerden geçecek.", image_url: "https://via.placeholder.com/400x300?text=Undergo" },
-            { en_verb: "Utilize", tr_verb: "Kullanmak, Yararlanmak", en_sentence: "We should {Utilize} the new software.", tr_sentence: "Yeni yazılımı kullanmalıyız.", image_url: "https://via.placeholder.com/400x300?text=Utilize" },
-            { en_verb: "Constitute", tr_verb: "Oluşturmak, Teşkil Etmek", en_sentence: "These rules {Constitute} the core principles.", tr_sentence: "Bu kurallar temel ilkeleri oluşturur.", image_url: "https://via.placeholder.com/400x300?text=Constitute" },
-            { en_verb: "Execute", tr_verb: "Uygulamak, İcra Etmek", en_sentence: "The team will {Execute} the plan next week.", tr_sentence: "Ekip planı gelecek hafta uygulayacak.", image_url: "https://via.placeholder.com/400x300?text=Execute" },
-            { en_verb: "Integrate", tr_verb: "Bütünleştirmek", en_sentence: "We need to {Integrate} the new system.", tr_sentence: "Yeni sistemi bütünleştirmemiz gerekiyor.", image_url: "https://via.placeholder.com/400x300?text=Integrate" },
-            { en_verb: "Resolve", tr_verb: "Çözmek", en_sentence: "The company must {Resolve} the conflict quickly.", tr_sentence: "Şirket çatışmayı hızla çözmeli.", image_url: "https://via.placeholder.com/400x300?text=Resolve" }
+            { en_verb: "Signify", tr_verb: "İfade Etmek, Anlamına Gelmek", en_sentence: "His constant yawning might {Signify} that he is extremely tired.", tr_sentence: "Sürekli esnemesi, aşırı yorgun olduğu anlamına gelebilir.", image_url: customImageUrlsUnit3[0] },
+            { en_verb: "Account for", tr_verb: "Açıklamak", en_sentence: "Can you {Account for} the missing money?", tr_sentence: "Kayıp parayı açıklayabilir misin?", image_url: customImageUrlsUnit3[1] },
+            { en_verb: "Assess", tr_verb: "Değerlendirmek", en_sentence: "We need to {Assess} the damage after the storm.", tr_sentence: "Fırtınadan sonra hasarı değerlendirmemiz gerekiyor.", image_url: customImageUrlsUnit3[2] },
+            { en_verb: "Assume", tr_verb: "Varsaymak, Farz Etmek", en_sentence: "I {Assume} you have finished the work.", tr_sentence: "İşi bitirdiğinizi varsayıyorum.", image_url: customImageUrlsUnit3[3] },
+            { en_verb: "Deduce", tr_verb: "Sonuç Çıkarma", en_sentence: "We can {Deduce} the answer from the facts.", tr_sentence: "Cevabı gerçeklerden sonuç çıkarabiliriz.", image_url: customImageUrlsUnit3[4] },
+            { en_verb: "Illustrate", tr_verb: "Açıklamak, Örneklemek", en_sentence: "She used a chart to {Illustrate} her points.", tr_sentence: "Fikirlerini açıklamak için bir grafik kullandı.", image_url: customImageUrlsUnit3[5] },
+            { en_verb: "Incorporate", tr_verb: "Dahil Etmek, Katmak", en_sentence: "The report should {Incorporate} all new data.", tr_sentence: "Rapor tüm yeni verileri dahil etmeli.", image_url: customImageUrlsUnit3[6] },
+            { en_verb: "Monitor", tr_verb: "İzlemek, Gözlemlemek", en_sentence: "Please {Monitor} the system performance.", tr_sentence: "Lütfen sistem performansını izleyin.", image_url: customImageUrlsUnit3[7] },
+            { en_verb: "Omit", tr_verb: "Hariç Bırakmak, Atlamak", en_sentence: "Do not {Omit} any details in your summary.", tr_sentence: "Özetinizde hiçbir detayı atlamayın.", image_url: customImageUrlsUnit3[8] },
+            { en_verb: "Persist", tr_verb: "Devam Etmek, Israr Etmek", en_sentence: "The rain will {Persist} for another hour.", tr_sentence: "Yağmur bir saat daha devam edecek.", image_url: customImageUrlsUnit3[9] },
+            { en_verb: "Precede", tr_verb: "Önce Gelmek", en_sentence: "The introduction must {Precede} the main text.", tr_sentence: "Giriş, ana metinden önce gelmelidir.", image_url: customImageUrlsUnit3[10] },
+            { en_verb: "Retain", tr_verb: "Tutmak, Muhafaza Etmek", en_sentence: "Try to {Retain} the information from the lecture.", tr_sentence: "Dersteki bilgiyi muhafaza etmeye çalışın.", image_url: customImageUrlsUnit3[11] },
+            { en_verb: "Specify", tr_verb: "Belirtmek", en_sentence: "Please {Specify} the required quantity.", tr_sentence: "Lütfen gerekli miktarı belirtin.", image_url: customImageUrlsUnit3[12] },
+            { en_verb: "Substantiate", tr_verb: "Kanıtlamak, Doğrulamak", en_sentence: "You must {Substantiate} your claims with evidence.", tr_sentence: "İddialarınızı kanıtlarla doğrulamalısınız.", image_url: customImageUrlsUnit3[13] },
+            { en_verb: "Undergo", tr_verb: "Geçirmek, Yaşamak", en_sentence: "The device will {Undergo} rigorous testing.", tr_sentence: "Cihaz titiz testlerden geçecek.", image_url: customImageUrlsUnit3[14] },
+            { en_verb: "Utilize", tr_verb: "Kullanmak, Yararlanmak", en_sentence: "We should {Utilize} the new software.", tr_sentence: "Yeni yazılımı kullanmalıyız.", image_url: customImageUrlsUnit3[15] },
+            { en_verb: "Constitute", tr_verb: "Oluşturmak, Teşkil Etmek", en_sentence: "These rules {Constitute} the core principles.", tr_sentence: "Bu kurallar temel ilkeleri oluşturur.", image_url: customImageUrlsUnit3[16] },
+            { en_verb: "Execute", tr_verb: "Uygulamak, İcra Etmek", en_sentence: "The team will {Execute} the plan next week.", tr_sentence: "Ekip planı gelecek hafta uygulayacak.", image_url: customImageUrlsUnit3[17] },
+            { en_verb: "Integrate", tr_verb: "Bütünleştirmek", en_sentence: "We need to {Integrate} the new system.", tr_sentence: "Yeni sistemi bütünleştirmemiz gerekiyor.", image_url: customImageUrlsUnit3[18] },
+            { en_verb: "Resolve", tr_verb: "Çözmek", en_sentence: "The company must {Resolve} the conflict quickly.", tr_sentence: "Şirket çatışmayı hızla çözmeli.", image_url: customImageUrlsUnit3[19] }
         ];
 
         const allWordsData = [...baseVerbs, ...academicWordsUnit1, ...unit2Words, ...unit3Words];
